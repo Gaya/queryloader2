@@ -19,11 +19,32 @@
     var qLimageContainer = "";
     var qLoverlay = "";
     var qLbar = "";
+    var qLpercentage = "";
 
     var qLoptions = {
         onComplete: function () {},
         backgroundColor: "#000",
-        barColor: "#fff"
+        barColor: "#fff",
+        percentage: false,
+        deepSearch: true,
+        completeAnimation: "fade",
+        onLoadComplete: function () {
+            if (qLoptions.completeAnimation == "grow") {
+                $(qLbar).stop().css("width", "100%").animate({
+                    top: "0%",
+                    height: "100%"
+                }, 500, function () {
+                    $(qLoverlay).fadeOut(500, function () {
+                        $(this).remove();
+                    })
+                });
+            } else {
+                $(qLoverlay).fadeOut(500, function () {
+                    $(qLoverlay).remove();
+                    qLoptions.onComplete();
+                });
+            }
+        }
     }
 
     var afterEach = function () {
@@ -53,6 +74,10 @@
             width: percentage + "%"
         }, 200);
 
+        if (qLoptions.percentage == true) {
+            $(qLpercentage).text(Math.ceil(percentage) + "%");
+        }
+
         if (qLdone == qLimages.length) {
             destroyQueryLoader();
         }
@@ -60,10 +85,7 @@
 
     var destroyQueryLoader = function () {
         $(qLimageContainer).remove();
-        $(qLoverlay).fadeOut(500, function () {
-            $(qLoverlay).remove();
-            qLoptions.onComplete();
-        });
+        qLoptions.onLoadComplete();
     }
 
     var createOverlayLoader = function () {
@@ -76,13 +98,50 @@
             top: 0,
             left: 0
         }).appendTo("body");
-        qLbar = $("<div></div>").css({
+        qLbar = $("<div id='qLbar'></div>").css({
             height: "1px",
             backgroundColor: qLoptions.barColor,
             width: "0%",
             position: "absolute",
             top: "50%"
         }).appendTo(qLoverlay);
+        if (qLoptions.percentage == true) {
+            qLpercentage = $("<div id='qLpercentage'></div>").text("0%").css({
+                height: "40px",
+                width: "100px",
+                position: "absolute",
+                fontSize: "3em",
+                top: "50%",
+                left: "50%",
+                marginTop: "-60px",
+                textAlign: "center",
+                marginLeft: "-50px",
+                color: qLoptions.barColor
+            }).appendTo(qLoverlay);
+        }
+    }
+
+    var findImageInElement = function (element) {
+        var url = "";
+
+        if ($(element).css("background-image") != "none") {
+            var url = $(element).css("background-image");
+        } else if (typeof($(element).attr("src")) != "undefined" && element.nodeName.toLowerCase() == "img") {
+            var url = $(element).attr("src");
+        }
+
+        url = url.replace("url(\"", "");
+        url = url.replace("url(", "");
+        url = url.replace("\")", "");
+        url = url.replace(")", "");
+
+        if (url.length > 0) {
+            var extra = "";
+            if ($.browser.msie && $.browser.version < 9) {
+                extra = "?" + Math.floor(Math.random() * 3000);
+            }
+            qLimages.push(url + extra);
+        }
     }
 
     $.fn.queryLoader2 = function(options) {
@@ -91,29 +150,12 @@
         }
 
         this.each(function() {
-            $(this).find("*:not(script)").each(function() {
-                var url = "";
-                
-                if ($(this).css("background-image") != "none") {
-                    var url = $(this).css("background-image");
-                } else if (typeof($(this).attr("src")) != "undefined" && this.nodeName.toLowerCase() == "img") {
-                    var url = $(this).attr("src");
-                }
-
-                url = url.replace("url(\"", "");
-                url = url.replace("url(", "");
-                url = url.replace("\")", "");
-                url = url.replace(")", "");
-
-                if (url.length > 0) {
-                    var extra = "";
-                    if ($.browser.msie && $.browser.version < 9) {
-                        extra = "?" + Math.floor(Math.random() * 3000);
-                    }
-                    qLimages.push(url + extra);
-                }
-            });
-
+            findImageInElement(this);
+            if (qLoptions.deepSearch == true) {
+                $(this).find("*:not(script)").each(function() {
+                    findImageInElement(this);
+                });
+            }
         });
 
         afterEach();

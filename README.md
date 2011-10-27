@@ -30,10 +30,25 @@ Options
 -------
 
 **backgroundColor**
+
 (string) background color of the loader (in hex).
 	
 **barColor**
+
 (string) background color of the bar (in hex).
 	
+**percentage**
+
+(boolean) Set to true to enable percentage visualising. Default is false.
+
+**completeAnimation**
+
+(string) set the animation type at the end. Options: "grow" or "fade". Default is fade.
+
+**onLoadComplete**
+
+(function) this function is called once the loading is complete. This is handy when changing the animation at the end.
+
 **onComplete**
-(function) this function is called once the loading is complete.
+
+(function) this function is called once the loading and animation are completed.
