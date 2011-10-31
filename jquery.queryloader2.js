@@ -25,6 +25,7 @@
         onComplete: function () {},
         backgroundColor: "#000",
         barColor: "#fff",
+        barHeight: 1,
         percentage: false,
         deepSearch: true,
         completeAnimation: "fade",
@@ -36,6 +37,7 @@
                 }, 500, function () {
                     $(qLoverlay).fadeOut(500, function () {
                         $(this).remove();
+                        qLoptions.onComplete();
                     })
                 });
             } else {
@@ -95,11 +97,13 @@
             backgroundColor: qLoptions.backgroundColor,
             backgroundPosition: "fixed",
             position: "fixed",
+            zIndex: 666999,
             top: 0,
             left: 0
         }).appendTo("body");
         qLbar = $("<div id='qLbar'></div>").css({
-            height: "1px",
+            height: qLoptions.barHeight + "px",
+            marginTop: "-" + (qLoptions.barHeight / 2) + "px",
             backgroundColor: qLoptions.barColor,
             width: "0%",
             position: "absolute",
@@ -113,7 +117,7 @@
                 fontSize: "3em",
                 top: "50%",
                 left: "50%",
-                marginTop: "-60px",
+                marginTop: "-" + (59 + qLoptions.barHeight) + "px",
                 textAlign: "center",
                 marginLeft: "-50px",
                 color: qLoptions.barColor
