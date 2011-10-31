@@ -36,19 +36,27 @@ Options
 **barColor**
 
 (string) background color of the bar (in hex).
-	
-**percentage**
 
-(boolean) Set to true to enable percentage visualising. Default is false.
+**barHeight**
+
+(int) Height of the bar in pixels. Default: 1
 
 **completeAnimation**
 
 (string) set the animation type at the end. Options: "grow" or "fade". Default is fade.
 
-**onLoadComplete**
+**deepSearch**
 
-(function) this function is called once the loading is complete. This is handy when changing the animation at the end.
+(boolean) set to true to find ALL images with the selected elements. If you don't want queryLoader to look in the children, set to false. Default: true.
+	
+**percentage**
+
+(boolean) Set to true to enable percentage visualising. Default is false.
 
 **onComplete**
 
 (function) this function is called once the loading and animation are completed.
+
+**onLoadComplete**
+
+(function) this function is called once the loading is complete. This is handy when changing the animation at the end.
