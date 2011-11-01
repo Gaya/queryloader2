@@ -9,7 +9,8 @@
  * Licensed under the MIT license:
  *   http://www.opensource.org/licenses/mit-license.php
  *
- * Version:  2.0
+ * Version:  2.1
+ * Last update: 11-1-2011
  *
  */
 (function($) {
@@ -134,17 +135,21 @@
             var url = $(element).attr("src");
         }
 
-        url = url.replace("url(\"", "");
-        url = url.replace("url(", "");
-        url = url.replace("\")", "");
-        url = url.replace(")", "");
+        url = url.replace(/url\(\"/g, "");
+        url = url.replace(/url\(/g, "");
+        url = url.replace(/\"\)/g, "");
+        url = url.replace(/\)/g, "");
 
-        if (url.length > 0) {
-            var extra = "";
-            if ($.browser.msie && $.browser.version < 9) {
-                extra = "?" + Math.floor(Math.random() * 3000);
+        var urls = url.split(", ");
+
+        for (var i = 0; i < urls.length; i++) {
+            if (urls[i].length > 0) {
+                var extra = "";
+                if ($.browser.msie && $.browser.version < 9) {
+                    extra = "?" + Math.floor(Math.random() * 3000);
+                }
+                qLimages.push(urls[i] + extra);
             }
-            qLimages.push(url + extra);
         }
     }
 

@@ -20,6 +20,12 @@ Now call QueryLoader in a $(document).ready() like this:
 	$(document).ready(function () {
 		$("body").queryLoader2();
 	});
+	
+For support on iOS devices use the following code:
+
+	window.addEventListener('DOMContentLoaded', function() {
+		$("body").queryLoader2();
+	});
 
 Basic usage
 -----------
