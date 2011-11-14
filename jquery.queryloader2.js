@@ -21,6 +21,7 @@
     var qLoverlay = "";
     var qLbar = "";
     var qLpercentage = "";
+    var qLimageCounter = 0;
 
     var qLoptions = {
         onComplete: function () {},
@@ -63,16 +64,27 @@
             overflow: "hidden"
         });
         for (var i = 0; qLimages.length > i; i++) {
-            var image = $("<img />").attr("src", qLimages[i]).bind("load", function () {
-                completeImageLoading();
+            $.ajax({
+                url: qLimages[i],
+                type: 'HEAD',
+                success: function(data) {
+                    qLimageCounter++;
+                    addImageForPreload(this['url']);
+                }
             });
         }
+    }
+
+    var addImageForPreload = function(url) {
+        var image = $("<img />").attr("src", url).bind("load", function () {
+            completeImageLoading();
+        }).appendTo(qLimageContainer);
     }
 
     var completeImageLoading = function () {
         qLdone++;
 
-        var percentage = (qLdone / qLimages.length) * 100;
+        var percentage = (qLdone / qLimageCounter) * 100;
         $(qLbar).stop().animate({
             width: percentage + "%"
         }, 200);
@@ -81,7 +93,7 @@
             $(qLpercentage).text(Math.ceil(percentage) + "%");
         }
 
-        if (qLdone == qLimages.length) {
+        if (qLdone == qLimageCounter) {
             destroyQueryLoader();
         }
     }
@@ -135,20 +147,22 @@
             var url = $(element).attr("src");
         }
 
-        url = url.replace(/url\(\"/g, "");
-        url = url.replace(/url\(/g, "");
-        url = url.replace(/\"\)/g, "");
-        url = url.replace(/\)/g, "");
+        if (url.indexOf("gradient") == -1) {
+            url = url.replace(/url\(\"/g, "");
+            url = url.replace(/url\(/g, "");
+            url = url.replace(/\"\)/g, "");
+            url = url.replace(/\)/g, "");
 
-        var urls = url.split(", ");
+            var urls = url.split(", ");
 
-        for (var i = 0; i < urls.length; i++) {
-            if (urls[i].length > 0) {
-                var extra = "";
-                if ($.browser.msie && $.browser.version < 9) {
-                    extra = "?" + Math.floor(Math.random() * 3000);
+            for (var i = 0; i < urls.length; i++) {
+                if (urls[i].length > 0) {
+                    var extra = "";
+                    if ($.browser.msie && $.browser.version < 9) {
+                        extra = "?" + Math.floor(Math.random() * 3000);
+                    }
+                    qLimages.push(urls[i] + extra);
                 }
-                qLimages.push(urls[i] + extra);
             }
         }
     }
