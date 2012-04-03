@@ -1,0 +1,56 @@
+body {
+    background-color: #000;
+    margin: 0px;
+    padding: 0px;
+    background-image: url(../images/LittleSnowHills.jpg);
+    background-position: 50% 50%;
+    background-attachment: fixed;
+	font-family: sans-serif;
+	font-size: 14px;
+}
+
+h1 {
+
+}
+
+p {
+	line-height: 1.4em;
+}
+
+body #content {
+    width: 800px;
+    padding: 20px;
+    background-color: #f1f1f1;
+    margin: 20px auto;
+    overflow: hidden;
+}
+
+body ul {
+    padding: 0px;
+    margin: 0px;
+}
+
+body ul li {
+    display: block;
+    list-style-type: none;
+    float: left;
+    width: 400px;
+    height: 400px;
+    overflow: hidden;
+    text-align: center;
+}
+
+body ul li.gradient {
+    padding: 20px;
+    width: 360px;
+    height: 360px;
+
+    background: #efc5ca; /* Old browsers */
+    background: -moz-linear-gradient(top, #efc5ca 0%, #ef2f43 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#efc5ca), color-stop(100%,#ef2f43)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #efc5ca 0%,#ef2f43 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #efc5ca 0%,#ef2f43 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #efc5ca 0%,#ef2f43 100%); /* IE10+ */
+    background: linear-gradient(top, #efc5ca 0%,#ef2f43 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#efc5ca', endColorstr='#ef2f43',GradientType=0 ); /* IE6-9 */
+}

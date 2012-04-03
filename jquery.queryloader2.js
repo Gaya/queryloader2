@@ -9,19 +9,21 @@
  * Licensed under the MIT license:
  *   http://www.opensource.org/licenses/mit-license.php
  *
- * Version:  2.1
- * Last update: 11-1-2011
+ * Version:  2.2
+ * Last update: 03-04-2012
  *
  */
 (function($) {
     var qLimages = new Array;
     var qLdone = 0;
+    var qLdestroyed = false;
 
     var qLimageContainer = "";
     var qLoverlay = "";
     var qLbar = "";
     var qLpercentage = "";
     var qLimageCounter = 0;
+    var qLstart = 0;
 
     var qLoptions = {
         onComplete: function () {},
@@ -31,16 +33,28 @@
         percentage: false,
         deepSearch: true,
         completeAnimation: "fade",
+        minimumTime: 500,
         onLoadComplete: function () {
             if (qLoptions.completeAnimation == "grow") {
-                $(qLbar).stop().css("width", "100%").animate({
-                    top: "0%",
-                    height: "100%"
-                }, 500, function () {
-                    $(qLoverlay).fadeOut(500, function () {
-                        $(this).remove();
-                        qLoptions.onComplete();
-                    })
+                var animationTime = 500;
+                var currentTime = new Date();
+                if ((currentTime.getTime() - qLstart) < qLoptions.minimumTime) {
+                    animationTime = (qLoptions.minimumTime - (currentTime.getTime() - qLstart));
+                }
+
+                $(qLbar).stop().animate({
+                    "width": "100%"
+                }, animationTime, function () {
+                    $(this).animate({
+                        top: "0%",
+                        width: "100%",
+                        height: "100%"
+                    }, 500, function () {
+                        $(qLoverlay).fadeOut(500, function () {
+                            $(this).remove();
+                            qLoptions.onComplete();
+                        })
+                    });
                 });
             } else {
                 $(qLoverlay).fadeOut(500, function () {
@@ -49,12 +63,16 @@
                 });
             }
         }
-    }
+    };
 
     var afterEach = function () {
+        //start timer
+        var currentTime = new Date();
+        qLstart = currentTime.getTime();
+
         createPreloadContainer();
         createOverlayLoader();
-    }
+    };
 
     var createPreloadContainer = function() {
         qLimageContainer = $("<div></div>").appendTo("body").css({
@@ -68,25 +86,28 @@
                 url: qLimages[i],
                 type: 'HEAD',
                 success: function(data) {
-                    qLimageCounter++;
-                    addImageForPreload(this['url']);
+                    if(!qLdestroyed){
+                        qLimageCounter++;
+                        addImageForPreload(this['url']);
+                    }
                 }
             });
         }
-    }
+    };
 
     var addImageForPreload = function(url) {
         var image = $("<img />").attr("src", url).bind("load", function () {
             completeImageLoading();
         }).appendTo(qLimageContainer);
-    }
+    };
 
     var completeImageLoading = function () {
         qLdone++;
 
         var percentage = (qLdone / qLimageCounter) * 100;
         $(qLbar).stop().animate({
-            width: percentage + "%"
+            width: percentage + "%",
+            minWidth: percentage + "%"
         }, 200);
 
         if (qLoptions.percentage == true) {
@@ -96,12 +117,13 @@
         if (qLdone == qLimageCounter) {
             destroyQueryLoader();
         }
-    }
+    };
 
     var destroyQueryLoader = function () {
         $(qLimageContainer).remove();
         qLoptions.onLoadComplete();
-    }
+        qLdestroyed = true;
+    };
 
     var createOverlayLoader = function () {
         qLoverlay = $("<div id='qLoverlay'></div>").css({
@@ -136,7 +158,7 @@
                 color: qLoptions.barColor
             }).appendTo(qLoverlay);
         }
-    }
+    };
 
     var findImageInElement = function (element) {
         var url = "";
