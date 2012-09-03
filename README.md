@@ -38,35 +38,44 @@ Options
 **backgroundColor**
 
 (string) background color of the loader (in hex).
+Default: "#000"
 	
 **barColor**
 
 (string) background color of the bar (in hex).
+Default: "#FFF"
 
 **barHeight**
 
-(int) Height of the bar in pixels. Default: 1
+(int) Height of the bar in pixels.
+Default: 1
 
 **completeAnimation**
 
-(string) set the animation type at the end. Options: "grow" or "fade". Default is fade.
+(string) set the animation type at the end. Options: "grow" or "fade".
+Default: "fade"
 
 **minimumTime**
 
 (int) time in miliseconds which the loading has to run. If time has not passed the animation will still show.
+Default: 500
 
 **deepSearch**
 
-(boolean) set to true to find ALL images with the selected elements. If you don't want queryLoader to look in the children, set to false. Default: true.
+(boolean) set to true to find ALL images with the selected elements. If you don't want queryLoader to look in the children, set to false.
+Default: true
 	
 **percentage**
 
-(boolean) Set to true to enable percentage visualising. Default is false.
+(boolean) Set to true to enable percentage visualising.
+Default: false
 
 **onComplete**
 
 (function) this function is called once the loading and animation are completed.
+Default: none
 
 **onLoadComplete**
 
 (function) this function is called once the loading is complete. This is handy when changing the animation at the end.
+Default: default behaviour
