@@ -110,7 +110,7 @@
             $.ajax({
                 url: qLimages[i],
                 type: 'HEAD',
-                success: function(data) {
+                complete: function(data) {
                     if(!qLdestroyed){
                         qLimageCounter++;
                         addImageForPreload(this['url']);
