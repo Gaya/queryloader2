@@ -16,6 +16,15 @@
 (function($) {
 
 
+	/*Browser detection patch*/
+	jQuery.browser = {};
+	jQuery.browser.mozilla = /mozilla/.test(navigator.userAgent.toLowerCase()) && !/webkit/.test(navigator.userAgent.toLowerCase());
+	jQuery.browser.webkit = /webkit/.test(navigator.userAgent.toLowerCase());
+	jQuery.browser.opera = /opera/.test(navigator.userAgent.toLowerCase());
+	jQuery.browser.msie = /msie/.test(navigator.userAgent.toLowerCase());
+	
+
+
     if (!Array.prototype.indexOf)
 	   {
 	   Array.prototype.indexOf = function(elt /*, from*/)
@@ -54,6 +63,7 @@
         onComplete: function () {},
         backgroundColor: "#000",
         barColor: "#fff",
+        overlayId: 'qLoverlay',
         barHeight: 1,
         percentage: false,
         deepSearch: true,
@@ -75,15 +85,15 @@
                         width: "100%",
                         height: "100%"
                     }, 500, function () {
-                        $(qLoverlay).fadeOut(500, function () {
+                        $('#'+qLoptions.overlayId).fadeOut(500, function () {
                             $(this).remove();
                             qLoptions.onComplete();
                         })
                     });
                 });
             } else {
-                $(qLoverlay).fadeOut(500, function () {
-                    $(qLoverlay).remove();
+                $('#'+qLoptions.overlayId).fadeOut(500, function () {
+                    $('#'+qLoptions.overlayId).remove();
                     qLoptions.onComplete();
                 });
             }
@@ -106,6 +116,7 @@
             height: 0,
             overflow: "hidden"
         });
+        
         for (var i = 0; qLimages.length > i; i++) {
             $.ajax({
                 url: qLimages[i],
@@ -117,7 +128,8 @@
                     }
                 }
             });
-        }
+        }        	
+
     };
 
     var addImageForPreload = function(url) {
@@ -151,7 +163,7 @@
     };
 
     var createOverlayLoader = function () {
-        qLoverlay = $("<div id='qLoverlay'></div>").css({
+        qLoverlay = $("<div id='"+qLoptions.overlayId+"'></div>").css({
             width: "100%",
             height: "100%",
             backgroundColor: qLoptions.backgroundColor,
@@ -182,6 +194,9 @@
                 marginLeft: "-50px",
                 color: qLoptions.barColor
             }).appendTo(qLoverlay);
+        }
+        if ( !qLimages.length) {
+        	destroyQueryLoader()
         }
     };
 
