@@ -14,41 +14,33 @@
  *
  */
 (function($) {
-
-
 	/*Browser detection patch*/
 	jQuery.browser = {};
 	jQuery.browser.mozilla = /mozilla/.test(navigator.userAgent.toLowerCase()) && !/webkit/.test(navigator.userAgent.toLowerCase());
 	jQuery.browser.webkit = /webkit/.test(navigator.userAgent.toLowerCase());
 	jQuery.browser.opera = /opera/.test(navigator.userAgent.toLowerCase());
 	jQuery.browser.msie = /msie/.test(navigator.userAgent.toLowerCase());
-	
 
+    if (!Array.prototype.indexOf) {
+        Array.prototype.indexOf = function (elt /*, from*/) {
+            var len = this.length >>> 0;
+            var from = Number(arguments[1]) || 0;
+            from = (from < 0)
+                ? Math.ceil(from)
+                : Math.floor(from);
+            if (from < 0)
+                from += len;
 
-    if (!Array.prototype.indexOf)
-	   {
-	   Array.prototype.indexOf = function(elt /*, from*/)
-             {
-             var len  = this.length >>> 0;
-             var from = Number(arguments[1]) || 0;
-                 from = (from < 0)
-                      ? Math.ceil(from)
-                      : Math.floor(from);
-             if (from < 0)
-                 from += len;
- 
-                 for (; from < len; from++)
-                     {
-                     if (from in this &&
-                     this[from] === elt)
-                     return from;
-                     }
-             return -1;
-             };
-       }
+            for (; from < len; from++) {
+                if (from in this &&
+                    this[from] === elt)
+                    return from;
+            }
+            return -1;
+        };
+    }
 
-
-    var qLimages = new Array;
+    var qLimages = [];
     var qLdone = 0;
     var qLdestroyed = false;
 
@@ -102,11 +94,17 @@
 
     var afterEach = function () {
         //start timer
+        //qLdestroyed = false;
         var currentTime = new Date();
         qLstart = currentTime.getTime();
 
-        createPreloadContainer();
-        createOverlayLoader();
+        if (qLimages.length > 0) {
+            createPreloadContainer();
+            createOverlayLoader();
+        } else {
+            //no images == instant exit
+            destroyQueryLoader();
+        }
     };
 
     var createPreloadContainer = function() {
@@ -121,8 +119,8 @@
             $.ajax({
                 url: qLimages[i],
                 type: 'HEAD',
-                complete: function(data) {
-                    if(!qLdestroyed){
+                complete: function (data) {
+                    if (!qLdestroyed) {
                         qLimageCounter++;
                         addImageForPreload(this['url']);
                     }
@@ -133,7 +131,7 @@
     };
 
     var addImageForPreload = function(url) {
-        var image = $("<img />").attr("src", url).bind("load", function () {
+        var image = $("<img />").attr("src", url).bind("load error", function () {
             completeImageLoading();
         }).appendTo(qLimageContainer);
     };
@@ -248,4 +246,123 @@
         return this;
     };
 
+    //browser detect
+    var BrowserDetect = {
+        init: function () {
+            this.browser = this.searchString(this.dataBrowser) || "An unknown browser";
+            this.version = this.searchVersion(navigator.userAgent)
+                || this.searchVersion(navigator.appVersion)
+                || "an unknown version";
+            this.OS = this.searchString(this.dataOS) || "an unknown OS";
+        },
+        searchString: function (data) {
+            for (var i=0;i<data.length;i++)	{
+                var dataString = data[i].string;
+                var dataProp = data[i].prop;
+                this.versionSearchString = data[i].versionSearch || data[i].identity;
+                if (dataString) {
+                    if (dataString.indexOf(data[i].subString) != -1)
+                        return data[i].identity;
+                }
+                else if (dataProp)
+                    return data[i].identity;
+            }
+        },
+        searchVersion: function (dataString) {
+            var index = dataString.indexOf(this.versionSearchString);
+            if (index == -1) return;
+            return parseFloat(dataString.substring(index+this.versionSearchString.length+1));
+        },
+        dataBrowser: [
+            {
+                string: navigator.userAgent,
+                subString: "Chrome",
+                identity: "Chrome"
+            },
+            { 	string: navigator.userAgent,
+                subString: "OmniWeb",
+                versionSearch: "OmniWeb/",
+                identity: "OmniWeb"
+            },
+            {
+                string: navigator.vendor,
+                subString: "Apple",
+                identity: "Safari",
+                versionSearch: "Version"
+            },
+            {
+                prop: window.opera,
+                identity: "Opera",
+                versionSearch: "Version"
+            },
+            {
+                string: navigator.vendor,
+                subString: "iCab",
+                identity: "iCab"
+            },
+            {
+                string: navigator.vendor,
+                subString: "KDE",
+                identity: "Konqueror"
+            },
+            {
+                string: navigator.userAgent,
+                subString: "Firefox",
+                identity: "Firefox"
+            },
+            {
+                string: navigator.vendor,
+                subString: "Camino",
+                identity: "Camino"
+            },
+            {		// for newer Netscapes (6+)
+                string: navigator.userAgent,
+                subString: "Netscape",
+                identity: "Netscape"
+            },
+            {
+                string: navigator.userAgent,
+                subString: "MSIE",
+                identity: "Explorer",
+                versionSearch: "MSIE"
+            },
+            {
+                string: navigator.userAgent,
+                subString: "Gecko",
+                identity: "Mozilla",
+                versionSearch: "rv"
+            },
+            { 		// for older Netscapes (4-)
+                string: navigator.userAgent,
+                subString: "Mozilla",
+                identity: "Netscape",
+                versionSearch: "Mozilla"
+            }
+        ],
+        dataOS : [
+            {
+                string: navigator.platform,
+                subString: "Win",
+                identity: "Windows"
+            },
+            {
+                string: navigator.platform,
+                subString: "Mac",
+                identity: "Mac"
+            },
+            {
+                string: navigator.userAgent,
+                subString: "iPhone",
+                identity: "iPhone/iPod"
+            },
+            {
+                string: navigator.platform,
+                subString: "Linux",
+                identity: "Linux"
+            }
+        ]
+
+    };
+    BrowserDetect.init();
+    jQuery.browser.version = BrowserDetect.version;
 })(jQuery);
