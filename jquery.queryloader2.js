@@ -216,7 +216,7 @@
             var urls = url.split(", ");
 
             for (var i = 0; i < urls.length; i++) {
-                if (urls[i].length > 0 && qLimages.indexOf(urls[i]) == -1) {
+                if (urls[i].length > 0 && qLimages.indexOf(urls[i]) == -1 && !urls[i].match(/^(data:)/i)) {
                     var extra = "";
                     if ($.browser.msie && $.browser.version < 9) {
                         extra = "?" + Math.floor(Math.random() * 3000);
