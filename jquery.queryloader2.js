@@ -10,7 +10,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *
  * Version:  2.2
- * Last update: 03-04-2012
+ * Last update: 29-04-2013
  *
  */
 (function($) {
@@ -94,7 +94,7 @@
 
     var afterEach = function () {
         //start timer
-        //qLdestroyed = false;
+        qLdestroyed = false;
         var currentTime = new Date();
         qLstart = currentTime.getTime();
 
@@ -156,8 +156,8 @@
 
     var destroyQueryLoader = function () {
         $(qLimageContainer).remove();
-        qLoptions.onLoadComplete();
         qLdestroyed = true;
+        qLoptions.onLoadComplete();
     };
 
     var createOverlayLoader = function () {
