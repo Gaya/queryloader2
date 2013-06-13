@@ -41,6 +41,7 @@
     }
 
     var qLimages = [];
+    var qLbgimages = [];
     var qLdone = 0;
     var qLdestroyed = false;
 
@@ -119,13 +120,12 @@
             overflow: "hidden"
         });
         
-        for (var i = 0; qLimages.length > i; i++) {
+        for (var i = 0; qLbgimages.length > i; i++) {
             $.ajax({
-                url: qLimages[i],
+                url: qLbgimages[i],
                 type: 'HEAD',
                 complete: function (data) {
                     if (!qLdestroyed) {
-                        qLimageCounter++;
                         addImageForPreload(this['url']);
                     }
                 }
@@ -135,10 +135,16 @@
     };
 
     var addImageForPreload = function(url) {
-        var image = $("<img />").attr("src", url).bind("load error", function () {
-            completeImageLoading();
-        }).appendTo(qLimageContainer);
+        var image = $("<img />").attr("src", url).appendTo(qLimageContainer);
+        bindLoadEvent(image);
     };
+
+    var bindLoadEvent = function (element) {
+        qLimageCounter++;
+        element.bind("load error", function () {
+            completeImageLoading();
+        });
+    }
 
     var completeImageLoading = function () {
         qLdone++;
@@ -211,11 +217,14 @@
 
     var findImageInElement = function (element) {
         var url = "";
+        var obj = $(element);
+        var type = "normal";
 
-        if ($(element).css("background-image") != "none") {
-            var url = $(element).css("background-image");
-        } else if (typeof($(element).attr("src")) != "undefined" && element.nodeName.toLowerCase() == "img") {
-            var url = $(element).attr("src");
+        if (obj.css("background-image") != "none") {
+            var url = obj.css("background-image");
+            var type = "background";
+        } else if (typeof(obj.attr("src")) != "undefined" && element.nodeName.toLowerCase() == "img") {
+            var url = obj.attr("src");
         }
 
         if (url.indexOf("gradient") == -1) {
@@ -232,7 +241,13 @@
                     if ($.browser.msie && $.browser.version < 9) {
                         extra = "?" + Math.floor(Math.random() * 3000);
                     }
-                    qLimages.push(urls[i] + extra);
+
+                    qLimages.push(urls[i]);
+                    if (type == "background") {
+                        qLbgimages.push(urls[i] + extra);
+                    } else {
+                        bindLoadEvent(obj);
+                    }
                 }
             }
         }
