@@ -44,6 +44,7 @@
     var qLdone = 0;
     var qLdestroyed = false;
 
+    var qLparent = "";
     var qLimageContainer = "";
     var qLoverlay = "";
     var qLbar = "";
@@ -92,7 +93,10 @@
         }
     };
 
-    var afterEach = function () {
+    var afterEach = function (element) {
+        //set parent
+        qLparent = element;
+
         //start timer
         qLdestroyed = false;
         var currentTime = new Date();
@@ -161,16 +165,23 @@
     };
 
     var createOverlayLoader = function () {
+        var overlayPosition = "absolute";
+        if (qLparent.prop("tagName") == "BODY") {
+            overlayPosition = "fixed";
+        } else {
+            qLparent.css("position", "relative");
+        }
+
         qLoverlay = $("<div id='"+qLoptions.overlayId+"'></div>").css({
             width: "100%",
             height: "100%",
             backgroundColor: qLoptions.backgroundColor,
             backgroundPosition: "fixed",
-            position: "fixed",
+            position: overlayPosition,
             zIndex: 666999,
             top: 0,
             left: 0
-        }).appendTo("body");
+        }).appendTo(qLparent);
         qLbar = $("<div id='qLbar'></div>").css({
             height: qLoptions.barHeight + "px",
             marginTop: "-" + (qLoptions.barHeight / 2) + "px",
@@ -193,7 +204,7 @@
                 color: qLoptions.barColor
             }).appendTo(qLoverlay);
         }
-        if ( !qLimages.length) {
+        if (!qLimages.length) {
         	destroyQueryLoader()
         }
     };
@@ -241,7 +252,7 @@
             }
         });
 
-        afterEach();
+        afterEach(this);
 
         return this;
     };
