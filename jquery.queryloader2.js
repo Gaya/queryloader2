@@ -9,8 +9,8 @@
  * Licensed under the MIT license:
  *   http://www.opensource.org/licenses/mit-license.php
  *
- * Version:  2.2
- * Last update: 29-04-2013
+ * Version:  2.3
+ * Last update: 13-06-2013
  *
  */
 (function($) {
