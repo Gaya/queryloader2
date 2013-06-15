@@ -240,13 +240,17 @@
                     var extra = "";
                     if ($.browser.msie && $.browser.version < 9) {
                         extra = "?" + Math.floor(Math.random() * 3000);
-                    }
 
-                    qLimages.push(urls[i]);
-                    if (type == "background") {
                         qLbgimages.push(urls[i] + extra);
+                        qLimages.push(urls[i]);
                     } else {
-                        bindLoadEvent(obj);
+                        qLimages.push(urls[i]);
+
+                        if (type == "background") {
+                            qLbgimages.push(urls[i] + extra);
+                        } else {
+                            bindLoadEvent(obj);
+                        }
                     }
                 }
             }
