@@ -2,7 +2,7 @@ QueryLoader v2
 ==============
 
 QueryLoader v2 is a better version of the old script posted in 2009. It serves the main purpose of preloading the images on your website by showing an overlay and a loading bar. It automatically fetches all your images and background images and preloads them before showing the webpage.
-QueryLoader currently works with jQuery v1.7.2 and in IE version > 7, Chrome, Safari and Firefox.
+QueryLoader currently works with jQuery v1.9 and in IE version > 7, Chrome, Safari and Firefox.
 
 Read the full post here: http://www.gayadesign.com/diy/queryloader2-preload-your-images-with-ease/
 
