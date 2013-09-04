@@ -99,6 +99,7 @@
         qLparent = element;
 
         //start timer
+        qLimageCounter = 0;
         qLdestroyed = false;
         var currentTime = new Date();
         qLstart = currentTime.getTime();
