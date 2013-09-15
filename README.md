@@ -74,8 +74,3 @@ Default: false
 
 (function) this function is called once the loading and animation are completed.
 Default: none
-
-**onLoadComplete**
-
-(function) this function is called once the loading is complete. This is handy when changing the animation at the end.
-Default: default behaviour

@@ -9,69 +9,217 @@
  * Licensed under the MIT license:
  *   http://www.opensource.org/licenses/mit-license.php
  *
- * Version:  2.3
- * Last update: 13-06-2013
+ * Version:  2.5
+ * Last update: 15-09-2013
  *
  */
-(function($) {
-	/*Browser detection patch*/
-	jQuery.browser = {};
-	jQuery.browser.mozilla = /mozilla/.test(navigator.userAgent.toLowerCase()) && !/webkit/.test(navigator.userAgent.toLowerCase());
-	jQuery.browser.webkit = /webkit/.test(navigator.userAgent.toLowerCase());
-	jQuery.browser.opera = /opera/.test(navigator.userAgent.toLowerCase());
-	jQuery.browser.msie = /msie/.test(navigator.userAgent.toLowerCase());
+(function($){
+    $.queryLoader2 = function(el, options){
+        var base = this;
 
-    if (!Array.prototype.indexOf) {
-        Array.prototype.indexOf = function (elt /*, from*/) {
-            var len = this.length >>> 0;
-            var from = Number(arguments[1]) || 0;
-            from = (from < 0)
-                ? Math.ceil(from)
-                : Math.floor(from);
-            if (from < 0)
-                from += len;
+        // Access to jQuery and DOM versions of element
+        base.$el = $(el);
+        base.el = el;
 
-            for (; from < len; from++) {
-                if (from in this &&
-                    this[from] === elt)
-                    return from;
+        // Add a reverse reference to the DOM object
+        base.$el.data("queryLoader2", base);
+
+        //declare variables
+        base.qLimageContainer = "";
+        base.qLoverlay = "";
+        base.qLbar = "";
+        base.qLpercentage = "";
+        base.qLimages = [];
+        base.qLbgimages = [];
+        base.qLimageCounter = 0;
+        base.qLdone = 0;
+        base.qLdestroyed = false;
+
+        base.init = function(){
+
+            base.options = $.extend({},$.queryLoader2.defaultOptions, options);
+
+            //find images
+            base.findImageInElement(base.el);
+            if (base.options.deepSearch == true) {
+                base.$el.find("*:not(script)").each(function() {
+                    base.findImageInElement(this);
+                });
             }
-            return -1;
+
+            //create containers
+            base.createPreloadContainer();
+            base.createOverlayLoader();
         };
-    }
 
-    var qLimages = [];
-    var qLbgimages = [];
-    var qLdone = 0;
-    var qLdestroyed = false;
+        //the container where unbindable images will go
+        base.createPreloadContainer = function() {
+            base.qLimageContainer = $("<div></div>").appendTo("body").css({
+                display: "none",
+                width: 0,
+                height: 0,
+                overflow: "hidden"
+            });
 
-    var qLparent = "";
-    var qLimageContainer = "";
-    var qLoverlay = "";
-    var qLbar = "";
-    var qLpercentage = "";
-    var qLimageCounter = 0;
-    var qLstart = 0;
+            //add background images for loading
+            for (var i = 0; base.qLbgimages.length > i; i++) {
+                $.ajax({
+                    url: base.qLbgimages[i],
+                    type: 'HEAD',
+                    complete: function (data) {
+                        if (!base.qLdestroyed) {
+                            base.addImageForPreload(this['url']);
+                        }
+                    }
+                });
+            }
+        };
 
-    var qLoptions = {
-        onComplete: function () {},
-        backgroundColor: "#000",
-        barColor: "#fff",
-        overlayId: 'qLoverlay',
-        barHeight: 1,
-        percentage: false,
-        deepSearch: true,
-        completeAnimation: "fade",
-        minimumTime: 500,
-        onLoadComplete: function () {
-            if (qLoptions.completeAnimation == "grow") {
-                var animationTime = 500;
-                var currentTime = new Date();
-                if ((currentTime.getTime() - qLstart) < qLoptions.minimumTime) {
-                    animationTime = (qLoptions.minimumTime - (currentTime.getTime() - qLstart));
+        base.addImageForPreload = function(url) {
+            var image = $("<img />").attr("src", url);
+            //binding load before the DOM adding
+            base.bindLoadEvent(image);
+            image.appendTo(base.qLimageContainer);
+        };
+
+        //create the overlay
+        base.createOverlayLoader = function () {
+            var overlayPosition = "absolute";
+
+            if (base.$el.prop("tagName") == "BODY") {
+                overlayPosition = "fixed";
+            } else {
+                base.$el.css("position", "relative");
+            }
+
+            base.qLoverlay = $("<div id='" + base.options.overlayId + "'></div>").css({
+                width: "100%",
+                height: "100%",
+                backgroundColor: base.options.backgroundColor,
+                backgroundPosition: "fixed",
+                position: overlayPosition,
+                zIndex: 666999, //very high!
+                top: 0,
+                left: 0
+            }).appendTo(base.$el);
+
+            base.qLbar = $("<div id='qLbar'></div>").css({
+                height: base.options.barHeight + "px",
+                marginTop: "-" + (base.options.barHeight / 2) + "px",
+                backgroundColor: base.options.barColor,
+                width: "0%",
+                position: "absolute",
+                top: "50%"
+            }).appendTo(base.qLoverlay);
+
+            if (base.options.percentage == true) {
+                base.qLpercentage = $("<div id='qLpercentage'></div>").text("0%").css({
+                    height: "40px",
+                    width: "100px",
+                    position: "absolute",
+                    fontSize: "3em",
+                    top: "50%",
+                    left: "50%",
+                    marginTop: "-" + (59 + base.options.barHeight) + "px",
+                    textAlign: "center",
+                    marginLeft: "-50px",
+                    color: base.options.barColor
+                }).appendTo(base.qLoverlay);
+            }
+
+            if (!base.qLimages.length) {
+                base.destroyContainers();
+            }
+        };
+
+        //destroy all containers created by QueryLoader
+        base.destroyContainers = function () {
+            base.qLdestroyed = true;
+            base.qLimageContainer.remove();
+            base.qLoverlay.remove();
+        };
+
+        base.findImageInElement = function (element) {
+            var url = "";
+            var obj = $(element);
+            var type = "normal";
+
+            if (obj.css("background-image") != "none") {
+                url = obj.css("background-image");
+                type = "background";
+            } else if (typeof(obj.attr("src")) != "undefined" && element.nodeName.toLowerCase() == "img") {
+                url = obj.attr("src");
+            }
+
+            if (url.indexOf("gradient") == -1) {
+                url = url.replace(/url\(\"/g, "");
+                url = url.replace(/url\(/g, "");
+                url = url.replace(/\"\)/g, "");
+                url = url.replace(/\)/g, "");
+
+                var urls = url.split(", ");
+
+                for (var i = 0; i < urls.length; i++) {
+                    if (urls[i].length > 0 && base.qLimages.indexOf(urls[i]) == -1 && !urls[i].match(/^(data:)/i)) {
+                        var extra = "";
+
+                        if (base.isIE()){
+                            //filthy always no cache for IE, sorry peeps!
+                            extra = "?rand=" + Math.random();
+                            base.qLbgimages.push(urls[i] + extra);
+                        } else {
+                            if (type == "background") {
+                                base.qLbgimages.push(urls[i]);
+                            } else {
+                                base.bindLoadEvent(obj);
+                            }
+                        }
+
+                        base.qLimages.push(urls[i]);
+                    }
                 }
+            }
+        }
 
-                $(qLbar).stop().animate({
+        base.isIE = function () {
+            return navigator.userAgent.match(/msie/i);
+        };
+
+        base.bindLoadEvent = function (element) {
+            base.qLimageCounter++;
+            element.bind("load error", function () {
+                base.completeImageLoading(this);
+            });
+        }
+
+        base.completeImageLoading = function (el) {
+            base.qLdone++;
+
+            var percentage = (base.qLdone / base.qLimageCounter) * 100;
+            base.qLbar.stop().animate({
+                width: percentage + "%",
+                minWidth: percentage + "%"
+            }, 200);
+
+            if (base.options.percentage == true) {
+                base.qLpercentage.text(Math.ceil(percentage) + "%");
+            }
+
+            if (base.qLdone == base.qLimageCounter) {
+                base.endLoader();
+            }
+        };
+
+        base.endLoader = function () {
+            base.qLdestroyed = true;
+            base.onLoadComplete();
+        };
+
+        base.onLoadComplete = function() {
+            if (base.options.completeAnimation == "grow") {
+                var animationTime = 500;
+
+                base.qLbar.stop().animate({
                     "width": "100%"
                 }, animationTime, function () {
                     $(this).animate({
@@ -79,321 +227,63 @@
                         width: "100%",
                         height: "100%"
                     }, 500, function () {
-                        $('#'+qLoptions.overlayId).fadeOut(500, function () {
+                        $('#' + base.options.overlayId).fadeOut(500, function () {
                             $(this).remove();
-                            qLoptions.onComplete();
+                            base.destroyContainers();
+                            base.options.onComplete();
                         })
                     });
                 });
             } else {
-                $('#'+qLoptions.overlayId).fadeOut(500, function () {
-                    $('#'+qLoptions.overlayId).remove();
-                    qLoptions.onComplete();
+                $('#' + base.options.overlayId).fadeOut(500, function () {
+                    $('#' + base.options.overlayId).remove();
+                    base.destroyContainers();
+                    base.options.onComplete();
                 });
             }
         }
+
+        // Run initializer
+        base.init();
     };
 
-    var afterEach = function (element) {
-        //set parent
-        qLparent = element;
-
-        //start timer
-        qLimageCounter = 0;
-        qLdestroyed = false;
-        var currentTime = new Date();
-        qLstart = currentTime.getTime();
-
-        if (qLimages.length > 0) {
-            createPreloadContainer();
-            createOverlayLoader();
-        } else {
-            //no images == instant exit
-            destroyQueryLoader();
-        }
+    //The default options
+    $.queryLoader2.defaultOptions = {
+        onComplete: function() {},
+        backgroundColor: "#000",
+        barColor: "#fff",
+        overlayId: 'qLoverlay',
+        barHeight: 1,
+        percentage: false,
+        deepSearch: true,
+        completeAnimation: "fade",
+        minimumTime: 500
     };
 
-    var createPreloadContainer = function() {
-        qLimageContainer = $("<div></div>").appendTo("body").css({
-            display: "none",
-            width: 0,
-            height: 0,
-            overflow: "hidden"
+    //function binder
+    $.fn.queryLoader2 = function(options){
+        return this.each(function(){
+            (new $.queryLoader2(this, options));
         });
-        
-        for (var i = 0; qLbgimages.length > i; i++) {
-            $.ajax({
-                url: qLbgimages[i],
-                type: 'HEAD',
-                complete: function (data) {
-                    if (!qLdestroyed) {
-                        addImageForPreload(this['url']);
-                    }
-                }
-            });
-        }        	
-
     };
-
-    var addImageForPreload = function(url) {
-        var image = $("<img />").attr("src", url).appendTo(qLimageContainer);
-        bindLoadEvent(image);
-    };
-
-    var bindLoadEvent = function (element) {
-        qLimageCounter++;
-        element.bind("load error", function () {
-            completeImageLoading();
-        });
-    }
-
-    var completeImageLoading = function () {
-        qLdone++;
-
-        var percentage = (qLdone / qLimageCounter) * 100;
-        $(qLbar).stop().animate({
-            width: percentage + "%",
-            minWidth: percentage + "%"
-        }, 200);
-
-        if (qLoptions.percentage == true) {
-            $(qLpercentage).text(Math.ceil(percentage) + "%");
-        }
-
-        if (qLdone == qLimageCounter) {
-            destroyQueryLoader();
-        }
-    };
-
-    var destroyQueryLoader = function () {
-        $(qLimageContainer).remove();
-        qLdestroyed = true;
-        qLoptions.onLoadComplete();
-    };
-
-    var createOverlayLoader = function () {
-        var overlayPosition = "absolute";
-        if (qLparent.prop("tagName") == "BODY") {
-            overlayPosition = "fixed";
-        } else {
-            qLparent.css("position", "relative");
-        }
-
-        qLoverlay = $("<div id='"+qLoptions.overlayId+"'></div>").css({
-            width: "100%",
-            height: "100%",
-            backgroundColor: qLoptions.backgroundColor,
-            backgroundPosition: "fixed",
-            position: overlayPosition,
-            zIndex: 666999,
-            top: 0,
-            left: 0
-        }).appendTo(qLparent);
-        qLbar = $("<div id='qLbar'></div>").css({
-            height: qLoptions.barHeight + "px",
-            marginTop: "-" + (qLoptions.barHeight / 2) + "px",
-            backgroundColor: qLoptions.barColor,
-            width: "0%",
-            position: "absolute",
-            top: "50%"
-        }).appendTo(qLoverlay);
-        if (qLoptions.percentage == true) {
-            qLpercentage = $("<div id='qLpercentage'></div>").text("0%").css({
-                height: "40px",
-                width: "100px",
-                position: "absolute",
-                fontSize: "3em",
-                top: "50%",
-                left: "50%",
-                marginTop: "-" + (59 + qLoptions.barHeight) + "px",
-                textAlign: "center",
-                marginLeft: "-50px",
-                color: qLoptions.barColor
-            }).appendTo(qLoverlay);
-        }
-        if (!qLimages.length) {
-        	destroyQueryLoader()
-        }
-    };
-
-    var findImageInElement = function (element) {
-        var url = "";
-        var obj = $(element);
-        var type = "normal";
-
-        if (obj.css("background-image") != "none") {
-            var url = obj.css("background-image");
-            var type = "background";
-        } else if (typeof(obj.attr("src")) != "undefined" && element.nodeName.toLowerCase() == "img") {
-            var url = obj.attr("src");
-        }
-
-        if (url.indexOf("gradient") == -1) {
-            url = url.replace(/url\(\"/g, "");
-            url = url.replace(/url\(/g, "");
-            url = url.replace(/\"\)/g, "");
-            url = url.replace(/\)/g, "");
-
-            var urls = url.split(", ");
-
-            for (var i = 0; i < urls.length; i++) {
-                if (urls[i].length > 0 && qLimages.indexOf(urls[i]) == -1 && !urls[i].match(/^(data:)/i)) {
-                    var extra = "";
-                    if ($.browser.msie && $.browser.version < 9) {
-                        extra = "?" + Math.floor(Math.random() * 3000);
-
-                        qLbgimages.push(urls[i] + extra);
-                        qLimages.push(urls[i]);
-                    } else {
-                        qLimages.push(urls[i]);
-
-                        if (type == "background") {
-                            qLbgimages.push(urls[i] + extra);
-                        } else {
-                            bindLoadEvent(obj);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    $.fn.queryLoader2 = function(options) {
-        if(options) {
-            $.extend(qLoptions, options );
-        }
-
-        this.each(function() {
-            findImageInElement(this);
-            if (qLoptions.deepSearch == true) {
-                $(this).find("*:not(script)").each(function() {
-                    findImageInElement(this);
-                });
-            }
-        });
-
-        afterEach(this);
-
-        return this;
-    };
-
-    //browser detect
-    var BrowserDetect = {
-        init: function () {
-            this.browser = this.searchString(this.dataBrowser) || "An unknown browser";
-            this.version = this.searchVersion(navigator.userAgent)
-                || this.searchVersion(navigator.appVersion)
-                || "an unknown version";
-            this.OS = this.searchString(this.dataOS) || "an unknown OS";
-        },
-        searchString: function (data) {
-            for (var i=0;i<data.length;i++)	{
-                var dataString = data[i].string;
-                var dataProp = data[i].prop;
-                this.versionSearchString = data[i].versionSearch || data[i].identity;
-                if (dataString) {
-                    if (dataString.indexOf(data[i].subString) != -1)
-                        return data[i].identity;
-                }
-                else if (dataProp)
-                    return data[i].identity;
-            }
-        },
-        searchVersion: function (dataString) {
-            var index = dataString.indexOf(this.versionSearchString);
-            if (index == -1) return;
-            return parseFloat(dataString.substring(index+this.versionSearchString.length+1));
-        },
-        dataBrowser: [
-            {
-                string: navigator.userAgent,
-                subString: "Chrome",
-                identity: "Chrome"
-            },
-            { 	string: navigator.userAgent,
-                subString: "OmniWeb",
-                versionSearch: "OmniWeb/",
-                identity: "OmniWeb"
-            },
-            {
-                string: navigator.vendor,
-                subString: "Apple",
-                identity: "Safari",
-                versionSearch: "Version"
-            },
-            {
-                prop: window.opera,
-                identity: "Opera",
-                versionSearch: "Version"
-            },
-            {
-                string: navigator.vendor,
-                subString: "iCab",
-                identity: "iCab"
-            },
-            {
-                string: navigator.vendor,
-                subString: "KDE",
-                identity: "Konqueror"
-            },
-            {
-                string: navigator.userAgent,
-                subString: "Firefox",
-                identity: "Firefox"
-            },
-            {
-                string: navigator.vendor,
-                subString: "Camino",
-                identity: "Camino"
-            },
-            {		// for newer Netscapes (6+)
-                string: navigator.userAgent,
-                subString: "Netscape",
-                identity: "Netscape"
-            },
-            {
-                string: navigator.userAgent,
-                subString: "MSIE",
-                identity: "Explorer",
-                versionSearch: "MSIE"
-            },
-            {
-                string: navigator.userAgent,
-                subString: "Gecko",
-                identity: "Mozilla",
-                versionSearch: "rv"
-            },
-            { 		// for older Netscapes (4-)
-                string: navigator.userAgent,
-                subString: "Mozilla",
-                identity: "Netscape",
-                versionSearch: "Mozilla"
-            }
-        ],
-        dataOS : [
-            {
-                string: navigator.platform,
-                subString: "Win",
-                identity: "Windows"
-            },
-            {
-                string: navigator.platform,
-                subString: "Mac",
-                identity: "Mac"
-            },
-            {
-                string: navigator.userAgent,
-                subString: "iPhone",
-                identity: "iPhone/iPod"
-            },
-            {
-                string: navigator.platform,
-                subString: "Linux",
-                identity: "Linux"
-            }
-        ]
-
-    };
-    BrowserDetect.init();
-    jQuery.browser.version = BrowserDetect.version;
 })(jQuery);
+
+//HERE COMES THE IE SHITSTORM
+if (!Array.prototype.indexOf) {
+    Array.prototype.indexOf = function (elt /*, from*/) {
+        var len = this.length >>> 0;
+        var from = Number(arguments[1]) || 0;
+        from = (from < 0)
+            ? Math.ceil(from)
+            : Math.floor(from);
+        if (from < 0)
+            from += len;
+
+        for (; from < len; from++) {
+            if (from in this &&
+                this[from] === elt)
+                return from;
+        }
+        return -1;
+    };
+}
