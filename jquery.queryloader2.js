@@ -163,7 +163,7 @@
                     if (urls[i].length > 0 && base.qLimages.indexOf(urls[i]) == -1 && !urls[i].match(/^(data:)/i)) {
                         var extra = "";
 
-                        if (base.isIE()){
+                        if (base.isIE() || base.isOpera()){
                             //filthy always no cache for IE, sorry peeps!
                             extra = "?rand=" + Math.random();
                             base.qLbgimages.push(urls[i] + extra);
@@ -183,6 +183,10 @@
 
         base.isIE = function () {
             return navigator.userAgent.match(/msie/i);
+        };
+
+        base.isOpera = function () {
+            return navigator.userAgent.match(/Opera/i);
         };
 
         base.bindLoadEvent = function (element) {
