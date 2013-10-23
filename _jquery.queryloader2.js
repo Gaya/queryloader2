@@ -53,34 +53,34 @@
 //        };
 
         //the container where unbindable images will go
-        base.createPreloadContainer = function() {
-            base.qLimageContainer = $("<div></div>").appendTo("body").css({
-                display: "none",
-                width: 0,
-                height: 0,
-                overflow: "hidden"
-            });
-
-            //add background images for loading
-            for (var i = 0; base.qLbgimages.length > i; i++) {
-                $.ajax({
-                    url: base.qLbgimages[i],
-                    type: 'HEAD',
-                    complete: function (data) {
-                        if (!base.qLdestroyed) {
-                            base.addImageForPreload(this['url']);
-                        }
-                    }
-                });
-            }
-        };
-
-        base.addImageForPreload = function(url) {
-            var image = $("<img />").attr("src", url);
-            //binding load before the DOM adding
-            base.bindLoadEvent(image);
-            image.appendTo(base.qLimageContainer);
-        };
+//        base.createPreloadContainer = function() {
+//            base.qLimageContainer = $("<div></div>").appendTo("body").css({
+//                display: "none",
+//                width: 0,
+//                height: 0,
+//                overflow: "hidden"
+//            });
+//
+//            //add background images for loading
+//            for (var i = 0; base.qLbgimages.length > i; i++) {
+//                $.ajax({
+//                    url: base.qLbgimages[i],
+//                    type: 'HEAD',
+//                    complete: function (data) {
+//                        if (!base.qLdestroyed) {
+//                            base.addImageForPreload(this['url']);
+//                        }
+//                    }
+//                });
+//            }
+//        };
+//
+//        base.addImageForPreload = function(url) {
+//            var image = $("<img />").attr("src", url);
+//            //binding load before the DOM adding
+//            base.bindLoadEvent(image);
+//            image.appendTo(base.qLimageContainer);
+//        };
 
         //create the overlay
         base.createOverlayLoader = function () {

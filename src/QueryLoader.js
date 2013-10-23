@@ -4,6 +4,8 @@ function QueryLoader2(element, options) {
 	this.options = options;
     this.foundUrls = [];
     this.destroyed = false;
+    this.imageCounter = 0;
+    this.imageDone = 0;
 
     this.preloadContainer = new PreloadContainer(this);
 
@@ -86,8 +88,9 @@ QueryLoader2.prototype.findImageInElement = function (element) {
                         //add to preloader
                         this.preloadContainer.addImage(urls[i] + extra);
                     } else {
-                        //TODO: BIND LOAD EVENT
-                        //base.bindLoadEvent(obj);
+                        var image = new PreloadImage(this);
+                        image.element = obj;
+                        image.bindLoadEvent();
                     }
                 }
 
