@@ -27,6 +27,11 @@ For support on iOS devices use the following code:
 		$("body").queryLoader2();
 	});
 
+Install using Bower
+-------------------
+
+	bower install queryloader2
+
 Basic usage
 -----------
 
