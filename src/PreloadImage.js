@@ -1,16 +1,17 @@
 function PreloadImage(parent) {
     this.element;
-    this.qlobj = parent;
+    this.parent = parent;
 };
 
 PreloadImage.prototype.addToPreloader = function (preloader, url) {
-    this.element = $("<img>").attr("src", url);
+	console.log("Creating image with url: " + url);
+    this.element = $("<img />").attr("src", url);
     this.element.appendTo(preloader.container);
-    this.qlobj = preloader.parent;
+    this.parent = preloader.parent;
 };
 
 PreloadImage.prototype.bindLoadEvent = function () {
-    this.qlobj.imageCounter++;
+    this.parent.imageCounter++;
 
     this.element.on("load error", this, function (e) {
         e.data.completeLoading();
@@ -18,24 +19,17 @@ PreloadImage.prototype.bindLoadEvent = function () {
 };
 
 PreloadImage.prototype.completeLoading = function () {
-    this.qlobj.imageDone++;
+    this.parent.imageDone++;
 
-    var percentage = (this.qlobj.imageDone / this.qlobj.imageCounter) * 100;
+    var percentage = (this.parent.imageDone / this.parent.imageCounter) * 100;
 
-    console.log(percentage + "%");
+    console.log(percentage + "% - loaded " + this.element.attr("src"));
 
-    //TODO: Update loading bar
-//    base.qLbar.stop().animate({
-//        width: percentage + "%",
-//        minWidth: percentage + "%"
-//    }, 200);
+	//update the percentage of the loader
+	this.parent.overlayLoader.updatePercentage(percentage);
 
-//    if (base.options.percentage == true) {
-//        base.qLpercentage.text(Math.ceil(percentage) + "%");
-//    }
-
-    if (this.qlobj.imageDone == this.qlobj.imageCounter) {
-        console.log("Done preloading");
-        //base.endLoader();
+	//all images done!
+    if (this.parent.imageDone == this.parent.imageCounter) {
+		this.parent.endLoader();
     }
 };

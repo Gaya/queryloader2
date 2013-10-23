@@ -41,7 +41,11 @@ module.exports = function(grunt) {
             dist: {
                 src: "dist/<%= pkg.name %>.js",
                 dest: "build/<%= pkg.name %>.js"
-            }
+            },
+			generate: {
+				src: "dist/<%= pkg.name %>.js",
+				dest: "<%= pkg.name %>.js"
+			}
         },
         uglify: {
             options: {
@@ -50,7 +54,11 @@ module.exports = function(grunt) {
             build: {
                 src: 'build/<%= pkg.name %>.js',
                 dest: 'build/<%= pkg.name %>.min.js'
-            }
+            },
+			generate: {
+				src: 'build/<%= pkg.name %>.js',
+				dest: '<%= pkg.name %>.min.js'
+			}
         },
         watch: {
             scripts: {
@@ -70,5 +78,5 @@ module.exports = function(grunt) {
 
     //register the task
     grunt.registerTask('default', ['concat', 'removelogging', 'uglify']);
-    grunt.registerTask('dev-watching', ['concat']);
+    grunt.registerTask('dev-watching', ['concat:dist']);
 };

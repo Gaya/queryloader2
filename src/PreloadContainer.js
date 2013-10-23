@@ -19,16 +19,9 @@ PreloadContainer.prototype.create = function () {
 PreloadContainer.prototype.processQueue = function () {
     //add background images for loading
     for (var i = 0; this.toPreload.length > i; i++) {
-        $.ajax({
-            url: this.toPreload[i],
-            type: 'HEAD',
-            caller: this,
-            complete: function (data) {
-                if (!this.caller.parent.destroyed) {
-                    this.caller.preloadImage(this['url']);
-                }
-            }
-        });
+		if (!this.parent.destroyed) {
+			this.preloadImage(this.toPreload[i]);
+		}
     }
 };
 
