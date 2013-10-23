@@ -35,22 +35,22 @@
         base.qLdone = 0;
         base.qLdestroyed = false;
 
-        base.init = function(){
-
-            base.options = $.extend({},$.queryLoader2.defaultOptions, options);
-
-            //find images
-            base.findImageInElement(base.el);
-            if (base.options.deepSearch == true) {
-                base.$el.find("*:not(script)").each(function() {
-                    base.findImageInElement(this);
-                });
-            }
-
-            //create containers
-            base.createPreloadContainer();
-            base.createOverlayLoader();
-        };
+//        base.init = function(){
+//
+//            base.options = $.extend({},$.queryLoader2.defaultOptions, options);
+//
+//            //find images
+//            base.findImageInElement(base.el);
+//            if (base.options.deepSearch == true) {
+//                base.$el.find("*:not(script)").each(function() {
+//                    base.findImageInElement(this);
+//                });
+//            }
+//
+//            //create containers
+//            base.createPreloadContainer();
+//            base.createOverlayLoader();
+//        };
 
         //the container where unbindable images will go
         base.createPreloadContainer = function() {
@@ -139,55 +139,55 @@
             base.qLoverlay.remove();
         };
 
-        base.findImageInElement = function (element) {
-            var url = "";
-            var obj = $(element);
-            var type = "normal";
+//        base.findImageInElement = function (element) {
+//            var url = "";
+//            var obj = $(element);
+//            var type = "normal";
+//
+//            if (obj.css("background-image") != "none") {
+//                url = obj.css("background-image");
+//                type = "background";
+//            } else if (typeof(obj.attr("src")) != "undefined" && element.nodeName.toLowerCase() == "img") {
+//                url = obj.attr("src");
+//            }
+//
+//            if (url.indexOf("gradient") == -1) {
+//                url = url.replace(/url\(\"/g, "");
+//                url = url.replace(/url\(/g, "");
+//                url = url.replace(/\"\)/g, "");
+//                url = url.replace(/\)/g, "");
+//
+//                var urls = url.split(", ");
+//
+//                for (var i = 0; i < urls.length; i++) {
+//                    if (urls[i].length > 0 && base.qLimages.indexOf(urls[i]) == -1 && !urls[i].match(/^(data:)/i)) {
+//                        var extra = "";
+//
+//                        if (base.isIE() || base.isOpera()){
+//                            //filthy always no cache for IE, sorry peeps!
+//                            extra = "?rand=" + Math.random();
+//                            base.qLbgimages.push(urls[i] + extra);
+//                        } else {
+//                            if (type == "background") {
+//                                base.qLbgimages.push(urls[i]);
+//                            } else {
+//                                base.bindLoadEvent(obj);
+//                            }
+//                        }
+//
+//                        base.qLimages.push(urls[i]);
+//                    }
+//                }
+//            }
+//        }
 
-            if (obj.css("background-image") != "none") {
-                url = obj.css("background-image");
-                type = "background";
-            } else if (typeof(obj.attr("src")) != "undefined" && element.nodeName.toLowerCase() == "img") {
-                url = obj.attr("src");
-            }
-
-            if (url.indexOf("gradient") == -1) {
-                url = url.replace(/url\(\"/g, "");
-                url = url.replace(/url\(/g, "");
-                url = url.replace(/\"\)/g, "");
-                url = url.replace(/\)/g, "");
-
-                var urls = url.split(", ");
-
-                for (var i = 0; i < urls.length; i++) {
-                    if (urls[i].length > 0 && base.qLimages.indexOf(urls[i]) == -1 && !urls[i].match(/^(data:)/i)) {
-                        var extra = "";
-
-                        if (base.isIE() || base.isOpera()){
-                            //filthy always no cache for IE, sorry peeps!
-                            extra = "?rand=" + Math.random();
-                            base.qLbgimages.push(urls[i] + extra);
-                        } else {
-                            if (type == "background") {
-                                base.qLbgimages.push(urls[i]);
-                            } else {
-                                base.bindLoadEvent(obj);
-                            }
-                        }
-
-                        base.qLimages.push(urls[i]);
-                    }
-                }
-            }
-        }
-
-        base.isIE = function () {
-            return navigator.userAgent.match(/msie/i);
-        };
-
-        base.isOpera = function () {
-            return navigator.userAgent.match(/Opera/i);
-        };
+//        base.isIE = function () {
+//            return navigator.userAgent.match(/msie/i);
+//        };
+//
+//        base.isOpera = function () {
+//            return navigator.userAgent.match(/Opera/i);
+//        };
 
         base.bindLoadEvent = function (element) {
             base.qLimageCounter++;
