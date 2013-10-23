@@ -11,7 +11,7 @@ module.exports = function(grunt) {
         ' * Licensed under the MIT license:\n' +
         ' *   http://www.opensource.org/licenses/mit-license.php\n' +
         ' *\n' +
-        ' * Version:  2.5\n' +
+        ' * Version:  2.6\n' +
         ' * Last update: <%= grunt.template.today("yyyy-mm-dd") %>\n' +
         ' */\n';
 

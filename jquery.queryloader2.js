@@ -9,7 +9,7 @@
  * Licensed under the MIT license:
  *   http://www.opensource.org/licenses/mit-license.php
  *
- * Version:  2.5
+ * Version:  2.6
  * Last update: 2013-10-23
  */
 function OverlayLoader(parent) {
