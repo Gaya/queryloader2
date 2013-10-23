@@ -13,7 +13,7 @@ module.exports = function(grunt) {
         ' *\n' +
         ' * Version:  2.5\n' +
         ' * Last update: <%= grunt.template.today("yyyy-mm-dd") %>\n' +
-        ' */';
+        ' */\n';
 
     // Project configuration.
     grunt.initConfig({
@@ -21,17 +21,17 @@ module.exports = function(grunt) {
         concat: {
             options: {
                 // define a string to put between each file in the concatenated output
-                separator: '',
+                separator: '\n',
                 banner: QueryLoader2Banner
             },
             dist: {
                 // the files to concatenate
                 src: [
                     //own classes and files
-                    'src/!(QueryLoader2).js',
+                    'src/!(base).js',
 
-                    //Finally the Configuro initor
-                    'src/QueryLoader2.js'
+                    //Finally the QueryLoader jQuery function binder
+                    'src/base.js'
                 ],
                 // the location of the resulting JS file
                 dest: 'dist/<%= pkg.name %>.js'
@@ -41,7 +41,11 @@ module.exports = function(grunt) {
             dist: {
                 src: "dist/<%= pkg.name %>.js",
                 dest: "build/<%= pkg.name %>.js"
-            }
+            },
+			generate: {
+				src: "dist/<%= pkg.name %>.js",
+				dest: "<%= pkg.name %>.js"
+			}
         },
         uglify: {
             options: {
@@ -50,7 +54,11 @@ module.exports = function(grunt) {
             build: {
                 src: 'build/<%= pkg.name %>.js',
                 dest: 'build/<%= pkg.name %>.min.js'
-            }
+            },
+			generate: {
+				src: 'build/<%= pkg.name %>.js',
+				dest: '<%= pkg.name %>.min.js'
+			}
         },
         watch: {
             scripts: {
@@ -70,5 +78,5 @@ module.exports = function(grunt) {
 
     //register the task
     grunt.registerTask('default', ['concat', 'removelogging', 'uglify']);
-    grunt.registerTask('dev-watching', ['concat']);
+    grunt.registerTask('dev-watching', ['concat:dist']);
 };

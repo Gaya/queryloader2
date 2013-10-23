@@ -1,164 +1,3 @@
-/*
- * QueryLoader v2 - A simple script to create a preloader for images
- *
- * For instructions read the original post:
- * http://www.gayadesign.com/diy/queryloader2-preload-your-images-with-ease/
- *
- * Copyright (c) 2011 - Gaya Kessler
- *
- * Licensed under the MIT license:
- *   http://www.opensource.org/licenses/mit-license.php
- *
- * Version:  2.5
- * Last update: 2013-10-23
- */
-function OverlayLoader(parent) {
-	this.parent = parent;
-	this.container;
-	this.loadbar;
-	this.percentageContainer;
-};
-
-OverlayLoader.prototype.createOverlay = function () {
-	
-
-	//determine postion of overlay and set parent position
-	var overlayPosition = "absolute";
-
-	if (this.parent.element.tagName.toLowerCase() == "body") {
-		overlayPosition = "fixed";
-	} else {
-		this.parent.$element.css("position", "relative");
-	}
-
-	//create the overlay container
-	this.container = $("<div id='" + this.parent.options.overlayId + "'></div>").css({
-		width: "100%",
-		height: "100%",
-		backgroundColor: this.parent.options.backgroundColor,
-		backgroundPosition: "fixed",
-		position: overlayPosition,
-		zIndex: 666999, //very high!
-		top: 0,
-		left: 0
-	}).appendTo(this.parent.$element);
-
-	//create the loading bar
-	this.loadbar = $("<div id='qLbar'></div>").css({
-		height: this.parent.options.barHeight + "px",
-		marginTop: "-" + (this.parent.options.barHeight / 2) + "px",
-		backgroundColor: this.parent.options.barColor,
-		width: "0%",
-		position: "absolute",
-		top: "50%"
-	}).appendTo(this.container);
-
-	//if percentage is on
-	if (this.parent.options.percentage == true) {
-		this.percentageContainer = $("<div id='qLpercentage'></div>").text("0%").css({
-			height: "40px",
-			width: "100px",
-			position: "absolute",
-			fontSize: "3em",
-			top: "50%",
-			left: "50%",
-			marginTop: "-" + (59 + this.parent.options.barHeight) + "px",
-			textAlign: "center",
-			marginLeft: "-50px",
-			color: this.parent.options.barColor
-		}).appendTo(this.container);
-	}
-
-	//if no images... destroy
-	if (!this.parent.preloadContainer.toPreload.length) {
-		this.parent.destroyContainers();
-	}
-};
-
-OverlayLoader.prototype.updatePercentage = function (percentage) {
-	this.loadbar.stop().animate({
-		width: percentage + "%",
-		minWidth: percentage + "%"
-	}, 200);
-
-	//update textual percentage
-	if (this.parent.options.percentage == true) {
-		this.percentageContainer.text(Math.ceil(percentage) + "%");
-	}
-};
-function PreloadContainer(parent) {
-    this.toPreload = [];
-    this.parent = parent;
-    this.container;
-};
-
-PreloadContainer.prototype.create = function () {
-    this.container = $("<div></div>").appendTo("body").css({
-        display: "none",
-        width: 0,
-        height: 0,
-        overflow: "hidden"
-    });
-
-    //process the image queue
-    this.processQueue();
-};
-
-PreloadContainer.prototype.processQueue = function () {
-    //add background images for loading
-    for (var i = 0; this.toPreload.length > i; i++) {
-		if (!this.parent.destroyed) {
-			this.preloadImage(this.toPreload[i]);
-		}
-    }
-};
-
-PreloadContainer.prototype.addImage = function (src) {
-    
-    this.toPreload.push(src);
-};
-
-PreloadContainer.prototype.preloadImage = function (url) {
-    
-    var image = new PreloadImage();
-    image.addToPreloader(this, url);
-    image.bindLoadEvent();
-};
-function PreloadImage(parent) {
-    this.element;
-    this.parent = parent;
-};
-
-PreloadImage.prototype.addToPreloader = function (preloader, url) {
-	
-    this.element = $("<img />").attr("src", url);
-    this.element.appendTo(preloader.container);
-    this.parent = preloader.parent;
-};
-
-PreloadImage.prototype.bindLoadEvent = function () {
-    this.parent.imageCounter++;
-
-    this.element.on("load error", this, function (e) {
-        e.data.completeLoading();
-    });
-};
-
-PreloadImage.prototype.completeLoading = function () {
-    this.parent.imageDone++;
-
-    var percentage = (this.parent.imageDone / this.parent.imageCounter) * 100;
-
-    
-
-	//update the percentage of the loader
-	this.parent.overlayLoader.updatePercentage(percentage);
-
-	//all images done!
-    if (this.parent.imageDone == this.parent.imageCounter) {
-		this.parent.endLoader();
-    }
-};
 function QueryLoader2(element, options) {
 	this.element = element;
     this.$element = $(element);
@@ -190,15 +29,15 @@ function QueryLoader2(element, options) {
 };
 
 QueryLoader2.prototype.init = function() {
-	
+	console.log("Intialising QueryLoader2 for", this.element);
 
-	
+	console.log("Setting the options");
 	this.options = $.extend({}, this.defaultOptions, this.options);
 
-    
+    console.log("Looking for images in", this.element);
     var images = this.findImageInElement(this.element);
     if (this.options.deepSearch == true) {
-        
+        console.log("Deep searching for images in", this.element);
         var elements = this.$element.find("*:not(script)");
         for (var i = 0; i < elements.length; i++) {
             this.findImageInElement(elements[i]);
@@ -234,7 +73,7 @@ QueryLoader2.prototype.findImageInElement = function (element) {
 
         for (var i = 0; i < urls.length; i++) {
             if (this.validUrl(urls[i]) && this.urlIsNew(urls[i])) {
-                
+                console.log("Found " + urls[i]);
                 var extra = "";
 
                 if (this.isIE() || this.isOpera()){
@@ -309,7 +148,7 @@ QueryLoader2.prototype.destroyContainers = function () {
 };
 
 QueryLoader2.prototype.endLoader = function () {
-	
+	console.log("Done preloading");
 
 	this.destroyed = true;
 	this.onLoadComplete();
@@ -343,30 +182,3 @@ QueryLoader2.prototype.onLoadComplete = function() {
 		});
 	}
 };
-//HERE COMES THE IE SHITSTORM
-if (!Array.prototype.indexOf) {
-	Array.prototype.indexOf = function (elt /*, from*/) {
-		var len = this.length >>> 0;
-		var from = Number(arguments[1]) || 0;
-		from = (from < 0)
-			? Math.ceil(from)
-			: Math.floor(from);
-		if (from < 0)
-			from += len;
-
-		for (; from < len; from++) {
-			if (from in this &&
-				this[from] === elt)
-				return from;
-		}
-		return -1;
-	};
-}
-(function($){
-	//function binder
-    $.fn.queryLoader2 = function(options){
-        return this.each(function(){
-            (new QueryLoader2(this, options));
-        });
-    };
-})(jQuery);
