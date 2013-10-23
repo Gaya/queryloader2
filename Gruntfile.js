@@ -1,4 +1,19 @@
 module.exports = function(grunt) {
+    var QueryLoader2Banner = '' +
+        '/*\n' +
+        ' * QueryLoader v2 - A simple script to create a preloader for images\n' +
+        ' *\n' +
+        ' * For instructions read the original post:\n' +
+        ' * http://www.gayadesign.com/diy/queryloader2-preload-your-images-with-ease/\n' +
+        ' *\n' +
+        ' * Copyright (c) 2011 - Gaya Kessler\n' +
+        ' *\n' +
+        ' * Licensed under the MIT license:\n' +
+        ' *   http://www.opensource.org/licenses/mit-license.php\n' +
+        ' *\n' +
+        ' * Version:  2.5\n' +
+        ' * Last update: <%= grunt.template.today("yyyy-mm-dd") %>\n' +
+        ' */';
 
     // Project configuration.
     grunt.initConfig({
@@ -6,7 +21,8 @@ module.exports = function(grunt) {
         concat: {
             options: {
                 // define a string to put between each file in the concatenated output
-                separator: ''
+                separator: '',
+                banner: QueryLoader2Banner
             },
             dist: {
                 // the files to concatenate
@@ -18,22 +34,22 @@ module.exports = function(grunt) {
                     'src/QueryLoader2.js'
                 ],
                 // the location of the resulting JS file
-                dest: ['dist/<%= pkg.name %>.js', '<%= pkg.name %>.js']
+                dest: 'dist/<%= pkg.name %>.js'
             }
         },
         removelogging: {
             dist: {
                 src: "dist/<%= pkg.name %>.js",
-                dest: "dist/<%= pkg.name %>-clean.js"
+                dest: "build/<%= pkg.name %>.js"
             }
         },
         uglify: {
             options: {
-                banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
+                banner: QueryLoader2Banner
             },
             build: {
-                src: 'dist/<%= pkg.name %>-clean.js',
-                dest: ['build/<%= pkg.name %>.min.js', '<%= pkg.name %>.min.js']
+                src: 'build/<%= pkg.name %>.js',
+                dest: 'build/<%= pkg.name %>.min.js'
             }
         },
         watch: {
