@@ -70,7 +70,7 @@ OverlayLoader.prototype.createOverlay = function () {
 	}
 
 	//if no images... destroy
-	if (!this.parent.preloadContainer.toPreload.length) {
+	if (!this.parent.preloadContainer.toPreload.length || this.parent.alreadyLoaded == true) {
 		this.parent.destroyContainers();
 	}
 };
@@ -167,6 +167,7 @@ function QueryLoader2(element, options) {
     this.destroyed = false;
     this.imageCounter = 0;
     this.imageDone = 0;
+	this.alreadyLoaded = false;
 
 	//create objects
     this.preloadContainer = new PreloadContainer(this);
@@ -190,6 +191,9 @@ function QueryLoader2(element, options) {
 };
 
 QueryLoader2.prototype.init = function() {
+	
+	this.checkIfVisited();
+
 	
 
 	
@@ -311,6 +315,8 @@ QueryLoader2.prototype.destroyContainers = function () {
 QueryLoader2.prototype.endLoader = function () {
 	
 
+	this.setVisited();
+
 	this.destroyed = true;
 	this.onLoadComplete();
 };
@@ -343,6 +349,22 @@ QueryLoader2.prototype.onLoadComplete = function() {
 		});
 	}
 };
+
+QueryLoader2.prototype.setVisited = function () {
+	if (supports_html5_storage()) {
+		localStorage.setItem(window.location.href, "true");
+	}
+};
+
+QueryLoader2.prototype.checkIfVisited = function () {
+	if (supports_html5_storage()) {
+		var visited = localStorage.getItem(window.location.href);
+
+		if (visited == "true") {
+			this.alreadyLoaded = true;
+		}
+	}
+};
 //HERE COMES THE IE SHITSTORM
 if (!Array.prototype.indexOf) {
 	Array.prototype.indexOf = function (elt /*, from*/) {
@@ -361,6 +383,14 @@ if (!Array.prototype.indexOf) {
 		}
 		return -1;
 	};
+}
+
+function supports_html5_storage() {
+	try {
+		return 'localStorage' in window && window['localStorage'] !== null;
+	} catch (e) {
+		return false;
+	}
 }
 (function($){
 	//function binder

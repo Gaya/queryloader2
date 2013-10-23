@@ -6,6 +6,7 @@ function QueryLoader2(element, options) {
     this.destroyed = false;
     this.imageCounter = 0;
     this.imageDone = 0;
+	this.alreadyLoaded = false;
 
 	//create objects
     this.preloadContainer = new PreloadContainer(this);
@@ -29,6 +30,9 @@ function QueryLoader2(element, options) {
 };
 
 QueryLoader2.prototype.init = function() {
+	console.log("Check if already loaded");
+	this.checkIfVisited();
+
 	console.log("Intialising QueryLoader2 for", this.element);
 
 	console.log("Setting the options");
@@ -150,6 +154,8 @@ QueryLoader2.prototype.destroyContainers = function () {
 QueryLoader2.prototype.endLoader = function () {
 	console.log("Done preloading");
 
+	this.setVisited();
+
 	this.destroyed = true;
 	this.onLoadComplete();
 };
@@ -180,5 +186,21 @@ QueryLoader2.prototype.onLoadComplete = function() {
 			this.parent.destroyContainers();
 			this.parent.options.onComplete();
 		});
+	}
+};
+
+QueryLoader2.prototype.setVisited = function () {
+	if (supports_html5_storage()) {
+		localStorage.setItem(window.location.href, "true");
+	}
+};
+
+QueryLoader2.prototype.checkIfVisited = function () {
+	if (supports_html5_storage()) {
+		var visited = localStorage.getItem(window.location.href);
+
+		if (visited == "true") {
+			this.alreadyLoaded = true;
+		}
 	}
 };

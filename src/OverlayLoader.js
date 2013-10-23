@@ -56,7 +56,7 @@ OverlayLoader.prototype.createOverlay = function () {
 	}
 
 	//if no images... destroy
-	if (!this.parent.preloadContainer.toPreload.length) {
+	if (!this.parent.preloadContainer.toPreload.length || this.parent.alreadyLoaded == true) {
 		this.parent.destroyContainers();
 	}
 };
