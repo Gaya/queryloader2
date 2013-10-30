@@ -10,7 +10,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *
  * Version:  2.6
- * Last update: 2013-10-23
+ * Last update: 2013-10-30
  */
 function OverlayLoader(parent) {
 	this.parent = parent;
@@ -192,9 +192,6 @@ function QueryLoader2(element, options) {
 
 QueryLoader2.prototype.init = function() {
 	
-	this.checkIfVisited();
-
-	
 
 	
 	this.options = $.extend({}, this.defaultOptions, this.options);
@@ -315,8 +312,6 @@ QueryLoader2.prototype.destroyContainers = function () {
 QueryLoader2.prototype.endLoader = function () {
 	
 
-	this.setVisited();
-
 	this.destroyed = true;
 	this.onLoadComplete();
 };
@@ -349,22 +344,6 @@ QueryLoader2.prototype.onLoadComplete = function() {
 		});
 	}
 };
-
-QueryLoader2.prototype.setVisited = function () {
-	if (supports_html5_storage()) {
-		localStorage.setItem(window.location.href, "true");
-	}
-};
-
-QueryLoader2.prototype.checkIfVisited = function () {
-	if (supports_html5_storage()) {
-		var visited = localStorage.getItem(window.location.href);
-
-		if (visited == "true") {
-			this.alreadyLoaded = true;
-		}
-	}
-};
 //HERE COMES THE IE SHITSTORM
 if (!Array.prototype.indexOf) {
 	Array.prototype.indexOf = function (elt /*, from*/) {
@@ -383,14 +362,6 @@ if (!Array.prototype.indexOf) {
 		}
 		return -1;
 	};
-}
-
-function supports_html5_storage() {
-	try {
-		return 'localStorage' in window && window['localStorage'] !== null;
-	} catch (e) {
-		return false;
-	}
 }
 (function($){
 	//function binder
