@@ -11,7 +11,7 @@ module.exports = function(grunt) {
         ' * Licensed under the MIT license:\n' +
         ' *   http://www.opensource.org/licenses/mit-license.php\n' +
         ' *\n' +
-        ' * Version:  2.6\n' +
+        ' * Version:  <%= pkg.version %>\n' +
         ' * Last update: <%= grunt.template.today("yyyy-mm-dd") %>\n' +
         ' */\n';
 
@@ -22,7 +22,8 @@ module.exports = function(grunt) {
             options: {
                 // define a string to put between each file in the concatenated output
                 separator: '\n',
-                banner: QueryLoader2Banner
+                banner: QueryLoader2Banner + "(function($){",
+                footer: "})(jQuery);"
             },
             dist: {
                 // the files to concatenate

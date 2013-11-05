@@ -9,10 +9,10 @@
  * Licensed under the MIT license:
  *   http://www.opensource.org/licenses/mit-license.php
  *
- * Version:  2.6
- * Last update: 2013-10-30
+ * Version:  2.7
+ * Last update: 2013-11-05
  */
-function OverlayLoader(parent) {
+(function($){function OverlayLoader(parent) {
 	this.parent = parent;
 	this.container;
 	this.loadbar;
@@ -363,11 +363,10 @@ if (!Array.prototype.indexOf) {
 		return -1;
 	};
 }
-(function($){
-	//function binder
-    $.fn.queryLoader2 = function(options){
-        return this.each(function(){
-            (new QueryLoader2(this, options));
-        });
-    };
+//function binder
+$.fn.queryLoader2 = function(options){
+    return this.each(function(){
+        (new QueryLoader2(this, options));
+    });
+};
 })(jQuery);
