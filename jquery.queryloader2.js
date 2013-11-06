@@ -10,7 +10,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *
  * Version:  2.6
- * Last update: 2013-10-30
+ * Last update: 2013-11-06
  */
 function OverlayLoader(parent) {
 	this.parent = parent;
