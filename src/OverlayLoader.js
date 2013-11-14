@@ -14,7 +14,10 @@ OverlayLoader.prototype.createOverlay = function () {
 	if (this.parent.element.tagName.toLowerCase() == "body") {
 		overlayPosition = "fixed";
 	} else {
-		this.parent.$element.css("position", "relative");
+		var pos = this.parent.$element.css("position");
+		if (pos != "fixed" || pos != "absolute") {
+			this.parent.$element.css("position", "relative");
+		}
 	}
 
 	//create the overlay container

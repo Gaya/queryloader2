@@ -10,7 +10,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *
  * Version:  2.7
- * Last update: 2013-11-05
+ * Last update: 2013-11-14
  */
 (function($){function OverlayLoader(parent) {
 	this.parent = parent;
@@ -28,7 +28,10 @@ OverlayLoader.prototype.createOverlay = function () {
 	if (this.parent.element.tagName.toLowerCase() == "body") {
 		overlayPosition = "fixed";
 	} else {
-		this.parent.$element.css("position", "relative");
+		var pos = this.parent.$element.css("position");
+		if (pos != "fixed" || pos != "absolute") {
+			this.parent.$element.css("position", "relative");
+		}
 	}
 
 	//create the overlay container
