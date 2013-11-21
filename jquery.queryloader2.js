@@ -9,8 +9,8 @@
  * Licensed under the MIT license:
  *   http://www.opensource.org/licenses/mit-license.php
  *
- * Version:  2.7
- * Last update: 2013-11-14
+ * Version:  2.8.1
+ * Last update: 2013-11-21
  */
 (function($){function OverlayLoader(parent) {
 	this.parent = parent;
@@ -142,9 +142,20 @@ PreloadImage.prototype.addToPreloader = function (preloader, url) {
 PreloadImage.prototype.bindLoadEvent = function () {
     this.parent.imageCounter++;
 
-    this.element.on("load error", this, function (e) {
-        e.data.completeLoading();
-    });
+	//remove the source
+	var src = this.element.attr("src");
+	this.element.removeAttr("src");
+	var that = this;
+
+	//bind the load even
+	setTimeout(function () {
+		that.element.on("load error", that, function (e) {
+			e.data.completeLoading();
+		});
+
+		//put the source back
+		that.element.attr("src", src);
+	}, 1);
 };
 
 PreloadImage.prototype.completeLoading = function () {

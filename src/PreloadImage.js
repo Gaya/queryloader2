@@ -13,9 +13,20 @@ PreloadImage.prototype.addToPreloader = function (preloader, url) {
 PreloadImage.prototype.bindLoadEvent = function () {
     this.parent.imageCounter++;
 
-    this.element.on("load error", this, function (e) {
-        e.data.completeLoading();
-    });
+	//remove the source
+	var src = this.element.attr("src");
+	this.element.removeAttr("src");
+	var that = this;
+
+	//bind the load even
+	setTimeout(function () {
+		that.element.on("load error", that, function (e) {
+			e.data.completeLoading();
+		});
+
+		//put the source back
+		that.element.attr("src", src);
+	}, 1);
 };
 
 PreloadImage.prototype.completeLoading = function () {
