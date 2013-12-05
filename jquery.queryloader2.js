@@ -9,8 +9,8 @@
  * Licensed under the MIT license:
  *   http://www.opensource.org/licenses/mit-license.php
  *
- * Version:  2.8.1
- * Last update: 2013-11-21
+ * Version:  2.8.2
+ * Last update: 2013-12-05
  */
 (function($){function OverlayLoader(parent) {
 	this.parent = parent;
@@ -332,7 +332,7 @@ QueryLoader2.prototype.endLoader = function () {
 
 QueryLoader2.prototype.onLoadComplete = function() {
 	if (this.options.completeAnimation == "grow") {
-		var animationTime = 500;
+		var animationTime = this.options.minimumTime;
 
 		this.overlayLoader.loadbar[0].parent = this; //put object in DOM element
 		this.overlayLoader.loadbar.stop().animate({

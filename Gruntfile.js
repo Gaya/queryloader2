@@ -78,6 +78,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-remove-logging");
 
     //register the task
-    grunt.registerTask('default', ['concat', 'removelogging', 'uglify']);
+    grunt.registerTask('build', ['concat', 'removelogging', 'uglify']);
     grunt.registerTask('dev-watching', ['concat:dist']);
 };

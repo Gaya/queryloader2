@@ -157,7 +157,7 @@ QueryLoader2.prototype.endLoader = function () {
 
 QueryLoader2.prototype.onLoadComplete = function() {
 	if (this.options.completeAnimation == "grow") {
-		var animationTime = 500;
+		var animationTime = this.options.minimumTime;
 
 		this.overlayLoader.loadbar[0].parent = this; //put object in DOM element
 		this.overlayLoader.loadbar.stop().animate({
