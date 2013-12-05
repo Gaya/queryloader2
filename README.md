@@ -79,3 +79,8 @@ Default: false
 
 (function) this function is called once the loading and animation are completed.
 Default: none
+
+**onLoadComplete**
+
+(function) this function is called once the loading is completed, before the ending animation.
+Default: none
