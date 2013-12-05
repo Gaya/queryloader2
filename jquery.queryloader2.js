@@ -9,7 +9,7 @@
  * Licensed under the MIT license:
  *   http://www.opensource.org/licenses/mit-license.php
  *
- * Version:  2.8.2
+ * Version:  2.8.3
  * Last update: 2013-12-05
  */
 (function($){function OverlayLoader(parent) {
@@ -190,6 +190,7 @@ function QueryLoader2(element, options) {
 	//The default options
     this.defaultOptions = {
         onComplete: function() {},
+		onLoadComplete: function() {},
         backgroundColor: "#000",
         barColor: "#fff",
         overlayId: 'qLoverlay',
@@ -331,6 +332,9 @@ QueryLoader2.prototype.endLoader = function () {
 };
 
 QueryLoader2.prototype.onLoadComplete = function() {
+	//fire the event before end animation
+	this.options.onLoadComplete();
+
 	if (this.options.completeAnimation == "grow") {
 		var animationTime = this.options.minimumTime;
 
