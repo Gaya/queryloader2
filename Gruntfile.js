@@ -28,6 +28,11 @@ module.exports = function(grunt) {
             dist: {
                 // the files to concatenate
                 src: [
+                    //load imagesloaded
+                    'bower_components/eventie/eventie.js',
+                    'bower_components/eventEmitter/EventEmitter.js',
+                    'bower_components/imagesloaded/imagesloaded.js',
+
                     //own classes and files
                     'src/!(base).js',
 

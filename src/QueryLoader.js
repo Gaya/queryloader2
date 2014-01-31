@@ -180,8 +180,10 @@ QueryLoader2.prototype.onLoadComplete = function() {
 			});
 		});
 	} else {
+        var animationTime = this.options.minimumTime;
+
 		this.overlayLoader.container[0].parent = this;
-		this.overlayLoader.container.fadeOut(500, function () {
+		this.overlayLoader.container.fadeOut(animationTime, function () {
 			this.parent.destroyContainers();
 			this.parent.options.onComplete();
 		});
