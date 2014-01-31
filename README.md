@@ -32,6 +32,10 @@ Install using Bower
 
 	bower install queryloader2
 
+Thanks to
+---------
+ImagesLoaded by desandro - https://github.com/desandro/imagesloaded
+
 Basic usage
 -----------
 
