@@ -32,7 +32,7 @@ PreloadImage.prototype.completeLoading = function () {
 	this.parent.overlayLoader.updatePercentage(percentage);
 
 	//all images done!
-    if (this.parent.imageDone == this.parent.imageCounter) {
+    if (this.parent.imageDone == this.parent.imageCounter || percentage >= 100) {
 		this.parent.endLoader();
     }
 };
