@@ -1,11 +1,10 @@
 {
-  "name": "jquery.queryloader2",
-  "version": "2.9.0",
+  "name": "queryloader2",
+  "version": "3.0.0",
   "devDependencies": {
-    "grunt": "~0.4.1",
-    "grunt-contrib-uglify": "~0.2.2",
-    "grunt-contrib-concat": "~0.3.0",
-    "grunt-contrib-watch": "~0.5.3",
-    "grunt-remove-logging": "~0.1.1"
+    "browserify": "^4.2.3",
+    "gulp": "^3.8.6",
+    "gulp-mocha-phantomjs": "^0.3.0",
+    "vinyl-source-stream": "^0.1.1"
   }
 }

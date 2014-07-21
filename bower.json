@@ -6,7 +6,7 @@
     "Gaya <gaya.kessler@gmail.com>"
   ],
   "description": "A simple script to create a preloader for images",
-  "main": "jquery.queryloader2.min.js",
+  "main": "queryloader2.min.js",
   "keywords": [
     "preloader",
     "queryloader",
