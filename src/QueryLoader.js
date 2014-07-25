@@ -22,7 +22,7 @@ function QueryLoader(element, options) {
 }
 
 QueryLoader.prototype.init = function() {
-    
+
 };
 
 module.exports = QueryLoader;

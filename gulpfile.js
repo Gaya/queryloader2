@@ -1,10 +1,9 @@
 var gulp = require('gulp'),
     browserify = require('browserify'),
-    source = require('vinyl-source-stream'),
-    watch = require('gulp-watch');
+    source = require('vinyl-source-stream');
 
 var config = {
-    src: './src',
+    src: 'src',
     dist: 'dist',
     build: 'build',
     test: 'test'
@@ -12,7 +11,8 @@ var config = {
 var pkg = require('./package.json');
 
 gulp.task('browserify', function() {
-    return browserify(config.src + '/main.js')
+    'use strict';
+    return browserify('./' + config.src + '/main.js')
         .bundle()
         .on('error', function (err) {
             console.log(err.toString());
@@ -23,7 +23,6 @@ gulp.task('browserify', function() {
 });
 
 gulp.task('test', function() {
-    watch({ glob: config.src + "/**/*.js" }, function() {
-        gulp.start('browserify');
-    });
+    'use strict';
+    gulp.watch(config.src + "/**/*.js", ["browserify"]);
 });
