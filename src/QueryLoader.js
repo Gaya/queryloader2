@@ -1,3 +1,6 @@
+var ImagePreloader = require('./ImagePreloader/ImagePreloader.js');
+var Overlay = require('./Overlay/Overlay.js');
+
 function QueryLoader(element, options) {
     this.element = element;
     this.options = options;
@@ -21,7 +24,11 @@ function QueryLoader(element, options) {
     }
 }
 
-QueryLoader.prototype.init = function() {
+QueryLoader.prototype.init = function () {
+    console.log(this.element);
+};
+
+QueryLoader.prototype.extend = function () {
 
 };
 

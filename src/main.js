@@ -1,4 +1,4 @@
-var QueryLoader2 = require('./QueryLoader.js');
+QueryLoader2 = require('./QueryLoader.js');
 
 //jquery and zepto
 if (window.jQuery || window.Zepto) {

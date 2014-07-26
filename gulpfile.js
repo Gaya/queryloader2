@@ -1,7 +1,8 @@
 var gulp = require('gulp'),
     browserify = require('browserify'),
     source = require('vinyl-source-stream'),
-    mochaPhantomJS = require('gulp-mocha-phantomjs');
+    mochaPhantomJS = require('gulp-mocha-phantomjs'),
+    browserSync = require('browser-sync');
 
 var config = {
     src: 'src',
@@ -20,7 +21,8 @@ gulp.task('browserify', function() {
             this.emit('end');
         })
         .pipe(source(pkg.name + '.js'))
-        .pipe(gulp.dest(config.dist));
+        .pipe(gulp.dest(config.dist))
+        .pipe(browserSync.reload({stream:true}));
 });
 
 gulp.task('browserify-tests', function() {
@@ -32,17 +34,21 @@ gulp.task('browserify-tests', function() {
             this.emit('end');
         })
         .pipe(source(pkg.name + '-tests.js'))
-        .pipe(gulp.dest(config.dist));
+        .pipe(gulp.dest(config.dist))
+        .pipe(browserSync.reload({stream:true}));
 });
 
-gulp.task('test', function () {
+gulp.task('browser-sync', function() {
     'use strict';
-    return gulp
-        .src('test/browser/index.html')
-        .pipe(mochaPhantomJS());
+    browserSync({
+        server: {
+            baseDir: ["./" + config.test + "/browser/", "./node_modules", "./dist"]
+        }
+    });
 });
 
-//gulp.task('test', function() {
-//    'use strict';
-//    gulp.watch(config.src + "/**/*.js", ["browserify"]);
-//});
+gulp.task('test', ['browserify', 'browserify-tests', 'browser-sync'], function () {
+    'use strict';
+    gulp.watch(config.test + "/*.js", ['browserify-tests']);
+    gulp.watch(config.src + "/**/*.js", ['browserify']);
+});
