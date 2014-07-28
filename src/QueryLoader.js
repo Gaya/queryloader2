@@ -2,6 +2,7 @@ var ImagePreloader = require('./ImagePreloader/ImagePreloader.js');
 var Overlay = require('./Overlay/Overlay.js');
 
 function QueryLoader(element, options) {
+    'use strict';
     this.element = element;
     this.options = options;
 
@@ -25,11 +26,23 @@ function QueryLoader(element, options) {
 }
 
 QueryLoader.prototype.init = function () {
-    console.log(this.element);
+    'use strict';
+    this.extend(this.options, this.defaultOptions);
 };
 
-QueryLoader.prototype.extend = function () {
+QueryLoader.prototype.extend = function (base, adding) {
+    'use strict';
+    if (typeof base === "undefined") {
+        base = {};
+    }
 
+    for (var property in adding) {
+        if (adding.hasOwnProperty(property)) {
+            base[property] = adding[property];
+        }
+    }
+
+    return base;
 };
 
 module.exports = QueryLoader;
