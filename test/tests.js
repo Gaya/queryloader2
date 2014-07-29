@@ -1,7 +1,9 @@
 var assert = require("assert");
 
+var Overlay = require("../src/Overlay/Overlay.js");
 var LoadingBar = require("../src/Overlay/LoadingBar.js");
 var Percentage = require("../src/Overlay/Percentage.js");
+
 var Image = require("../src/ImagePreloader/Image.js");
 var QueryLoader = require("../src/QueryLoader.js");
 
@@ -125,6 +127,45 @@ describe('Percentage', function() {
     });
 });
 
+describe('Overlay', function() {
+    var fakeBody = document.createElement("body");
+
+    describe('#create()', function () {
+        var o = new Overlay(fakeBody);
+        o.create();
+
+        it('should create an element for itself', function () {
+            assert.notEqual(null, o.element);
+            assert.notEqual("undefined", typeof o.element);
+            assert.notEqual("undefined", typeof o.element.tagName);
+            assert.equal("div", o.element.tagName.toLowerCase());
+            assert.equal(o.className, o.element.getAttribute("class"));
+        });
+    });
+
+    describe('#calculatePosition()', function () {
+        var o = new Overlay();
+
+        it('should give the correct needed position of the overlay', function () {
+            o.parentElement = fakeBody;
+
+            assert.equal("fixed", o.calculatePosition());
+
+            var fakeContainer = document.createElement("div");
+            fakeContainer.style.position = "static";
+
+            o.parentElement = fakeContainer;
+
+            assert.equal("absolute", o.calculatePosition());
+            assert.equal("relative", o.parentElement.style.position);
+
+            o.parentElement.style.position = "absolute";
+
+            assert.equal("absolute", o.calculatePosition());
+        });
+    });
+});
+
 describe('Image', function() {
     describe('#constructor()', function () {
         it('should create an image object with given src', function () {
@@ -136,15 +177,15 @@ describe('Image', function() {
         it('should create a dom object with given src', function () {
             var exampleImage = new Image("some/src");
 
-            assert.equal("some/src", exampleImage.element.src);
+            assert.notEqual(-1, exampleImage.element.src.indexOf("some/src"));
         });
     });
 
-    describe('#bindLoad()', function () {
+    describe('#preload()', function () {
         it('should callback when an image is loaded', function (done) {
             var exampleImage = new Image("images/1.jpg");
 
-            exampleImage.bindLoad(done);
+            exampleImage.preload(done);
         });
     });
 });
