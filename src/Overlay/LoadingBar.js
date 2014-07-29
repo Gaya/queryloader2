@@ -1,8 +1,9 @@
-function LoadingBar(base) {
+function LoadingBar() {
     'use strict';
-    this.base = base;
     this.element = null;
-    this.className = "querloader__overlay__bar";
+    this.className = "queryloader__overlay__bar";
+    this.barHeight = 1;
+    this.barColor = "#fff";
 }
 
 /**
@@ -13,22 +14,23 @@ LoadingBar.prototype.create = function () {
     this.element = document.createElement("div");
     this.element.setAttribute("class", this.className);
     this.setStyling();
+    this.updateProgress(0, 0);
 };
 
 LoadingBar.prototype.setStyling = function () {
     'use strict';
 
-    //options from QueryLoader
-    if (typeof this.base !== "undefined") {
-        this.element.style.height = this.base.options.barHeight + "px";
-        this.element.style.marginTop = "-" + (this.base.options.barHeight / 2) + "px";
-        this.element.style.backgroundColor = this.base.options.barColor;
-    }
-
+    this.element.style.height = this.barHeight + "px";
+    this.element.style.marginTop = "-" + (this.barHeight / 2) + "px";
+    this.element.style.backgroundColor = this.barColor;
     this.element.style.position = "absolute";
     this.element.style.top = "50%";
 
-    this.updateProgress(0, 0);
+    this.element.style.WebkitTransition = "width 100ms";
+    this.element.style.MozTransition = "width 100ms";
+    this.element.style.OTransition = "width 100ms";
+    this.element.style.MsTransition = "width 100ms";
+    this.element.style.Transition = "width 100ms";
 };
 
 LoadingBar.prototype.updateProgress = function (percentage, time) {
