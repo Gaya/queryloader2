@@ -4,9 +4,10 @@ QueryLoader2 = require('./QueryLoader.js');
 if (window.jQuery || window.Zepto) {
     (function ($) {
         'use strict';
-        $.fn.queryLoader2 = function (params) {
-            var s = new QueryLoader2($(this)[0], params);
-            return s;
+        $.fn.queryLoader2 = function(options){
+            return this.each(function(){
+                (new QueryLoader2(this, options));
+            });
         };
     })(window.jQuery || window.Zepto);
 }
