@@ -2,6 +2,7 @@ var assert = require("assert");
 
 var LoadingBar = require("../src/Overlay/LoadingBar.js");
 var Percentage = require("../src/Overlay/Percentage.js");
+var Image = require("../src/ImagePreloader/Image.js");
 var QueryLoader = require("../src/QueryLoader.js");
 
 describe('LoadingBar', function() {
@@ -124,10 +125,38 @@ describe('Percentage', function() {
     });
 });
 
+describe('Image', function() {
+    describe('#constructor()', function () {
+        it('should create an image object with given src', function () {
+            var exampleImage = new Image("some/src");
+
+            assert.equal("some/src", exampleImage.src);
+        });
+
+        it('should create a dom object with given src', function () {
+            var exampleImage = new Image("some/src");
+
+            assert.equal("some/src", exampleImage.element.src);
+        });
+    });
+
+    describe('#bindLoad()', function () {
+        it('should callback when an image is loaded', function (done) {
+            var exampleImage = new Image("images/1.jpg");
+
+            exampleImage.bindLoad(done);
+        });
+    });
+});
+
 describe('QueryLoader', function() {
     describe('#createOverlay()', function () {
+        var ql = new QueryLoader();
+
         it('should create an overlay when called', function () {
-            assert.equal(true, false);
+            ql.createOverlay();
+
+            assert.deepEqual(ql.overlay = Overlay);
         });
     });
 
