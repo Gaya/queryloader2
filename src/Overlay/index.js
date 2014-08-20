@@ -46,4 +46,15 @@ Overlay.prototype.calculatePosition = function () {
     return overlayPosition;
 };
 
+Overlay.prototype.updateProgress = function (percentage, time) {
+    "use strict";
+    if (this.loadingBar !== null) {
+        this.loadingBar.updateProgress(percentage, time);
+    }
+
+    if (this.percentage !== null) {
+        this.percentage.updateProgress(percentage, time);
+    }
+};
+
 module.exports = Overlay;
