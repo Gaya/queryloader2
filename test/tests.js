@@ -167,9 +167,23 @@ describe('Overlay', function() {
 
     describe('#updateProgess()', function () {
         var o = new Overlay();
+        o.parentElement = fakeBody;
+        o.create();
+
+        o.percentage = new Percentage();
+        o.percentage.create();
+
+        o.loadingBar = new LoadingBar();
+        o.loadingBar.create();
 
         it('should update the loading progress of both percentage and loadingbar', function () {
-            assert.equal(false, true);
+            assert.equal("0%", o.percentage.element.innerHTML);
+            assert.equal("0%", o.loadingBar.element.style.width);
+
+            o.updateProgress(10, 0);
+
+            assert.equal("10%", o.percentage.element.innerHTML);
+            assert.equal("10%", o.loadingBar.element.style.width);
         });
     });
 });
