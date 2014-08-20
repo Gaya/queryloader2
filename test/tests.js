@@ -1,6 +1,6 @@
 var assert = require("assert");
 
-var Overlay = require("../src/Overlay/Overlay.js");
+var Overlay = require("../src/Overlay/");
 var LoadingBar = require("../src/Overlay/LoadingBar.js");
 var Percentage = require("../src/Overlay/Percentage.js");
 
