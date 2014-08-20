@@ -20,6 +20,9 @@ function QueryLoader(element, options) {
         minimumTime: 500
     };
 
+    //children
+    this.overlay = null;
+
     if (element !== null) {
         this.init();
     }
@@ -43,6 +46,11 @@ QueryLoader.prototype.extend = function (base, adding) {
     }
 
     return base;
+};
+
+QueryLoader.prototype.createOverlay = function () {
+    'use strict';
+    this.overlay = new Overlay(this.element);
 };
 
 module.exports = QueryLoader;

@@ -197,7 +197,7 @@ describe('QueryLoader', function() {
         it('should create an overlay when called', function () {
             ql.createOverlay();
 
-            assert.deepEqual(ql.overlay = Overlay);
+            assert.equal(ql.overlay instanceof Overlay, true);
         });
     });
 
