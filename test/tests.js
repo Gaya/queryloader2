@@ -3,8 +3,8 @@ var assert = require("assert");
 var Overlay = require("../src/Overlay/");
 var LoadingBar = require("../src/Overlay/LoadingBar.js");
 var Percentage = require("../src/Overlay/Percentage.js");
-
 var Image = require("../src/ImagePreloader/Image.js");
+var ImagePreloader = require("../src/ImagePreloader/");
 var QueryLoader = require("../src/QueryLoader.js");
 
 describe('LoadingBar', function() {
@@ -202,8 +202,12 @@ describe('QueryLoader', function() {
     });
 
     describe('#createPreloader()', function () {
+        var ql = new QueryLoader();
+
         it('should create the preloader', function () {
-            assert.equal(true, false);
+            ql.createPreloader();
+
+            assert.equal(ql.preloader instanceof ImagePreloader, true);
         });
     });
 
