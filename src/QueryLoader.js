@@ -22,6 +22,7 @@ function QueryLoader(element, options) {
 
     //children
     this.overlay = null;
+    this.preloader = null;
 
     if (element !== null) {
         this.init();
@@ -51,6 +52,11 @@ QueryLoader.prototype.extend = function (base, adding) {
 QueryLoader.prototype.createOverlay = function () {
     'use strict';
     this.overlay = new Overlay(this.element);
+};
+
+QueryLoader.prototype.createPreloader = function () {
+    'use strict';
+    this.preloader = new ImagePreloader(this.element);
 };
 
 module.exports = QueryLoader;
