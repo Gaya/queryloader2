@@ -164,6 +164,14 @@ describe('Overlay', function() {
             assert.equal("absolute", o.calculatePosition());
         });
     });
+
+    describe('#updateProgess()', function () {
+        var o = new Overlay();
+
+        it('should update the loading progress of both percentage and loadingbar', function () {
+            assert.equal(false, true);
+        });
+    });
 });
 
 describe('Image', function() {
@@ -211,12 +219,6 @@ describe('QueryLoader', function() {
         });
     });
 
-    describe('#findImageInElement()', function () {
-        it('should find all images in given element', function () {
-            assert.equal(true, false);
-        });
-    });
-
     describe('#extend()', function () {
         it('should merge two objects', function () {
             var ql = new QueryLoader();
@@ -237,6 +239,33 @@ describe('QueryLoader', function() {
                 "is": "not",
                 "right": "dude"
             }, ql.extend(destination, source));
+        });
+    });
+});
+
+describe('ImagePreloader', function() {
+    "use strict";
+    describe('#getImages()', function () {
+        var ip = new ImagePreloader();
+
+        it('should get all images within the given element', function () {
+            assert.equal(false, true);
+        });
+    });
+
+    describe('#findAndPreload()', function () {
+        var ip = new ImagePreloader();
+
+        it('should find all images and start preloading', function () {
+            assert.equal(false, true);
+        });
+    });
+
+    describe('#updateProgess()', function () {
+        var ip = new ImagePreloader();
+
+        it('should update the loading progress', function () {
+            assert.equal(false, true);
         });
     });
 });
