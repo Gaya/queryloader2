@@ -262,8 +262,27 @@ describe('ImagePreloader', function() {
     describe('#getImages()', function () {
         var ip = new ImagePreloader();
 
+        var fakeImagesContainer = document.createElement("div");
+
+        var img1 = document.createElement("img");
+        img1.setAttribute("src", "fakeimg1.png");
+        fakeImagesContainer.appendChild(img1);
+
+        var img2 = document.createElement("img");
+        img2.setAttribute("src", "fakeimg2.png");
+        fakeImagesContainer.appendChild(img2);
+
+        var img3 = document.createElement("section");
+        img3.style.backgroundImage = "url(fakeimg3.png)";
+        fakeImagesContainer.appendChild(img3);
+
         it('should get all images within the given element', function () {
-            assert.equal(false, true);
+            var images = ip.getImages(fakeImagesContainer);
+
+            assert.equal(3, images.length);
+            assert.notEqual(-1, images[0].indexOf("fakeimg1.png"));
+            assert.notEqual(-1, images[1].indexOf("fakeimg2.png"));
+            assert.notEqual(-1, images[3].indexOf("fakeimg3.png"));
         });
     });
 
