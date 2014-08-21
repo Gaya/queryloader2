@@ -276,6 +276,10 @@ describe('ImagePreloader', function() {
         img3.style.backgroundImage = "url(fakeimg3.png)";
         fakeImagesContainer.appendChild(img3);
 
+        var img4 = document.createElement("section");
+        img4.style.backgroundImage = "linear-gradient(left, #fff, #eee)";
+        fakeImagesContainer.appendChild(img4);
+
         it('should get all images within the given element', function () {
             var images = ip.getImages(fakeImagesContainer);
 
