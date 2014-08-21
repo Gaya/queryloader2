@@ -25,3 +25,5 @@ if (typeof define === 'function' && define.amd) {
         return QueryLoader2;
     });
 }
+
+window.QueryLoader2 = QueryLoader2;
