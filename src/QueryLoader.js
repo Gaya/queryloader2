@@ -91,7 +91,7 @@ QueryLoader.prototype.doneLoading = function () {
     this.done = true;
 
     this.overlay.element.style.opacity = 0;
-    
+
     window.setTimeout(this.options.onComplete, this.options.fadeOutTime);
 };
 

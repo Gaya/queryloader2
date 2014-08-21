@@ -4,6 +4,7 @@ var Percentage = require('./Percentage.js');
 function Overlay(parentElement) {
     'use strict';
     this.parentElement = parentElement;
+    this.idName = "qLoverlay";
     this.className = "queryloader__overlay";
     this.element = null;
     this.loadingBar = null;
@@ -29,8 +30,9 @@ Overlay.prototype.init = function () {
 
 Overlay.prototype.create = function () {
     'use strict';
-    this.element = document.createElement("div");
+    this.element = (document.querySelector("#" + this.idName) || document.createElement("div"));
     this.element.setAttribute("class", this.className);
+    this.element.setAttribute("id", this.qLoverlay);
     this.applyStyling();
 };
 
