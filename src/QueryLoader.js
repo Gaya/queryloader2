@@ -33,7 +33,7 @@ function QueryLoader(element, options) {
 
 QueryLoader.prototype.init = function () {
     'use strict';
-    this.extend(this.options, this.defaultOptions);
+    this.extend(this.defaultOptions, this.options);
 
     if (typeof this.element !== "undefined") {
         this.createOverlay();
