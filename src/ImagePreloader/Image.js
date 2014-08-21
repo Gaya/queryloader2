@@ -19,7 +19,7 @@ Image.prototype.create = function () {
 Image.prototype.preload = function (cb) {
     'use strict';
     imagesLoaded(this.element, function(err, alreadyLoaded) {
-        cb();
+        cb(err, alreadyLoaded);
     });
 };
 

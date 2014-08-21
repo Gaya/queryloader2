@@ -43,11 +43,11 @@ ImagePreloader.prototype.findAndPreload = function (element) {
     }
 };
 
-ImagePreloader.prototype.imageLoaded = function () {
+ImagePreloader.prototype.imageLoaded = function (err, alreadyLoaded) {
     "use strict";
     this.loaded++;
 
-    console.log(this.sources.length, this.loaded);
+    console.log(this.sources, this.loaded, err, alreadyLoaded);
 };
 
 ImagePreloader.prototype.findImageInElement = function (element) {
