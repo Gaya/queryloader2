@@ -19,6 +19,7 @@ Overlay.prototype.init = function () {
     this.create();
 
     this.loadingBar = new LoadingBar();
+    this.loadingBar.barHeight = this.barHeight;
     this.loadingBar.create();
     this.element.appendChild(this.loadingBar.element);
 
