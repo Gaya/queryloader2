@@ -9,15 +9,14 @@ function QueryLoader(element, options) {
     //The default options
     this.defaultOptions = {
         onComplete: function() {},
-        onLoadComplete: function() {},
         backgroundColor: "#000",
         barColor: "#fff",
         overlayId: 'qLoverlay',
         barHeight: 1,
         percentage: false,
         deepSearch: true,
-        completeAnimation: "fade",
-        minimumTime: 500
+        minimumTime: 500,
+        fadeOutTime: 300
     };
 
     //children
@@ -70,6 +69,16 @@ QueryLoader.prototype.createPreloader = function () {
 QueryLoader.prototype.updateProgress = function (done, total) {
     "use strict";
     this.overlay.updateProgress(((done / total) * 100), this.options.minimumTime);
+
+    if (done === total) {
+        this.doneLoading();
+    }
+};
+
+QueryLoader.prototype.doneLoading = function () {
+    "use strict";
+    this.overlay.element.style.opacity = 0;
+    
 };
 
 module.exports = QueryLoader;
