@@ -28,7 +28,7 @@ Overlay.prototype.init = function () {
 
     if (this.showPercentage) {
         this.percentage = new Percentage();
-        this.percentage.color = this.barColor;
+        this.percentage.barColor = this.barColor;
         this.percentage.create();
         this.element.appendChild(this.percentage.element);
     }
