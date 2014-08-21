@@ -282,7 +282,7 @@ describe('ImagePreloader', function() {
             assert.equal(3, images.length);
             assert.notEqual(-1, images[0].indexOf("fakeimg1.png"));
             assert.notEqual(-1, images[1].indexOf("fakeimg2.png"));
-            assert.notEqual(-1, images[3].indexOf("fakeimg3.png"));
+            assert.notEqual(-1, images[2].indexOf("fakeimg3.png"));
         });
     });
 
