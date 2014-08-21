@@ -32,6 +32,9 @@ function QueryLoader(element, options) {
 QueryLoader.prototype.init = function () {
     'use strict';
     this.extend(this.options, this.defaultOptions);
+
+    this.createPreloader();
+    this.preloader.findAndPreload(this.element);
 };
 
 QueryLoader.prototype.extend = function (base, adding) {

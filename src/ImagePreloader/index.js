@@ -11,23 +11,30 @@ function ImagePreloader() {
 ImagePreloader.prototype.getImageSrcs = function (element) {
     "use strict";
     this.sources = [];
-    this.findImageInElement(element);
 
-    if (this.deepSearch === true) {
-        var elements = element.querySelectorAll("*");
-        for (var i = 0; i < elements.length; i++) {
-            if (elements[i].tagName !== "SCRIPT") {
-                this.findImageInElement(elements[i]);
+    if (typeof element !== "undefined") {
+        this.findImageInElement(element);
+
+        if (this.deepSearch === true) {
+            var elements = element.querySelectorAll("*");
+            for (var i = 0; i < elements.length; i++) {
+                if (elements[i].tagName !== "SCRIPT") {
+                    this.findImageInElement(elements[i]);
+                }
             }
         }
     }
 
-    return this.images;
+    return this.sources;
 };
 
-ImagePreloader.prototype.findAndPreload = function () {
+ImagePreloader.prototype.findAndPreload = function (element) {
     "use strict";
-    this.sources = this.getImageSrcs();
+    if (typeof element === "undefined") {
+        return;
+    }
+
+    this.sources = this.getImageSrcs(element);
 
     for (var i = 0; i < this.sources.length; i++) {
         var image = new Image(this.sources[i]);
