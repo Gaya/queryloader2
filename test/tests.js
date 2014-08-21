@@ -324,4 +324,24 @@ describe('ImagePreloader', function() {
             assert.equal(-1, ip.stripUrl("file.png").indexOf("url"));
         });
     });
+
+    describe('#validUrl()', function () {
+        var ip = new ImagePreloader();
+
+        it('should check if given url is valid', function () {
+            assert.equal(false, ip.validUrl(""));
+            assert.equal(false, ip.validUrl("data:blablabla"));
+            assert.equal(true, ip.validUrl("/this/is/valid.png"));
+        });
+    });
+
+    describe('#urlIsNew()', function () {
+        var ip = new ImagePreloader();
+        ip.images = ["test.png", "something.png", "image.jpg"];
+
+        it('should check if given url is new in this.images', function () {
+            assert.equal(false, ip.urlIsNew("image.jpg"));
+            assert.equal(true, ip.urlIsNew("new.png"));
+        });
+    });
 });
