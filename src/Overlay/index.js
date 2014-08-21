@@ -14,6 +14,15 @@ function Overlay(parentElement) {
 Overlay.prototype.init = function () {
     "use strict";
     this.create();
+
+    this.loadingBar = new LoadingBar();
+    this.loadingBar.create();
+    this.element.appendChild(this.loadingBar.element);
+
+    this.percentage = new Percentage();
+    this.percentage.create();
+    this.element.appendChild(this.percentage.element);
+
     this.parentElement.appendChild(this.element);
 };
 

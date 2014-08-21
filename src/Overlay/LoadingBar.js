@@ -26,11 +26,7 @@ LoadingBar.prototype.setStyling = function () {
     this.element.style.position = "absolute";
     this.element.style.top = "50%";
 
-    this.element.style.WebkitTransition = "width 100ms";
-    this.element.style.MozTransition = "width 100ms";
-    this.element.style.OTransition = "width 100ms";
-    this.element.style.MsTransition = "width 100ms";
-    this.element.style.Transition = "width 100ms";
+    this.setTransitionTime(100);
 };
 
 LoadingBar.prototype.updateProgress = function (percentage, time) {
@@ -42,9 +38,20 @@ LoadingBar.prototype.updateProgress = function (percentage, time) {
         percentage = 100;
     }
 
-    if (time === 0) {
-        this.element.style.width = parseInt(percentage) + "%";
+    if (time !== 0) {
+        this.setTransitionTime(time);
     }
+
+    this.element.style.width = parseInt(percentage) + "%";
+};
+
+LoadingBar.prototype.setTransitionTime = function (ms) {
+    "use strict";
+    this.element.style.WebkitTransition = "width " + ms + "ms";
+    this.element.style.MozTransition = "width " + ms + "ms";
+    this.element.style.OTransition = "width " + ms + "ms";
+    this.element.style.MsTransition = "width " + ms + "ms";
+    this.element.style.Transition = "width " + ms + "ms";
 };
 
 module.exports = LoadingBar;
