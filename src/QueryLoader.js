@@ -68,6 +68,7 @@ QueryLoader.prototype.createOverlay = function () {
     this.overlay.idName = this.options.overlayId;
     this.overlay.backgroundColor = this.options.backgroundColor;
     this.overlay.barHeight = this.options.barHeight;
+    this.overlay.barColor = this.options.barColor;
     this.overlay.showPercentage = this.options.percentage;
     this.overlay.fadeOuttime = this.options.fadeOutTime;
 
