@@ -71,7 +71,9 @@ QueryLoader.prototype.createOverlay = function () {
     this.overlay.showPercentage = this.options.percentage;
     this.overlay.fadeOuttime = this.options.fadeOutTime;
 
-    this.overlay.init();
+    if (typeof this.element !== "undefined") {
+        this.overlay.init();
+    }
 };
 
 QueryLoader.prototype.createPreloader = function () {
