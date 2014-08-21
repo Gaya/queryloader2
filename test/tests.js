@@ -303,14 +303,21 @@ describe('ImagePreloader', function() {
     });
 
     describe('#hasGradient()', function () {
+        var ip = new ImagePreloader();
+
         it('should check if given url has a gradient', function () {
-            assert.equal(false, true);
+            assert.equal(false, ip.hasGradient("hasnogradienthere.png"));
+            assert.equal(false, ip.hasGradient("grasdfsadg"));
+            assert.equal(true, ip.hasGradient("linear-gradient(left, #fff, #fff)"));
         });
     });
 
     describe('#stripUrl()', function () {
+        var ip = new ImagePreloader();
+
         it('should strip the url() part from given src', function () {
-            assert.equal(false, true);
+            assert.equal(-1, ip.stripUrl("url(this/path/file.png)").indexOf("url"));
+            assert.equal(-1, ip.stripUrl("file.png").indexOf("url"));
         });
     });
 });
