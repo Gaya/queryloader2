@@ -6,6 +6,7 @@ function QueryLoader(element, options) {
     this.element = element;
     this.options = options;
     this.done = false;
+    this.maxTimeout = null;
 
     //The default options
     this.defaultOptions = {
@@ -16,9 +17,9 @@ function QueryLoader(element, options) {
         barHeight: 1,
         percentage: false,
         deepSearch: true,
-        minimumTime: 500,
+        minimumTime: 300,
         maxTime: 10000,
-        fadeOutTime: 300
+        fadeOutTime: 1000
     };
 
     //children
@@ -37,6 +38,7 @@ QueryLoader.prototype.init = function () {
     if (typeof this.element !== "undefined") {
         this.createOverlay();
         this.createPreloader();
+        this.startMaxTimeout();
     }
 };
 
@@ -53,6 +55,11 @@ QueryLoader.prototype.extend = function (base, adding) {
     }
 
     return base;
+};
+
+QueryLoader.prototype.startMaxTimeout = function () {
+    "use strict";
+    this.maxTimeout = window.setTimeout(this.doneLoading.bind(this), this.options.maxTime);
 };
 
 QueryLoader.prototype.createOverlay = function () {
@@ -73,12 +80,15 @@ QueryLoader.prototype.updateProgress = function (done, total) {
     this.overlay.updateProgress(((done / total) * 100), this.options.minimumTime);
 
     if (done === total && this.done === false) {
-        this.doneLoading();
+        window.clearTimeout(this.maxTimeout);
+        window.setTimeout(this.doneLoading.bind(this), this.options.minimumTime);
     }
 };
 
 QueryLoader.prototype.doneLoading = function () {
     "use strict";
+    window.clearTimeout(this.maxTimeout);
+    this.done = true;
     this.overlay.element.style.opacity = 0;
 };
 
