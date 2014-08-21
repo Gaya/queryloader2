@@ -9,6 +9,7 @@ function Overlay(parentElement) {
     this.loadingBar = null;
     this.percentage = null;
     this.backgroundColor = "#000";
+    this.fadeOutTime = 300;
 }
 
 Overlay.prototype.init = function () {
@@ -44,6 +45,12 @@ Overlay.prototype.applyStyling = function () {
     this.element.style.zIndex = 666999; //very HIGH
     this.element.style.top = "0";
     this.element.style.left = "0";
+
+    this.element.style.WebkitTransition = "opacity " + this.fadeOutTime + "ms";
+    this.element.style.MozTransition = "opacity " + this.fadeOutTime + "ms";
+    this.element.style.OTransition = "opacity " + this.fadeOutTime + "ms";
+    this.element.style.MsTransition = "opacity " + this.fadeOutTime + "ms";
+    this.element.style.Transition = "opacity " + this.fadeOutTime + "ms";
 };
 
 Overlay.prototype.calculatePosition = function () {
