@@ -10,6 +10,7 @@ function Overlay(parentElement) {
     this.loadingBar = null;
     this.percentage = null;
     this.backgroundColor = "#000";
+    this.barHeight = 1;
     this.fadeOutTime = 300;
 }
 
