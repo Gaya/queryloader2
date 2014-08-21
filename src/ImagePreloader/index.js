@@ -22,6 +22,13 @@ ImagePreloader.prototype.getImages = function (element) {
 
 ImagePreloader.prototype.findImageInElement = function (element) {
     "use strict";
+    var urlType = this.determineUrlAndType(element);
+    var url = urlType.url;
+    var type = urlType.type;
+};
+
+ImagePreloader.prototype.determineUrlAndType = function (element) {
+    "use strict";
     var url = "";
     var type = "normal";
 
@@ -33,6 +40,11 @@ ImagePreloader.prototype.findImageInElement = function (element) {
         //if is img and has src
         url = element.getAttribute("src");
     }
+
+    return {
+        url: url,
+        type: type
+    };
 };
 
 ImagePreloader.prototype.hasGradient = function (url) {
