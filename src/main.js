@@ -1,3 +1,4 @@
+require('./Polyfills/');
 var QueryLoader2 = require('./QueryLoader.js');
 
 //jquery and zepto
