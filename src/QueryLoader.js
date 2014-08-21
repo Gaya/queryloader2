@@ -69,6 +69,7 @@ QueryLoader.prototype.createOverlay = function () {
     this.overlay.backgroundColor = this.options.backgroundColor;
     this.overlay.barHeight = this.options.barHeight;
     this.overlay.showPercentage = this.options.percentage;
+    this.overlay.fadeOuttime = this.options.fadeOutTime;
 
     this.overlay.init();
 };
