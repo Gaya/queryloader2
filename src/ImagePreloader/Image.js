@@ -1,4 +1,4 @@
-var imagesLoaded = require('image-loaded');
+var ImageLoaded = require('./ImageLoaded.js');
 
 function Image(src) {
     'use strict';
@@ -18,7 +18,7 @@ Image.prototype.create = function () {
 
 Image.prototype.preload = function (cb) {
     'use strict';
-    imagesLoaded(this.element, function(err, alreadyLoaded) {
+    ImageLoaded(this.element, function(err, alreadyLoaded) {
         cb(err, alreadyLoaded);
     });
 };

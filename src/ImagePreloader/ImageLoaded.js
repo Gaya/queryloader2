@@ -1,0 +1,45 @@
+/*
+ * Modified version of http://github.com/desandro/imagesloaded v2.1.1
+ * MIT License. by Paul Irish et al.
+ */
+
+var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=='
+
+function loaded(image, callback) {
+    var src
+        , old
+        , onload
+
+    if (!image.nodeName) return callback(new Error('First argument must be an image element'))
+    if (image.nodeName.toLowerCase() !== 'img') return callback(new Error('Element supplied is not an image'))
+    if (image.src  && image.complete && image.naturalWidth !== undefined) return callback(null, true)
+
+    old = !image.addEventListener
+
+    function loaded() {
+        if (old) {
+            image.detachEvent('onload', loaded)
+            image.detachEvent('onerror', loaded)
+        } else {
+            image.removeEventListener('load', loaded, false)
+            image.removeEventListener('error', loaded, false)
+        }
+        callback(null, false)
+    }
+
+    if (old) {
+        image.attachEvent('onload', loaded)
+        image.attachEvent('onerror', loaded)
+    } else {
+        image.addEventListener('load', loaded, false)
+        image.addEventListener('error', loaded, false)
+    }
+
+    if (image.readyState || image.complete) {
+        src = image.src
+        image.src = BLANK
+        image.src = src
+    }
+}
+
+module.exports = loaded
