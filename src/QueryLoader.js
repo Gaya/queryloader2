@@ -35,10 +35,7 @@ QueryLoader.prototype.init = function () {
 
     if (typeof this.element !== "undefined") {
         this.createOverlay();
-        this.overlay.init();
-
         this.createPreloader();
-        this.preloader.findAndPreload(this.element);
     }
 };
 
@@ -60,11 +57,14 @@ QueryLoader.prototype.extend = function (base, adding) {
 QueryLoader.prototype.createOverlay = function () {
     'use strict';
     this.overlay = new Overlay(this.element);
+    this.overlay.init();
 };
 
 QueryLoader.prototype.createPreloader = function () {
     'use strict';
     this.preloader = new ImagePreloader(this);
+
+    this.preloader.findAndPreload(this.element);
 };
 
 QueryLoader.prototype.updateProgress = function (done, total) {
