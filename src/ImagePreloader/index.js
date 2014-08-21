@@ -4,6 +4,7 @@ function ImagePreloader() {
     "use strict";
     this.sources = [];
     this.images = [];
+    this.loaded = 0;
     this.deepSearch = true;
 }
 
@@ -30,8 +31,16 @@ ImagePreloader.prototype.findAndPreload = function () {
 
     for (var i = 0; i < this.sources.length; i++) {
         var image = new Image(this.sources[i]);
-        this.images.push();
+        image.preload(this.imageLoaded.bind(this));
+        this.images.push(image);
     }
+};
+
+ImagePreloader.prototype.imageLoaded = function () {
+    "use strict";
+    this.loaded++;
+
+    console.log(this.sources.length, this.loaded);
 };
 
 ImagePreloader.prototype.findImageInElement = function (element) {
