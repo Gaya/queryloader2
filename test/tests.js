@@ -301,4 +301,16 @@ describe('ImagePreloader', function() {
             assert.equal(false, true);
         });
     });
+
+    describe('#hasGradient()', function () {
+        it('should check if given url has a gradient', function () {
+            assert.equal(false, true);
+        });
+    });
+
+    describe('#stripUrl()', function () {
+        it('should strip the url() part from given src', function () {
+            assert.equal(false, true);
+        });
+    });
 });
