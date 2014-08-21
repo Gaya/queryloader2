@@ -18,13 +18,29 @@ ImagePreloader.prototype.getImages = function (element) {
             }
         }
     }
+
+    return this.images;
 };
 
 ImagePreloader.prototype.findImageInElement = function (element) {
     "use strict";
     var urlType = this.determineUrlAndType(element);
-    var url = urlType.url;
-    var type = urlType.type;
+
+    //skip if gradient
+    if (!this.hasGradient(urlType.url)) {
+        //remove unwanted chars
+        urlType.url = this.stripUrl(urlType.url);
+
+        //split urls
+        var urls = urlType.url.split(", ");
+
+        for (var i = 0; i < urls.length; i++) {
+            if (this.validUrl(urls[i]) && this.urlIsNew(urls[i])) {
+                //add image to found list
+                this.images.push(urls[i]);
+            }
+        }
+    }
 };
 
 ImagePreloader.prototype.determineUrlAndType = function (element) {
@@ -60,6 +76,20 @@ ImagePreloader.prototype.stripUrl = function (url) {
     url = url.replace(/\)/g, "");
 
     return url;
+};
+
+ImagePreloader.prototype.validUrl = function (url) {
+    "use strict";
+    if (url.length > 0 && !url.match(/^(data:)/i)) {
+        return true;
+    } else {
+        return false;
+    }
+};
+
+ImagePreloader.prototype.urlIsNew = function (url) {
+    "use strict";
+    return this.images.indexOf(url) === -1;
 };
 
 module.exports = ImagePreloader;
