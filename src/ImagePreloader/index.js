@@ -37,7 +37,7 @@ ImagePreloader.prototype.findImageInElement = function (element) {
 
 ImagePreloader.prototype.hasGradient = function (url) {
     "use strict";
-    return url.indexOf("gradient") !== -1;
+    return url.indexOf("gradient(") !== -1;
 };
 
 ImagePreloader.prototype.stripUrl = function (url) {
