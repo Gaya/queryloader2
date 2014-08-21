@@ -76,6 +76,7 @@ QueryLoader.prototype.createOverlay = function () {
 QueryLoader.prototype.createPreloader = function () {
     'use strict';
     this.preloader = new ImagePreloader(this);
+    this.preloader.deepSearch = this.options.deepSearch;
 
     this.preloader.findAndPreload(this.element);
 };
