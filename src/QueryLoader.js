@@ -67,6 +67,7 @@ QueryLoader.prototype.createOverlay = function () {
     this.overlay = new Overlay(this.element);
     this.overlay.idName = this.options.overlayId;
     this.overlay.backgroundColor = this.options.backgroundColor;
+    this.overlay.barHeight = this.options.barHeight;
 
     this.overlay.init();
 };
