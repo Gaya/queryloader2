@@ -68,6 +68,7 @@ QueryLoader.prototype.createOverlay = function () {
     this.overlay.idName = this.options.overlayId;
     this.overlay.backgroundColor = this.options.backgroundColor;
     this.overlay.barHeight = this.options.barHeight;
+    this.overlay.showPercentage = this.options.percentage;
 
     this.overlay.init();
 };

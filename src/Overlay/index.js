@@ -12,6 +12,7 @@ function Overlay(parentElement) {
     this.backgroundColor = "#000";
     this.barHeight = 1;
     this.fadeOutTime = 300;
+    this.showPercentage = false;
 }
 
 Overlay.prototype.init = function () {
@@ -23,9 +24,11 @@ Overlay.prototype.init = function () {
     this.loadingBar.create();
     this.element.appendChild(this.loadingBar.element);
 
-    this.percentage = new Percentage();
-    this.percentage.create();
-    this.element.appendChild(this.percentage.element);
+    if (this.showPercentage) {
+        this.percentage = new Percentage();
+        this.percentage.create();
+        this.element.appendChild(this.percentage.element);
+    }
 
     this.parentElement.appendChild(this.element);
 };
