@@ -5,6 +5,7 @@ function QueryLoader(element, options) {
     'use strict';
     this.element = element;
     this.options = options;
+    this.done = false;
 
     //The default options
     this.defaultOptions = {
@@ -16,6 +17,7 @@ function QueryLoader(element, options) {
         percentage: false,
         deepSearch: true,
         minimumTime: 500,
+        maxTime: 10000,
         fadeOutTime: 300
     };
 
@@ -70,7 +72,7 @@ QueryLoader.prototype.updateProgress = function (done, total) {
     "use strict";
     this.overlay.updateProgress(((done / total) * 100), this.options.minimumTime);
 
-    if (done === total) {
+    if (done === total && this.done === false) {
         this.doneLoading();
     }
 };
@@ -78,7 +80,6 @@ QueryLoader.prototype.updateProgress = function (done, total) {
 QueryLoader.prototype.doneLoading = function () {
     "use strict";
     this.overlay.element.style.opacity = 0;
-    
 };
 
 module.exports = QueryLoader;
