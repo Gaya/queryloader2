@@ -65,6 +65,8 @@ QueryLoader.prototype.startMaxTimeout = function () {
 QueryLoader.prototype.createOverlay = function () {
     'use strict';
     this.overlay = new Overlay(this.element);
+    this.overlay.idName = this.options.overlayId;
+
     this.overlay.init();
 };
 
