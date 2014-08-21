@@ -89,7 +89,10 @@ QueryLoader.prototype.doneLoading = function () {
     "use strict";
     window.clearTimeout(this.maxTimeout);
     this.done = true;
+
     this.overlay.element.style.opacity = 0;
+    
+    window.setTimeout(this.options.onComplete, this.options.fadeOutTime);
 };
 
 module.exports = QueryLoader;
