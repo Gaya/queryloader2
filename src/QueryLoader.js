@@ -33,7 +33,7 @@ function QueryLoader(element, options) {
 
 QueryLoader.prototype.init = function () {
     'use strict';
-    this.extend(this.defaultOptions, this.options);
+    this.options = this.extend(this.defaultOptions, this.options);
 
     if (typeof this.element !== "undefined") {
         this.createOverlay();
@@ -99,7 +99,15 @@ QueryLoader.prototype.doneLoading = function () {
 
     this.overlay.element.style.opacity = 0;
 
-    window.setTimeout(this.options.onComplete, this.options.fadeOutTime);
+    window.setTimeout(this.destroy.bind(this), this.options.fadeOutTime);
+};
+
+QueryLoader.prototype.destroy = function () {
+    "use strict";
+    this.overlay.remove();
+    this.preloader.remove();
+    
+    this.options.onComplete();
 };
 
 module.exports = QueryLoader;
