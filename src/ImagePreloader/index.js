@@ -2,12 +2,14 @@ var Image = require('./Image.js');
 
 function ImagePreloader() {
     "use strict";
+    this.sources = [];
+    this.images = [];
     this.deepSearch = true;
 }
 
-ImagePreloader.prototype.getImages = function (element) {
+ImagePreloader.prototype.getImageSrcs = function (element) {
     "use strict";
-    this.images = [];
+    this.sources = [];
     this.findImageInElement(element);
 
     if (this.deepSearch === true) {
@@ -20,6 +22,16 @@ ImagePreloader.prototype.getImages = function (element) {
     }
 
     return this.images;
+};
+
+ImagePreloader.prototype.findAndPreload = function () {
+    "use strict";
+    this.sources = this.getImageSrcs();
+
+    for (var i = 0; i < this.sources.length; i++) {
+        var image = new Image(this.sources[i]);
+        this.images.push();
+    }
 };
 
 ImagePreloader.prototype.findImageInElement = function (element) {
@@ -36,8 +48,15 @@ ImagePreloader.prototype.findImageInElement = function (element) {
 
         for (var i = 0; i < urls.length; i++) {
             if (this.validUrl(urls[i]) && this.urlIsNew(urls[i])) {
+                var extra = "";
+
+                if (this.isIE() || this.isOpera()){
+                    //filthy always no cache for IE, sorry peeps!
+                    extra = "?rand=" + Math.random();
+                }
+
                 //add image to found list
-                this.images.push(urls[i]);
+                this.sources.push(urls[i] + extra);
             }
         }
     }
@@ -89,7 +108,17 @@ ImagePreloader.prototype.validUrl = function (url) {
 
 ImagePreloader.prototype.urlIsNew = function (url) {
     "use strict";
-    return this.images.indexOf(url) === -1;
+    return this.sources.indexOf(url) === -1;
+};
+
+ImagePreloader.prototype.isIE = function () {
+    "use strict";
+    return navigator.userAgent.match(/msie/i);
+};
+
+ImagePreloader.prototype.isOpera = function () {
+    "use strict";
+    return navigator.userAgent.match(/Opera/i);
 };
 
 module.exports = ImagePreloader;

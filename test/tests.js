@@ -259,7 +259,7 @@ describe('QueryLoader', function() {
 
 describe('ImagePreloader', function() {
     "use strict";
-    describe('#getImages()', function () {
+    describe('#getImageSrcs()', function () {
         var ip = new ImagePreloader();
 
         var fakeImagesContainer = document.createElement("div");
@@ -281,20 +281,12 @@ describe('ImagePreloader', function() {
         fakeImagesContainer.appendChild(img4);
 
         it('should get all images within the given element', function () {
-            var images = ip.getImages(fakeImagesContainer);
+            var images = ip.getImageSrcs(fakeImagesContainer);
 
             assert.equal(3, images.length);
             assert.notEqual(-1, images[0].indexOf("fakeimg1.png"));
             assert.notEqual(-1, images[1].indexOf("fakeimg2.png"));
             assert.notEqual(-1, images[2].indexOf("fakeimg3.png"));
-        });
-    });
-
-    describe('#findAndPreload()', function () {
-        var ip = new ImagePreloader();
-
-        it('should find all images and start preloading', function () {
-            assert.equal(false, true);
         });
     });
 
@@ -337,7 +329,7 @@ describe('ImagePreloader', function() {
 
     describe('#urlIsNew()', function () {
         var ip = new ImagePreloader();
-        ip.images = ["test.png", "something.png", "image.jpg"];
+        ip.sources = ["test.png", "something.png", "image.jpg"];
 
         it('should check if given url is new in this.images', function () {
             assert.equal(false, ip.urlIsNew("image.jpg"));
