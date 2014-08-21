@@ -1,7 +1,8 @@
 var Image = require('./Image.js');
 
-function ImagePreloader() {
+function ImagePreloader(parent) {
     "use strict";
+    this.parent = parent;
     this.sources = [];
     this.images = [];
     this.loaded = 0;
@@ -43,11 +44,16 @@ ImagePreloader.prototype.findAndPreload = function (element) {
     }
 };
 
-ImagePreloader.prototype.imageLoaded = function (err, alreadyLoaded) {
+ImagePreloader.prototype.imageLoaded = function () {
     "use strict";
     this.loaded++;
 
-    console.log(this.sources, this.loaded, err, alreadyLoaded);
+    this.updateProgress();
+};
+
+ImagePreloader.prototype.updateProgress = function () {
+    "use strict";
+    this.parent.updateProgress(this.loaded, this.sources.length);
 };
 
 ImagePreloader.prototype.findImageInElement = function (element) {

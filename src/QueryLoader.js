@@ -59,7 +59,7 @@ QueryLoader.prototype.createOverlay = function () {
 
 QueryLoader.prototype.createPreloader = function () {
     'use strict';
-    this.preloader = new ImagePreloader(this.element);
+    this.preloader = new ImagePreloader(this);
 };
 
 module.exports = QueryLoader;
