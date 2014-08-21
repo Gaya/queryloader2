@@ -1,6 +1,6 @@
 var ql = new QueryLoader2(document.querySelector("body"), {
-    barColor: "#00ff00",
-    backgroundColor: "#000000",
+    barColor: "#efefef",
+    backgroundColor: "#111",
     percentage: true,
     barHeight: 1,
     minimumTime: 200,
