@@ -33,8 +33,13 @@ QueryLoader.prototype.init = function () {
     'use strict';
     this.extend(this.options, this.defaultOptions);
 
-    this.createPreloader();
-    this.preloader.findAndPreload(this.element);
+    if (typeof this.element !== "undefined") {
+        this.createOverlay();
+        this.overlay.init();
+
+        this.createPreloader();
+        this.preloader.findAndPreload(this.element);
+    }
 };
 
 QueryLoader.prototype.extend = function (base, adding) {
@@ -60,6 +65,11 @@ QueryLoader.prototype.createOverlay = function () {
 QueryLoader.prototype.createPreloader = function () {
     'use strict';
     this.preloader = new ImagePreloader(this);
+};
+
+QueryLoader.prototype.updateProgress = function (done, total) {
+    "use strict";
+    this.overlay.updateProgress(((done / total) * 100), this.options.minimumTime);
 };
 
 module.exports = QueryLoader;

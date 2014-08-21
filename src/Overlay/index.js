@@ -11,6 +11,12 @@ function Overlay(parentElement) {
     this.backgroundColor = "#000";
 }
 
+Overlay.prototype.init = function () {
+    "use strict";
+    this.create();
+    this.parentElement.appendChild(this.element);
+};
+
 Overlay.prototype.create = function () {
     'use strict';
     this.element = document.createElement("div");
