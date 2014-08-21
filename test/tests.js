@@ -290,14 +290,6 @@ describe('ImagePreloader', function() {
         });
     });
 
-    describe('#updateProgess()', function () {
-        var ip = new ImagePreloader();
-
-        it('should update the loading progress', function () {
-            assert.equal(false, true);
-        });
-    });
-
     describe('#hasGradient()', function () {
         var ip = new ImagePreloader();
 
