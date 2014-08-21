@@ -105,8 +105,7 @@ QueryLoader.prototype.doneLoading = function () {
 QueryLoader.prototype.destroy = function () {
     "use strict";
     this.overlay.remove();
-    this.preloader.remove();
-    
+
     this.options.onComplete();
 };
 

@@ -86,4 +86,9 @@ Overlay.prototype.updateProgress = function (percentage, time) {
     }
 };
 
+Overlay.prototype.remove = function () {
+    "use strict";
+    this.element.parentNode.removeChild(this.element);
+};
+
 module.exports = Overlay;
