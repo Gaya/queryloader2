@@ -19,16 +19,16 @@ Include the `queryloader2.min.js` script (which is in the root of this repositor
 Create a QueryLoader2 object like this for example:
 
 	<script type="text/javascript">
-	window.addEventListener('DOMContentLoaded', function() {
-		new QueryLoader2(document.querySelector("body"), {
-        		barColor: "#efefef",
-        		backgroundColor: "#111",
-        		percentage: true,
-        		barHeight: 1,
-        		minimumTime: 200,
-        		fadeOutTime: 1000
-    		});
-	});
+        window.addEventListener('DOMContentLoaded', function() {
+            new QueryLoader2(document.querySelector("body"), {
+                barColor: "#efefef",
+                backgroundColor: "#111",
+                percentage: true,
+                barHeight: 1,
+                minimumTime: 200,
+                fadeOutTime: 1000
+            });
+        });
 	</script>
 
 Use with NPM / Browserify
@@ -42,13 +42,13 @@ Use it in a node / browserify project:
 	var QueryLoader2 = require("queryloader2");
 
 	var loader = new QueryLoader2(document.querySelector("body"), {
-        	barColor: "#efefef",
-        	backgroundColor: "#111",
-        	percentage: true,
-        	barHeight: 1,
-        	minimumTime: 200,
-        	fadeOutTime: 1000
-    	});
+        barColor: "#efefef",
+        backgroundColor: "#111",
+        percentage: true,
+        barHeight: 1,
+        minimumTime: 200,
+        fadeOutTime: 1000
+    });
 
 jQuery usage
 ------------
