@@ -10,7 +10,7 @@ var gulp = require('gulp'),
 var config = {
     src: 'src',
     dist: 'dist',
-    build: 'build',
+    build: '',
     test: 'test'
 };
 var pkg = require('./package.json');
