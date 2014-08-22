@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>QueryLoader v2 Demo - Gaya Design</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+        
+        <link href="css/style.css" rel="stylesheet" type="text/css" />
+        <link href="mocha/mocha.css" rel="stylesheet" type="text/css" />
+
+        <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+        <script src="queryloader2.js" type="text/javascript"></script>
+
+        <script>
+            $(document).ready(function () {
+                $("body").queryLoader2({
+                    barColor:"#6e6d73",
+                    backgroundColor:"#fff1b0",
+                    percentage:true,
+                    barHeight:30
+                });
+            });
+        </script>
+    </head>
+
+    <body>
+        <div id="content">
+            <h1>QueryLoader v2 demo page</h1>
+
+            <p>
+            	This was a simple demo of what QueryLoader2 does: Giving a simple loading overlay
+            	before showing the webpage.
+            </p>
+
+            <p>
+            	<a href="http://www.gayadesign.com/diy/queryloader2-preload-your-images-with-ease/">
+            		Go back to the post
+            	</a>
+            </p>
+
+            <ul>
+                <li>
+                    <img src="images/Dali_Swans_Reflecting_Elephants.jpg" alt="" />
+                </li>
+                <li>
+                    <img src="images/hokusai_1680_1050.jpg" alt="" />
+                </li>
+                <li>
+                    <img src="images/johnbaizley_Tat.jpg" alt="" />
+                </li>
+                <li class="gradient">
+                    Gradient test
+                </li>
+                <li>
+                    Non existant
+                    <img src="images/404nonexistant.jpg" alt="" />
+                </li>
+            </ul>
+        </div>
+
+        <div id="mocha"></div>
+        <script src="mocha/mocha.js"></script>
+        <script>mocha.setup('bdd')</script>
+        <script src="queryloader2-tests.js"></script>
+        <script>
+            if (window.mochaPhantomJS) {
+                mochaPhantomJS.run();
+            } else {
+                mocha.run();
+            }
+        </script>
+    </body>
+</html>
