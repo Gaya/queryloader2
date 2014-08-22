@@ -50,8 +50,9 @@ gulp.task('browser-sync', function() {
     });
 });
 
-gulp.task('serve-test', ['browserify', 'browserify-tests', 'browser-sync'], function () {
+gulp.task('serve-test', ['browserify', 'browserify-tests'], function () {
     'use strict';
+    gulp.start('browser-sync');
     gulp.watch(config.test + "/*.js", ['browserify', 'browserify-tests']);
     gulp.watch(config.src + "/**/*.js", ['browserify', 'browserify-tests']);
 });
