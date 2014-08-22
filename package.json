@@ -6,6 +6,8 @@
     "browserify": "^4.2.3",
     "gulp": "^3.8.6",
     "gulp-mocha-phantomjs": "^0.3.0",
+    "gulp-rename": "^1.2.0",
+    "gulp-uglify": "^0.3.1",
     "gulp-watch": "^0.6.8",
     "mocha": "^1.21.3",
     "vinyl-source-stream": "^0.1.1"
