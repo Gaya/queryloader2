@@ -4,7 +4,8 @@ var gulp = require('gulp'),
     mochaPhantomJS = require('gulp-mocha-phantomjs'),
     browserSync = require('browser-sync'),
     uglify = require('gulp-uglify'),
-    rename = require("gulp-rename");
+    rename = require("gulp-rename"),
+    header = require("gulp-header");
 
 var config = {
     src: 'src',
@@ -57,8 +58,28 @@ gulp.task('serve-test', ['browserify', 'browserify-tests', 'browser-sync'], func
 
 gulp.task('build', ['browserify'], function () {
     "use strict";
+    var headerText =
+        "/*\n" +
+        " * QueryLoader v2 - A simple script to create a preloader for images\n" +
+        " *\n" +
+        " * For instructions read the original post:\n" +
+        " * http://www.gayadesign.com/diy/queryloader2-preload-your-images-with-ease/\n" +
+        " *\n" +
+        " * Copyright (c) 2011 - Gaya Kessler\n" +
+        " *\n" +
+        " * Licensed under the MIT license:\n" +
+        " * http://www.opensource.org/licenses/mit-license.php\n" +
+        " *\n" +
+        " * Version: <%= version %>\n" +
+        " * Last update: <%= date %>\n" +
+        " */\n";
+
     gulp.src(config.dist + '/' + pkg.name + '.js')
         .pipe(uglify())
         .pipe(rename(pkg.name + '.min.js'))
+        .pipe(header(headerText, {
+            version: pkg.version,
+            date: new Date().toJSON().slice(0,10)
+        }))
         .pipe(gulp.dest(config.build));
 });
