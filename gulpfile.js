@@ -60,7 +60,7 @@ gulp.task('build', ['browserify'], function () {
     "use strict";
     var headerText =
         "/*\n" +
-        " * QueryLoader v2 - A simple script to create a preloader for images\n" +
+        " * QueryLoader2 - A simple script to create a preloader for images\n" +
         " *\n" +
         " * For instructions read the original post:\n" +
         " * http://www.gayadesign.com/diy/queryloader2-preload-your-images-with-ease/\n" +
@@ -68,7 +68,7 @@ gulp.task('build', ['browserify'], function () {
         " * Copyright (c) 2011 - Gaya Kessler\n" +
         " *\n" +
         " * Licensed under the MIT license:\n" +
-        " * http://www.opensource.org/licenses/mit-license.php\n" +
+        " *   http://www.opensource.org/licenses/mit-license.php\n" +
         " *\n" +
         " * Version: <%= version %>\n" +
         " * Last update: <%= date %>\n" +
