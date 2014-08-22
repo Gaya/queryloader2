@@ -2,7 +2,9 @@ var gulp = require('gulp'),
     browserify = require('browserify'),
     source = require('vinyl-source-stream'),
     mochaPhantomJS = require('gulp-mocha-phantomjs'),
-    browserSync = require('browser-sync');
+    browserSync = require('browser-sync'),
+    uglify = require('gulp-uglify'),
+    rename = require("gulp-rename");
 
 var config = {
     src: 'src',
@@ -51,4 +53,12 @@ gulp.task('serve-test', ['browserify', 'browserify-tests', 'browser-sync'], func
     'use strict';
     gulp.watch(config.test + "/*.js", ['browserify', 'browserify-tests']);
     gulp.watch(config.src + "/**/*.js", ['browserify', 'browserify-tests']);
+});
+
+gulp.task('build', ['browserify'], function () {
+    "use strict";
+    gulp.src(config.dist + '/' + pkg.name + '.js')
+        .pipe(uglify())
+        .pipe(rename(pkg.name + '.min.js'))
+        .pipe(gulp.dest(config.build));
 });
