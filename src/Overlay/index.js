@@ -40,7 +40,7 @@ Overlay.prototype.create = function () {
     'use strict';
     this.element = (document.querySelector("#" + this.idName) || document.createElement("div"));
     this.element.setAttribute("class", this.className);
-    this.element.setAttribute("id", this.qLoverlay);
+    this.element.setAttribute("id", this.idName);
     this.applyStyling();
 };
 
