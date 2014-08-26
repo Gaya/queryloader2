@@ -280,13 +280,18 @@ describe('ImagePreloader', function() {
         img4.style.backgroundImage = "linear-gradient(left, #fff, #eee)";
         fakeImagesContainer.appendChild(img4);
 
+        var img5 = document.createElement("section");
+        img5.style.background = "url(fakeimg5.png)";
+        fakeImagesContainer.appendChild(img5);
+
         it('should get all images within the given element', function () {
             var images = ip.getImageSrcs(fakeImagesContainer);
 
-            assert.equal(3, images.length);
+            assert.equal(4, images.length);
             assert.notEqual(-1, images[0].indexOf("fakeimg1.png"));
             assert.notEqual(-1, images[1].indexOf("fakeimg2.png"));
             assert.notEqual(-1, images[2].indexOf("fakeimg3.png"));
+            assert.notEqual(-1, images[3].indexOf("fakeimg5.png"));
         });
     });
 

@@ -40,6 +40,10 @@ body #content ul li {
     text-align: center;
 }
 
+body #content ul li.baizley {
+    background: url(../images/johnbaizley_Tat.jpg);
+}
+
 body #content ul li.gradient {
     padding: 20px;
     width: 360px;
