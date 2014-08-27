@@ -1,191 +1,115 @@
-function QueryLoader2(element, options) {
-	this.element = element;
-    this.$element = $(element);
-	this.options = options;
-    this.foundUrls = [];
-    this.destroyed = false;
-    this.imageCounter = 0;
-    this.imageDone = 0;
-	this.alreadyLoaded = false;
+var ImagePreloader = require('./ImagePreloader/');
+var Overlay = require('./Overlay/');
 
-	//create objects
-    this.preloadContainer = new PreloadContainer(this);
-	this.overlayLoader = new OverlayLoader(this);
+function QueryLoader(element, options) {
+    'use strict';
+    this.element = element;
+    this.options = options;
+    this.done = false;
+    this.maxTimeout = null;
 
-	//The default options
+    //The default options
     this.defaultOptions = {
         onComplete: function() {},
-		onLoadComplete: function() {},
         backgroundColor: "#000",
         barColor: "#fff",
         overlayId: 'qLoverlay',
         barHeight: 1,
         percentage: false,
         deepSearch: true,
-        completeAnimation: "fade",
-        minimumTime: 500
+        minimumTime: 300,
+        maxTime: 10000,
+        fadeOutTime: 1000
     };
 
-	//run the init
-	this.init();
+    //children
+    this.overlay = null;
+    this.preloader = null;
+
+    if (element !== null) {
+        this.init();
+    }
+}
+
+QueryLoader.prototype.init = function () {
+    'use strict';
+    this.options = this.extend(this.defaultOptions, this.options);
+
+    if (typeof this.element !== "undefined") {
+        this.createOverlay();
+        this.createPreloader();
+        this.startMaxTimeout();
+    }
 };
 
-QueryLoader2.prototype.init = function() {
-	console.log("Initialising QueryLoader2 for", this.element);
+QueryLoader.prototype.extend = function (base, adding) {
+    'use strict';
+    if (typeof base === "undefined") {
+        base = {};
+    }
 
-	console.log("Setting the options");
-	this.options = $.extend({}, this.defaultOptions, this.options);
-
-    console.log("Looking for images in", this.element);
-    var images = this.findImageInElement(this.element);
-    if (this.options.deepSearch == true) {
-        console.log("Deep searching for images in", this.element);
-        var elements = this.$element.find("*:not(script)");
-        for (var i = 0; i < elements.length; i++) {
-            this.findImageInElement(elements[i]);
+    for (var property in adding) {
+        if (adding.hasOwnProperty(property)) {
+            base[property] = adding[property];
         }
     }
 
-    //create containers
-    this.preloadContainer.create();
-	this.overlayLoader.createOverlay();
+    return base;
 };
 
-QueryLoader2.prototype.findImageInElement = function (element) {
-    var url = "";
-    var obj = $(element);
-    var type = "normal";
+QueryLoader.prototype.startMaxTimeout = function () {
+    "use strict";
+    this.maxTimeout = window.setTimeout(this.doneLoading.bind(this), this.options.maxTime);
+};
 
-    if (obj.css("background-image") != "none") {
-        //if object has background image
-        url = obj.css("background-image");
-        type = "background";
-    } else if (typeof(obj.attr("src")) != "undefined" && element.nodeName.toLowerCase() == "img") {
-        //if is img and has src
-        url = obj.attr("src");
-    }
+QueryLoader.prototype.createOverlay = function () {
+    'use strict';
+    this.overlay = new Overlay(this.element);
+    this.overlay.idName = this.options.overlayId;
+    this.overlay.backgroundColor = this.options.backgroundColor;
+    this.overlay.barHeight = this.options.barHeight;
+    this.overlay.barColor = this.options.barColor;
+    this.overlay.showPercentage = this.options.percentage;
+    this.overlay.fadeOuttime = this.options.fadeOutTime;
 
-    //skip if gradient
-    if (!this.hasGradient(url)) {
-        //remove unwanted chars
-        url = this.stripUrl(url);
-
-        //split urls
-        var urls = url.split(", ");
-
-        for (var i = 0; i < urls.length; i++) {
-            if (this.validUrl(urls[i]) && this.urlIsNew(urls[i])) {
-                console.log("Found " + urls[i]);
-                var extra = "";
-
-                if (this.isIE() || this.isOpera()){
-                    //filthy always no cache for IE, sorry peeps!
-                    extra = "?rand=" + Math.random();
-
-                    //add to preloader
-                    this.preloadContainer.addImage(urls[i] + extra);
-                } else {
-                    if (type == "background") {
-                        //add to preloader
-                        this.preloadContainer.addImage(urls[i] + extra);
-                    } else {
-                        var image = new PreloadImage(this);
-                        image.element = obj;
-                        image.bindLoadEvent();
-                    }
-                }
-
-                //add image to found list
-                this.foundUrls.push(urls[i]);
-            }
-        }
+    if (typeof this.element !== "undefined") {
+        this.overlay.init();
     }
 };
 
-QueryLoader2.prototype.hasGradient = function (url) {
-    if (url.indexOf("gradient") == -1) {
-        return false;
-    } else {
-        return true;
+QueryLoader.prototype.createPreloader = function () {
+    'use strict';
+    this.preloader = new ImagePreloader(this);
+    this.preloader.deepSearch = this.options.deepSearch;
+
+    window.setTimeout(function () { this.preloader.findAndPreload(this.element); }.bind(this), 100);
+};
+
+QueryLoader.prototype.updateProgress = function (done, total) {
+    "use strict";
+    this.overlay.updateProgress(((done / total) * 100), this.options.minimumTime);
+
+    if (done === total && this.done === false) {
+        window.clearTimeout(this.maxTimeout);
+        window.setTimeout(this.doneLoading.bind(this), this.options.minimumTime);
     }
 };
 
-QueryLoader2.prototype.stripUrl = function (url) {
-    url = url.replace(/url\(\"/g, "");
-    url = url.replace(/url\(/g, "");
-    url = url.replace(/\"\)/g, "");
-    url = url.replace(/\)/g, "");
+QueryLoader.prototype.doneLoading = function () {
+    "use strict";
+    window.clearTimeout(this.maxTimeout);
+    this.done = true;
 
-    return url;
+    this.overlay.element.style.opacity = 0;
+
+    window.setTimeout(this.destroy.bind(this), this.options.fadeOutTime);
 };
 
-QueryLoader2.prototype.isIE = function () {
-    return navigator.userAgent.match(/msie/i);
+QueryLoader.prototype.destroy = function () {
+    "use strict";
+    this.overlay.remove();
+
+    this.options.onComplete();
 };
 
-QueryLoader2.prototype.isOpera = function () {
-    return navigator.userAgent.match(/Opera/i);
-};
-
-QueryLoader2.prototype.validUrl = function (url) {
-    if (url.length > 0 && !url.match(/^(data:)/i)) {
-        return true;
-    } else {
-        return false;
-    }
-};
-
-QueryLoader2.prototype.urlIsNew = function (url) {
-    if (this.foundUrls.indexOf(url) == -1) {
-        return true;
-    } else {
-        return false;
-    }
-};
-
-QueryLoader2.prototype.destroyContainers = function () {
-	this.destroyed = true;
-	this.preloadContainer.container.remove();
-	this.overlayLoader.container.remove();
-};
-
-QueryLoader2.prototype.endLoader = function () {
-	console.log("Done preloading");
-
-	this.destroyed = true;
-	this.onLoadComplete();
-};
-
-QueryLoader2.prototype.onLoadComplete = function() {
-	//fire the event before end animation
-	this.options.onLoadComplete();
-
-	if (this.options.completeAnimation == "grow") {
-		var animationTime = this.options.minimumTime;
-
-		this.overlayLoader.loadbar[0].parent = this; //put object in DOM element
-		this.overlayLoader.loadbar.stop().animate({
-			"width": "100%"
-		}, animationTime, function () {
-			$(this).animate({
-				top: "0%",
-				width: "100%",
-				height: "100%"
-			}, 500, function () {
-				this.parent.overlayLoader.container[0].parent = this.parent; //once again...
-				this.parent.overlayLoader.container.fadeOut(500, function () {
-					this.parent.destroyContainers();
-					this.parent.options.onComplete();
-				});
-			});
-		});
-	} else {
-        var animationTime = this.options.minimumTime;
-
-		this.overlayLoader.container[0].parent = this;
-		this.overlayLoader.container.fadeOut(animationTime, function () {
-			this.parent.destroyContainers();
-			this.parent.options.onComplete();
-		});
-	}
-};
+module.exports = QueryLoader;

@@ -1,29 +1,65 @@
-QueryLoader v2
+QueryLoader2
 ==============
+QueryLoader2 is a better version of the old script posted in 2009. It serves the main purpose of preloading the images on your website by showing an overlay and a loading bar. It automatically fetches all your images and background images and preloads them before showing the webpage.
 
-QueryLoader v2 is a better version of the old script posted in 2009. It serves the main purpose of preloading the images on your website by showing an overlay and a loading bar. It automatically fetches all your images and background images and preloads them before showing the webpage.
-QueryLoader currently works with jQuery v1.9 and in IE version > 7, Chrome, Safari and Firefox.
+Compatibility
+-------------
+QueryLoader currently works in IE version 9+, Chrome, Safari and Firefox.
+
+**No dependencies**, so **no** jQuery / Zepto / MooTools needed.
 
 Read the full post here: http://www.gayadesign.com/diy/queryloader2-preload-your-images-with-ease/
 
-How to use
-----------
+Example usage
+-------------
+Include the `queryloader2.min.js` script (which is in the root of this repository) in the head section of your webpage.
 
-Include the script in the head section of your webpage.
+	<script src="queryloader2.min.js" type="text/javascript"></script>
 
-	<script src="path/to/file/jquery.queryloader2.js" type="text/javascript"></script>
+Create a QueryLoader2 object like this for example:
 
-Be sure to add it after you include jQuery.
+	<script type="text/javascript">
+        window.addEventListener('DOMContentLoaded', function() {
+            new QueryLoader2(document.querySelector("body"), {
+                barColor: "#efefef",
+                backgroundColor: "#111",
+                percentage: true,
+                barHeight: 1,
+                minimumTime: 200,
+                fadeOutTime: 1000
+            });
+        });
+	</script>
 
-Now call QueryLoader in a $(document).ready() like this:
+Use with NPM / Browserify
+-------------------------
+First install QueryLoader as a dependency in your project:
+
+	npm install queryloader2 --save-dev
+
+Use it in a node / browserify project:
+
+	var QueryLoader2 = require("queryloader2");
+
+	var loader = new QueryLoader2(document.querySelector("body"), {
+        barColor: "#efefef",
+        backgroundColor: "#111",
+        percentage: true,
+        barHeight: 1,
+        minimumTime: 200,
+        fadeOutTime: 1000
+    });
+
+jQuery usage
+------------
+Include jQuery and `queryloader2.min.js` scripts in the header.
+
+	<script src="https://code.jquery.com/jquery-1.11.1.min.js" type="text/javascript"></script>
+	<script src="queryloader2.min.js" type="text/javascript"></script>
+
+Call QueryLoader in `$(document).ready()` like this:
 
 	$(document).ready(function () {
-		$("body").queryLoader2();
-	});
-	
-For support on iOS devices use the following code:
-
-	window.addEventListener('DOMContentLoaded', function() {
 		$("body").queryLoader2();
 	});
 
@@ -32,59 +68,46 @@ Install using Bower
 
 	bower install queryloader2
 
-Thanks to
----------
-ImagesLoaded by desandro - https://github.com/desandro/imagesloaded
-
 Basic usage
 -----------
 
-    $(selector).queryLoader2(options);
+	QueryLoader2(element, options);
 	
 Options
 -------
 
 **backgroundColor**
-
-(string) background color of the loader (in hex).
+`string` background color of the loader (in hex).
 Default: "#000"
 	
 **barColor**
-
-(string) background color of the bar (in hex).
+`string` background color of the bar (in hex).
 Default: "#FFF"
 
 **barHeight**
-
-(int) Height of the bar in pixels.
+`int` height of the bar in pixels.
 Default: 1
 
-**completeAnimation**
-
-(string) set the animation type at the end. Options: "grow" or "fade".
-Default: "fade"
-
 **minimumTime**
-
-(int) time in miliseconds which the loading has to run. If time has not passed the animation will still show.
+`int` time in miliseconds which the loading has to run. If time has not passed the animation will still show.
 Default: 500
 
-**deepSearch**
+**maxTime**
+`int` maximum time in milliseconds the loader may take. Go past this time and the loader with automatically close.
+Default: 10000
 
-(boolean) set to true to find ALL images with the selected elements. If you don't want queryLoader to look in the children, set to false.
+**fadeOutTime**
+`int` time in miliseconds it takes for the overlay to fade out at the end.
+Default: 1000
+
+**deepSearch**
+`boolean` set to true to find ALL images with the selected elements. If you don't want queryLoader to look in the children, set to false.
 Default: true
 	
 **percentage**
-
-(boolean) Set to true to enable percentage visualising.
+`boolean` Set to true to enable percentage visualising.
 Default: false
 
 **onComplete**
-
-(function) this function is called once the loading and animation are completed.
-Default: none
-
-**onLoadComplete**
-
-(function) this function is called once the loading is completed, before the ending animation.
+`function` this function is called once the loading and animation are completed.
 Default: none

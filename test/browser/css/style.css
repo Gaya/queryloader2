@@ -25,12 +25,12 @@ body #content {
     overflow: hidden;
 }
 
-body ul {
+body #content ul {
     padding: 0px;
     margin: 0px;
 }
 
-body ul li {
+body #content ul li {
     display: block;
     list-style-type: none;
     float: left;
@@ -40,7 +40,11 @@ body ul li {
     text-align: center;
 }
 
-body ul li.gradient {
+body #content ul li.baizley {
+    background: url(../images/johnbaizley_Tat.jpg);
+}
+
+body #content ul li.gradient {
     padding: 20px;
     width: 360px;
     height: 360px;
@@ -53,4 +57,15 @@ body ul li.gradient {
     background: -ms-linear-gradient(top, #efc5ca 0%,#ef2f43 100%); /* IE10+ */
     background: linear-gradient(top, #efc5ca 0%,#ef2f43 100%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#efc5ca', endColorstr='#ef2f43',GradientType=0 ); /* IE6-9 */
+}
+
+body #mocha {
+    background: white;
+    position: relative;
+    margin: 0;
+    padding: 60px 50px;
+}
+
+body #mocha-stats {
+    position: absolute;
 }

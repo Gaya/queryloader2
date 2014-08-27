@@ -1,11 +1,33 @@
 {
-  "name": "jquery.queryloader2",
-  "version": "2.9.0",
+  "name": "queryloader2",
+  "version": "3.0.3",
+  "homepage": "http://gaya.ninja",
+  "description": "QueryLoader2 serves the main purpose of preloading the images on your website by showing an overlay and a loading bar. It automatically fetches all your images and background images and preloads them before showing the webpage.",
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Gaya/QueryLoader2"
+  },
+  "scripts": {
+    "test": "gulp serve-test"
+  },
+  "main": "./src/main.js",
+  "author": {
+    "name": "Gaya Kessler",
+    "email": "hi@gaya.ninja",
+    "url": "http://gaya.ninja/"
+  },
+  "license": "MIT",
   "devDependencies": {
-    "grunt": "~0.4.1",
-    "grunt-contrib-uglify": "~0.2.2",
-    "grunt-contrib-concat": "~0.3.0",
-    "grunt-contrib-watch": "~0.5.3",
-    "grunt-remove-logging": "~0.1.1"
+    "browser-sync": "^1.3.0",
+    "browserify": "^4.2.3",
+    "gulp": "^3.8.6",
+    "gulp-header": "^1.0.5",
+    "gulp-mocha-phantomjs": "^0.3.0",
+    "gulp-rename": "^1.2.0",
+    "gulp-uglify": "^0.3.1",
+    "gulp-watch": "^0.6.8",
+    "mocha": "^1.21.3",
+    "vinyl-source-stream": "^0.1.1"
   }
 }
