@@ -82,7 +82,7 @@ QueryLoader.prototype.createPreloader = function () {
     this.preloader = new ImagePreloader(this);
     this.preloader.deepSearch = this.options.deepSearch;
 
-    this.preloader.findAndPreload(this.element);
+    window.setTimeout(function () { this.preloader.findAndPreload(this.element); }.bind(this), 100);
 };
 
 QueryLoader.prototype.updateProgress = function (done, total) {
