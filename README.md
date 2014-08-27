@@ -4,7 +4,7 @@ QueryLoader2 is a better version of the old script posted in 2009. It serves the
 
 Compatibility
 -------------
-QueryLoader currently works in IE version > 7, Chrome, Safari and Firefox.
+QueryLoader currently works in IE version 9+, Chrome, Safari and Firefox.
 
 **No dependencies**, so **no** jQuery / Zepto / MooTools needed.
 
