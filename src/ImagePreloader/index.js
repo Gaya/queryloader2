@@ -90,9 +90,9 @@ ImagePreloader.prototype.determineUrlAndType = function (element) {
     var type = "normal";
     var style = element.currentStyle || window.getComputedStyle(element, null);
 
-    if (style.backgroundImage !== "") {
+    if (style.backgroundImage !== "" || element.style.backgroundImage !== "") {
         //if object has background image
-        url = style.backgroundImage;
+        url = (style.backgroundImage || element.style.backgroundImage);
         type = "background";
     } else if (typeof(element.getAttribute("src")) !== "undefined" && element.nodeName.toLowerCase() === "img") {
         //if is img and has src
