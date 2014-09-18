@@ -17,7 +17,7 @@ p {
 	line-height: 1.4em;
 }
 
-body #qlOverlay {
+body #qLoverlay {
     background-color: #111;
     position: fixed;
     z-index: 666999;
