@@ -14,6 +14,7 @@ function QueryLoader(element, options) {
         backgroundColor: "#000",
         barColor: "#fff",
         overlayId: 'qLoverlay',
+        percentageId: 'qLpercentage',
         barHeight: 1,
         percentage: false,
         deepSearch: true,
