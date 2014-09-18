@@ -14,6 +14,7 @@ function QueryLoader(element, options) {
         backgroundColor: "#000",
         barColor: "#fff",
         overlayId: 'qLoverlay',
+        percentageId: 'qLpercentage',
         barHeight: 1,
         percentage: false,
         deepSearch: true,
@@ -66,6 +67,7 @@ QueryLoader.prototype.createOverlay = function () {
     'use strict';
     this.overlay = new Overlay(this.element);
     this.overlay.idName = this.options.overlayId;
+    this.overlay.percentageId = this.options.percentageId;
     this.overlay.backgroundColor = this.options.backgroundColor;
     this.overlay.barHeight = this.options.barHeight;
     this.overlay.barColor = this.options.barColor;

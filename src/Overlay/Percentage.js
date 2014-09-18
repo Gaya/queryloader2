@@ -1,6 +1,7 @@
 function Percentage() {
     'use strict';
     this.element = null;
+    this.idName = "qlPercentage";
     this.className = "queryloader__overlay__percentage";
     this.barHeight = 1;
     this.barColor = "#fff";
@@ -10,6 +11,7 @@ Percentage.prototype.create = function () {
     'use strict';
     this.element = document.createElement("div");
     this.element.setAttribute("class", this.className);
+    this.element.setAttribute("id", this.idName);
     this.applyStyling();
     this.updateProgress(0, 0);
 };
