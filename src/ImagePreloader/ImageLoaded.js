@@ -7,33 +7,27 @@ var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAO
 
 function loaded(image, callback) {
     "use strict";
-    var src,
-        old;
+    var src;
 
     if (!image.nodeName) { return callback(new Error('First argument must be an image element')); }
     if (image.nodeName.toLowerCase() !== 'img') { return callback(new Error('Element supplied is not an image')); }
     if (image.src  && image.complete && image.naturalWidth !== undefined) { return callback(null, true); }
 
-    old = !image.addEventListener;
+    function eventBind(attach, event, callback) {
+        if (!image.addEventListener) {
+            image[(attach ? 'attachEvent' : 'detachEvent')]('on' + event, callback);
+        } else {
+            image[(attach ? 'addEventListener' : 'removeEventListener')](event, callback, false);
+        }
+    }
 
     function onloaded() {
-        if (old) {
-            image.detachEvent('onload', onloaded);
-            image.detachEvent('onerror', onloaded);
-        } else {
-            image.removeEventListener('load', onloaded, false);
-            image.removeEventListener('error', onloaded, false);
-        }
-        callback(null, false);
+        eventBind(false, 'load', onloaded);
+        eventBind(false, 'onerror', onloaded);
     }
 
-    if (old) {
-        image.attachEvent('onload', onloaded);
-        image.attachEvent('onerror', onloaded);
-    } else {
-        image.addEventListener('load', onloaded, false);
-        image.addEventListener('error', onloaded, false);
-    }
+    eventBind(true, 'load', onloaded);
+    eventBind(true, 'onerror', onloaded);
 
     if (image.readyState || image.complete) {
         src = image.src;
