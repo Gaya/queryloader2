@@ -13,17 +13,18 @@ function loaded(image, callback) {
     if (image.nodeName.toLowerCase() !== 'img') { return callback(new Error('Element supplied is not an image')); }
     if (image.src  && image.complete && image.naturalWidth !== undefined) { return callback(null, true); }
 
-    function eventBind(attach, event, callback) {
+    function eventBind(attach, event, cb) {
         if (!image.addEventListener) {
-            image[(attach ? 'attachEvent' : 'detachEvent')]('on' + event, callback);
+            image[(attach ? 'attachEvent' : 'detachEvent')]('on' + event, cb);
         } else {
-            image[(attach ? 'addEventListener' : 'removeEventListener')](event, callback, false);
+            image[(attach ? 'addEventListener' : 'removeEventListener')](event, cb, false);
         }
     }
 
     function onloaded() {
         eventBind(false, 'load', onloaded);
         eventBind(false, 'onerror', onloaded);
+        callback(null, false);
     }
 
     eventBind(true, 'load', onloaded);
