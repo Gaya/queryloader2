@@ -17,7 +17,7 @@ function loaded(image, callback) {
 
     old = !image.addEventListener;
 
-    function loaded() {
+    function onloaded() {
         if (old) {
             image.detachEvent('onload', loaded);
             image.detachEvent('onerror', loaded);
@@ -29,11 +29,11 @@ function loaded(image, callback) {
     }
 
     if (old) {
-        image.attachEvent('onload', loaded);
-        image.attachEvent('onerror', loaded);
+        image.attachEvent('onload', onloaded);
+        image.attachEvent('onerror', onloaded);
     } else {
-        image.addEventListener('load', loaded, false);
-        image.addEventListener('error', loaded, false);
+        image.addEventListener('load', onloaded, false);
+        image.addEventListener('error', onloaded, false);
     }
 
     if (image.readyState || image.complete) {
