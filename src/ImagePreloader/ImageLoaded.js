@@ -21,14 +21,16 @@ function loaded(image, callback) {
         }
     }
 
-    function onloaded() {
-        eventBind(false, 'load', onloaded);
-        eventBind(false, 'onerror', onloaded);
+    function loaded() {
+        console.log("loaded", e.srcElement);
+
+        eventBind(false, 'load', loaded);
+        eventBind(false, 'onerror', loaded);
         callback(null, false);
     }
 
-    eventBind(true, 'load', onloaded);
-    eventBind(true, 'onerror', onloaded);
+    eventBind(true, 'load', loaded);
+    eventBind(true, 'onerror', loaded);
 
     if (image.readyState || image.complete) {
         src = image.src;
