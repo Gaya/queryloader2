@@ -8,8 +8,7 @@ var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAO
 function loaded(image, callback) {
     "use strict";
     var src,
-        old,
-        onload;
+        old;
 
     if (!image.nodeName) { return callback(new Error('First argument must be an image element')); }
     if (image.nodeName.toLowerCase() !== 'img') { return callback(new Error('Element supplied is not an image')); }
@@ -19,11 +18,11 @@ function loaded(image, callback) {
 
     function onloaded() {
         if (old) {
-            image.detachEvent('onload', loaded);
-            image.detachEvent('onerror', loaded);
+            image.detachEvent('onload', onloaded);
+            image.detachEvent('onerror', onloaded);
         } else {
-            image.removeEventListener('load', loaded, false);
-            image.removeEventListener('error', loaded, false);
+            image.removeEventListener('load', onloaded, false);
+            image.removeEventListener('error', onloaded, false);
         }
         callback(null, false);
     }
