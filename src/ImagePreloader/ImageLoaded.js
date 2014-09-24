@@ -3,43 +3,44 @@
  * MIT License. by Paul Irish et al.
  */
 
-var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=='
+var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
 
 function loaded(image, callback) {
-    var src
-        , old
-        , onload
+    "use strict";
+    var src,
+        old,
+        onload;
 
-    if (!image.nodeName) return callback(new Error('First argument must be an image element'))
-    if (image.nodeName.toLowerCase() !== 'img') return callback(new Error('Element supplied is not an image'))
-    if (image.src  && image.complete && image.naturalWidth !== undefined) return callback(null, true)
+    if (!image.nodeName) { return callback(new Error('First argument must be an image element')); }
+    if (image.nodeName.toLowerCase() !== 'img') { return callback(new Error('Element supplied is not an image')); }
+    if (image.src  && image.complete && image.naturalWidth !== undefined) { return callback(null, true); }
 
-    old = !image.addEventListener
+    old = !image.addEventListener;
 
     function loaded() {
         if (old) {
-            image.detachEvent('onload', loaded)
-            image.detachEvent('onerror', loaded)
+            image.detachEvent('onload', loaded);
+            image.detachEvent('onerror', loaded);
         } else {
-            image.removeEventListener('load', loaded, false)
-            image.removeEventListener('error', loaded, false)
+            image.removeEventListener('load', loaded, false);
+            image.removeEventListener('error', loaded, false);
         }
-        callback(null, false)
+        callback(null, false);
     }
 
     if (old) {
-        image.attachEvent('onload', loaded)
-        image.attachEvent('onerror', loaded)
+        image.attachEvent('onload', loaded);
+        image.attachEvent('onerror', loaded);
     } else {
-        image.addEventListener('load', loaded, false)
-        image.addEventListener('error', loaded, false)
+        image.addEventListener('load', loaded, false);
+        image.addEventListener('error', loaded, false);
     }
 
     if (image.readyState || image.complete) {
-        src = image.src
-        image.src = BLANK
-        image.src = src
+        src = image.src;
+        image.src = BLANK;
+        image.src = src;
     }
 }
 
-module.exports = loaded
+module.exports = loaded;
