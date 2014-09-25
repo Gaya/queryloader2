@@ -90,7 +90,7 @@ ImagePreloader.prototype.determineUrlAndType = function (element) {
     var type = "normal";
     var style = element.currentStyle || window.getComputedStyle(element, null);
 
-    if (style.backgroundImage !== "" || element.style.backgroundImage !== "") {
+    if ((style.backgroundImage !== "" && style.backgroundImage !== "none") || (element.style.backgroundImage !== "" && element.style.backgroundImage !== "none")) {
         //if object has background image
         url = (style.backgroundImage || element.style.backgroundImage);
         type = "background";
