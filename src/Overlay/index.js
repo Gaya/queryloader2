@@ -5,6 +5,7 @@ function Overlay(parentElement) {
     'use strict';
     this.parentElement = parentElement;
     this.idName = "qLoverlay";
+    this.percentageId = "qlPercentage";
     this.className = "queryloader__overlay";
     this.element = null;
     this.loadingBar = null;
@@ -29,6 +30,7 @@ Overlay.prototype.init = function () {
     if (this.showPercentage) {
         this.percentage = new Percentage();
         this.percentage.barColor = this.barColor;
+        this.percentage.idName = this.percentageId;
         this.percentage.create();
         this.element.appendChild(this.percentage.element);
     }
