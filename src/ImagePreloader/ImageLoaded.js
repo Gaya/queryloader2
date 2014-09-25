@@ -20,8 +20,6 @@ function loaded(image, callback) {
         return callback(null, true);
     }
 
-    old = !image.addEventListener;
-
     function bindEvent(element, event, attach, cb) {
         if (!element.addEventListener) {
             element[(attach ? 'attachEvent' : 'detachEvent')]('on' + event, cb);
