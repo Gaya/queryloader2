@@ -7,7 +7,7 @@ var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAO
 
 function loaded(image, callback) {
     "use strict";
-    var src, old;
+    var src;
 
     if (!image.nodeName) {
         return callback(new Error('First argument must be an image element'));
