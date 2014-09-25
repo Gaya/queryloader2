@@ -22,24 +22,23 @@ function loaded(image, callback) {
 
     old = !image.addEventListener;
 
-    function onload() {
-        if (old) {
-            image.detachEvent('onload', onload);
-            image.detachEvent('onerror', onload);
+    function bindEvent(element, event, attach, cb) {
+        if (!element.addEventListener) {
+            element[(attach ? 'attachEvent' : 'detachEvent')]('on' + event, cb);
         } else {
-            image.removeEventListener('load', onload, false);
-            image.removeEventListener('error', onload, false);
+            element[(attach ? 'addEventListener' : 'removeEventListener')](event, cb);
         }
+    }
+
+    function onload() {
+        bindEvent(image, 'load', false, onload);
+        bindEvent(image, 'error', false, onload);
+
         callback(null, false);
     }
 
-    if (old) {
-        image.attachEvent('onload', onload);
-        image.attachEvent('onerror', onload);
-    } else {
-        image.addEventListener('load', onload, false);
-        image.addEventListener('error', onload, false);
-    }
+    bindEvent(image, 'load', true, onload);
+    bindEvent(image, 'error', true, onload);
 
     if (image.readyState || image.complete) {
         src = image.src;
