@@ -10,7 +10,7 @@ QueryLoader currently works in IE version 9+, Chrome, Safari and Firefox.
 
 **No dependencies**, so **no** jQuery / Zepto / MooTools needed.
 
-Read the full post here: http://www.gayadesign.com/diy/queryloader2-preload-your-images-with-ease/
+Read the full post here: [http://blog.gaya.ninja/articles/queryloader2-preload-your-images-with-ease/](http://blog.gaya.ninja/articles/queryloader2-preload-your-images-with-ease/)
 
 Example usage
 -------------
