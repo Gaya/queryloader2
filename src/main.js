@@ -27,3 +27,4 @@ if (typeof define === 'function' && define.amd) {
 }
 
 window.QueryLoader2 = QueryLoader2;
+QueryLoader2.createTempOverlay();

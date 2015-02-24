@@ -79,7 +79,7 @@ QueryLoader.prototype.createOverlay = function () {
     }
 };
 
-QueryLoader.prototype.createTempOverlay = function () {
+QueryLoader.createTempOverlay = function () {
     var tempOverlay = document.createElement("div");
     tempOverlay.style.position = "fixed";
     tempOverlay.style.width = "100%";
