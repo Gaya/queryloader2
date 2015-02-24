@@ -258,7 +258,7 @@ describe('QueryLoader', function() {
 
     describe('#updateProgress()', function () {
         var called = false;
-        var ql = new QueryLoader(null, {
+        var ql = new QueryLoader(document.createElement("div"), {
             onProgress: function (amount) {
                 called = true;
             }
