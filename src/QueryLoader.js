@@ -118,8 +118,8 @@ QueryLoader.prototype.updateProgress = function (done, total) {
     var percentage = ((done / total) * 100);
     this.overlay.updateProgress(percentage, this.options.minimumTime);
 
-    if (typeof this.onProgress === "function") {
-        this.onProgress(percentage, done, total);
+    if (typeof this.options.onProgress === "function") {
+        this.options.onProgress(percentage, done, total);
     }
 
     if (done === total && this.done === false) {
