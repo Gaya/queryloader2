@@ -11,6 +11,7 @@ function QueryLoader(element, options) {
     //The default options
     this.defaultOptions = {
         onComplete: function() {},
+        onProgress: function() {},
         backgroundColor: "#000",
         barColor: "#fff",
         overlayId: 'qLoverlay',
