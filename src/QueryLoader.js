@@ -80,11 +80,17 @@ QueryLoader.prototype.createOverlay = function () {
 };
 
 QueryLoader.createTempOverlay = function () {
-    var tempOverlay = document.createElement("div");
-    tempOverlay.style.position = "fixed";
-    tempOverlay.style.width = "100%";
-    tempOverlay.style.height = "100%";
-    tempOverlay.style.zIndex = "9999";
+    window.setTimeout(function () {
+        var tempOverlay = document.createElement("div");
+        tempOverlay.style.position = "fixed";
+        tempOverlay.style.width = "100%";
+        tempOverlay.style.height = "100%";
+        tempOverlay.style.zIndex = "9999";
+        tempOverlay.style.backgroundColor = "#000";
+        tempOverlay.style.left = "0";
+        tempOverlay.style.top = "0";
+        document.getElementsByTagName('body')[0].appendChild(tempOverlay);
+    }, 0);
 };
 
 QueryLoader.prototype.createPreloader = function () {
