@@ -79,6 +79,14 @@ QueryLoader.prototype.createOverlay = function () {
     }
 };
 
+QueryLoader.prototype.createTempOverlay = function () {
+    var tempOverlay = document.createElement("div");
+    tempOverlay.style.position = "fixed";
+    tempOverlay.style.width = "100%";
+    tempOverlay.style.height = "100%";
+    tempOverlay.style.zIndex = "9999";
+};
+
 QueryLoader.prototype.createPreloader = function () {
     'use strict';
     this.preloader = new ImagePreloader(this);
