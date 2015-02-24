@@ -255,6 +255,21 @@ describe('QueryLoader', function() {
             }, ql.extend(destination, source));
         });
     });
+
+    describe('#updateProgress()', function () {
+        var called = false;
+        var ql = new QueryLoader(null, {
+            onProgress: function (amount) {
+                called = true;
+            }
+        });
+
+        it('should call the onProgress event', function () {
+            ql.updateProgress();
+
+            assert.equal(called, true);
+        });
+    });
 });
 
 describe('ImagePreloader', function() {
