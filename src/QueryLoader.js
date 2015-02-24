@@ -114,7 +114,12 @@ QueryLoader.prototype.createPreloader = function () {
 
 QueryLoader.prototype.updateProgress = function (done, total) {
     "use strict";
-    this.overlay.updateProgress(((done / total) * 100), this.options.minimumTime);
+    var percentage = ((done / total) * 100);
+    this.overlay.updateProgress(percentage, this.options.minimumTime);
+
+    if (typeof this.onProgress === "function") {
+        this.onProgress(percentage, done, total);
+    }
 
     if (done === total && this.done === false) {
         window.clearTimeout(this.maxTimeout);
