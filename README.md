@@ -113,3 +113,7 @@ Default: false
 **onComplete**
 `function` this function is called once the loading and animation are completed.
 Default: none
+
+**onProgress**
+`function` this function is called when an image is loaded. Get parameters `percentage`, `imagesLoaded`, `totalImages`.
+Default: none
