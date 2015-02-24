@@ -80,6 +80,12 @@ QueryLoader.prototype.createOverlay = function () {
     }
 };
 
+QueryLoader.prototype.removeTempOverlay = function () {
+    if (QueryLoader.tempOverlay) {
+        QueryLoader.tempOverlay.parent.removeChild(QueryLoader.tempOverlay);
+    }
+};
+
 QueryLoader.createTempOverlay = function () {
     window.setTimeout(function () {
         QueryLoader.tempOverlay = document.createElement("div");
