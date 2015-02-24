@@ -14,8 +14,7 @@ if (window.jQuery || window.Zepto) {
 }
 
 // component
-if (typeof(module) !== 'undefined')
-{
+if (typeof(module) !== 'undefined') {
     module.exports = QueryLoader2;
 }
 
@@ -28,3 +27,4 @@ if (typeof define === 'function' && define.amd) {
 }
 
 window.QueryLoader2 = QueryLoader2;
+QueryLoader2.createTempOverlay();

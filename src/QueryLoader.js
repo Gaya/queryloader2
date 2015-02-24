@@ -38,6 +38,7 @@ QueryLoader.prototype.init = function () {
 
     if (typeof this.element !== "undefined") {
         this.createOverlay();
+        this.removeTempOverlay();
         this.createPreloader();
         this.startMaxTimeout();
     }
@@ -77,6 +78,30 @@ QueryLoader.prototype.createOverlay = function () {
     if (typeof this.element !== "undefined") {
         this.overlay.init();
     }
+};
+
+QueryLoader.prototype.removeTempOverlay = function () {
+    window.setTimeout(function () {
+        var tempOverlay = document.getElementById("qLtempOverlay");
+        if (tempOverlay) {
+            tempOverlay.parentNode.removeChild(tempOverlay);
+        }
+    }, 0);
+};
+
+QueryLoader.createTempOverlay = function () {
+    window.setTimeout(function () {
+        var tempOverlay = document.createElement("div");
+        tempOverlay.style.position = "fixed";
+        tempOverlay.style.width = "100%";
+        tempOverlay.style.height = "100%";
+        tempOverlay.style.zIndex = "9999";
+        tempOverlay.style.backgroundColor = "#000";
+        tempOverlay.style.left = "0";
+        tempOverlay.style.top = "0";
+        tempOverlay.setAttribute("id", "qLtempOverlay");
+        document.getElementsByTagName('body')[0].appendChild(tempOverlay);
+    }, 0);
 };
 
 QueryLoader.prototype.createPreloader = function () {
