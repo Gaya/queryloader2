@@ -90,7 +90,7 @@ QueryLoader.prototype.removeTempOverlay = function () {
 };
 
 QueryLoader.createTempOverlay = function () {
-    window.setTimeout(function () {
+    document.addEventListener("DOMContentLoaded", function() {
         var tempOverlay = document.createElement("div");
         tempOverlay.style.position = "fixed";
         tempOverlay.style.width = "100%";
@@ -101,7 +101,7 @@ QueryLoader.createTempOverlay = function () {
         tempOverlay.style.top = "0";
         tempOverlay.setAttribute("id", "qLtempOverlay");
         document.getElementsByTagName('body')[0].appendChild(tempOverlay);
-    }, 0);
+    });
 };
 
 QueryLoader.prototype.createPreloader = function () {
