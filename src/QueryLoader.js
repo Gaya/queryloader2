@@ -11,6 +11,7 @@ function QueryLoader(element, options) {
     //The default options
     this.defaultOptions = {
         onComplete: function() {},
+        onProgress: function() {},
         backgroundColor: "#000",
         barColor: "#fff",
         overlayId: 'qLoverlay',
@@ -114,7 +115,12 @@ QueryLoader.prototype.createPreloader = function () {
 
 QueryLoader.prototype.updateProgress = function (done, total) {
     "use strict";
-    this.overlay.updateProgress(((done / total) * 100), this.options.minimumTime);
+    var percentage = ((done / total) * 100);
+    this.overlay.updateProgress(percentage, this.options.minimumTime);
+
+    if (typeof this.options.onProgress === "function") {
+        this.options.onProgress(percentage, done, total);
+    }
 
     if (done === total && this.done === false) {
         window.clearTimeout(this.maxTimeout);
