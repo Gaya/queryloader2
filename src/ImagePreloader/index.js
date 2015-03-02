@@ -107,7 +107,7 @@ ImagePreloader.prototype.determineUrlAndType = function (element) {
 
 ImagePreloader.prototype.hasGradient = function (url) {
     "use strict";
-    return url.indexOf("gradient(") !== -1;
+    return (typeof url.indexOf !== "undefined" ? url.indexOf("gradient(") !== -1 : false );
 };
 
 ImagePreloader.prototype.stripUrl = function (url) {
