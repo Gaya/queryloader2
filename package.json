@@ -3,13 +3,15 @@
   "version": "3.0.13",
   "homepage": "http://gaya.ninja",
   "description": "QueryLoader2 serves the main purpose of preloading the images on your website by showing an overlay and a loading bar. It automatically fetches all your images and background images and preloads them before showing the webpage.",
-  "dependencies": {},
+  "dependencies": {
+    "mocha-phantomjs": "^3.5.3"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/Gaya/QueryLoader2"
   },
   "scripts": {
-    "test": "gulp serve-test"
+    "test": "mocha-phantomjs test/browser/index.html"
   },
   "main": "./src/main.js",
   "author": {
