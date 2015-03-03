@@ -45,7 +45,7 @@ gulp.task('browser-sync', function() {
     'use strict';
     browserSync({
         server: {
-            baseDir: ["./" + config.test + "/browser/", "./node_modules", "./dist"]
+            baseDir: ["./" + config.test + "/browser/", "./"]
         }
     });
 });
