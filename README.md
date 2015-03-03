@@ -12,6 +12,8 @@ QueryLoader currently works in IE version 9+, Chrome, Safari and Firefox.
 
 Read the full post here: [http://blog.gaya.ninja/articles/queryloader2-preload-your-images-with-ease/](http://blog.gaya.ninja/articles/queryloader2-preload-your-images-with-ease/)
 
+[View example of how QueryLoader2 works](http://scripts.gayadesign.com/queryLoader2/).
+
 Example usage
 -------------
 Include the `queryloader2.min.js` script (which is in the root of this repository) in the head section of your webpage.
