@@ -93,7 +93,14 @@ Overlay.prototype.updateProgress = function (percentage, time) {
 
 Overlay.prototype.remove = function () {
     "use strict";
-    this.element.parentNode.removeChild(this.element);
+    if (this.canRemove(this.element)) {
+      this.element.parentNode.removeChild(this.element);
+    }
+};
+
+Overlay.prototype.canRemove = function(element) {
+  "use strict";
+  return (element.parentNode && typeof element.parentNode.removeChild !== 'undefined');
 };
 
 module.exports = Overlay;

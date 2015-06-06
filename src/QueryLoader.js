@@ -84,7 +84,7 @@ QueryLoader.prototype.createOverlay = function () {
 QueryLoader.prototype.removeTempOverlay = function () {
     window.setTimeout(function () {
         var tempOverlay = document.getElementById("qLtempOverlay");
-        if (tempOverlay) {
+        if (tempOverlay && tempOverlay.parentNode) {
             tempOverlay.parentNode.removeChild(tempOverlay);
         }
     }, 0);
