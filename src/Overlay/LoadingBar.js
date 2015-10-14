@@ -20,18 +20,26 @@ var LoadingBar = {
     this.setTransitionTime(100);
   },
 
-  updateProgress: function(percentage, time) {
+  parsePercentage: function(percentage) {
     if (parseInt(percentage) < 0) {
-      percentage = 0;
-    } else if (parseInt(percentage) > 100) {
-      percentage = 100;
+      return 0;
     }
 
+    if (parseInt(percentage) > 100) {
+      return 100;
+    }
+
+    return parseInt(percentage);
+  },
+
+  updateProgress: function(percentage, time) {
     if (time !== 0) {
       this.setTransitionTime(time);
     }
 
-    this.element.style.width = parseInt(percentage) + '%';
+    percentage = this.parsePercentage(percentage);
+
+    this.element.style.width = percentage + '%';
   },
 
   setTransitionTime: function(ms) {
