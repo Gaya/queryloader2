@@ -71,7 +71,7 @@ describe('LoadingBar', function() {
 
 describe('Percentage', function() {
   describe('#create()', function() {
-    var p = new Percentage();
+    var p = Percentage();
     p.create();
 
     it('should create an element for itself', function() {
@@ -88,7 +88,7 @@ describe('Percentage', function() {
   });
 
   describe('#updateProgress()', function() {
-    var p = new Percentage();
+    var p = Percentage();
     p.create();
 
     it('should update the progress and adjust the loading bar', function() {
@@ -170,7 +170,7 @@ describe('Overlay', function() {
     o.parentElement = fakeBody;
     o.create();
 
-    o.percentage = new Percentage();
+    o.percentage = Percentage();
     o.percentage.create();
 
     o.loadingBar = LoadingBar();
