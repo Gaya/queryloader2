@@ -9,7 +9,7 @@ var QueryLoader = require('../src/QueryLoader/');
 
 describe('LoadingBar', function() {
   describe('#create()', function() {
-    var lb = new LoadingBar();
+    var lb = LoadingBar();
     lb.create();
 
     it('should create an element for itself', function() {
@@ -28,7 +28,7 @@ describe('LoadingBar', function() {
 
   describe('#updateProgress()', function() {
     it('should update the progress and adjust the loading bar', function() {
-      var lb = new LoadingBar();
+      var lb = LoadingBar();
       lb.create();
 
       assert.equal('0%', lb.element.style.width);
@@ -55,7 +55,7 @@ describe('LoadingBar', function() {
     });
 
     it('should not break on floats', function() {
-      var lb = new LoadingBar();
+      var lb = LoadingBar();
       lb.create();
 
       lb.updateProgress(10.6, 0);
@@ -173,7 +173,7 @@ describe('Overlay', function() {
     o.percentage = new Percentage();
     o.percentage.create();
 
-    o.loadingBar = new LoadingBar();
+    o.loadingBar = LoadingBar();
     o.loadingBar.create();
 
     it('should update the loading progress of both percentage and loadingbar', function() {
