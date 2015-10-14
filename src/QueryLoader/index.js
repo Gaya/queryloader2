@@ -1,5 +1,5 @@
-var ImagePreloader = require('./ImagePreloader/');
-var Overlay = require('./Overlay/');
+var ImagePreloader = require('./../ImagePreloader/index');
+var Overlay = require('./../Overlay/index');
 
 function QueryLoader(element, options) {
     'use strict';

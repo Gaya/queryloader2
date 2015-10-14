@@ -5,7 +5,7 @@ var LoadingBar = require('../src/Overlay/LoadingBar.js');
 var Percentage = require('../src/Overlay/Percentage.js');
 var Image = require('../src/ImagePreloader/Image.js');
 var ImagePreloader = require('../src/ImagePreloader/');
-var QueryLoader = require('../src/QueryLoader.js');
+var QueryLoader = require('../src/QueryLoader/');
 
 describe('LoadingBar', function() {
   describe('#create()', function() {
