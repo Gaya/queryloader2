@@ -1,10 +1,7 @@
-function LoadingBar() {
-    'use strict';
-    this.element = null;
-    this.className = "queryloader__overlay__bar";
-    this.barHeight = 1;
-    this.barColor = "#fff";
-}
+'use strict';
+var LoadingBar = {
+
+};
 
 /**
  * Creates the element for the loadingbar
@@ -54,4 +51,13 @@ LoadingBar.prototype.setTransitionTime = function (ms) {
     this.element.style.Transition = "width " + ms + "ms";
 };
 
-module.exports = LoadingBar;
+module.exports = function() {
+  var loadingBar = Object.create(LoadingBar);
+
+  loadingBar.element = null;
+  loadingBar.className = 'queryloader__overlay__bar';
+  loadingBar.barHeight = 1;
+  loadingBar.barColor = '#fff';
+
+  return loadingBar;
+};
