@@ -17,7 +17,7 @@ var pkg = require('./package.json');
 
 gulp.task('browserify', function() {
     'use strict';
-    return browserify('./' + config.src + '/main.js')
+    return browserify('./' + config.src + '/index.js')
         .bundle()
         .on('error', function (err) {
             console.log(err.toString());
