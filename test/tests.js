@@ -1,11 +1,11 @@
 var assert = require('assert');
 
-var Overlay = require('../src/Overlay/');
 var LoadingBar = require('../src/Overlay/LoadingBar.js');
 var Percentage = require('../src/Overlay/Percentage.js');
+var Overlay = require('../src/Overlay/');
 var Image = require('../src/ImagePreloader/Image.js');
-var ImagePreloader = require('../src/ImagePreloader/');
 var QueryLoader = require('../src/QueryLoader/');
+var ImagePreloader = require('../src/ImagePreloader/');
 
 describe('LoadingBar', function() {
   describe('#create()', function() {
