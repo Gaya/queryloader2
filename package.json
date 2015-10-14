@@ -22,7 +22,7 @@
   },
   "scripts": {
     "postinstall": "node ./node_modules/gulp/bin/gulp.js browserify && node ./node_modules/gulp/bin/gulp.js browserify-tests",
-    "test": "node ./node_modules/mocha-phantomjs/bin/mocha-phantomjs test/browser/index.html"
+    "test": "node ./node_modules/gulp/bin/gulp.js browserify  && node ./node_modules/gulp/bin/gulp.js browserify-tests && node ./node_modules/mocha-phantomjs/bin/mocha-phantomjs test/browser/index.html"
   },
   "main": "./src/main.js",
   "author": {
