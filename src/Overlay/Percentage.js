@@ -1,11 +1,5 @@
-function Percentage() {
-  'use strict';
-  this.element = null;
-  this.idName = 'qlPercentage';
-  this.className = 'queryloader__overlay__percentage';
-  this.barHeight = 1;
-  this.barColor = '#fff';
-}
+'use strict';
+var Percentage = {};
 
 Percentage.prototype.create = function () {
   'use strict';
@@ -41,4 +35,14 @@ Percentage.prototype.updateProgress = function (percentage, time) {
   this.element.innerHTML = parseInt(percentage) + '%';
 };
 
-module.exports = Percentage;
+module.exports = function() {
+  var percentage = Object.create(Percentage);
+
+  percentage.element = null;
+  percentage.idName = 'qlPercentage';
+  percentage.className = 'queryloader__overlay__percentage';
+  percentage.barHeight = 1;
+  percentage.barColor = '#fff';
+
+  return percentage;
+};
