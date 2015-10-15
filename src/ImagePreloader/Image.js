@@ -1,26 +1,28 @@
+'use strict';
 var ImageLoaded = require('./ImageLoaded.js');
 
-function Image(src) {
-    'use strict';
-    this.src = src;
-    this.element = null;
+var QueryLoaderImage = {
+  create: function() {
+    this.element = document.createElement('img');
+    this.element.setAttribute('src', this.src);
+  },
 
-    if (typeof src !== "undefined") {
-        this.create();
-    }
-}
-
-Image.prototype.create = function () {
-    'use strict';
-    this.element = document.createElement("img");
-    this.element.setAttribute("src", this.src);
-};
-
-Image.prototype.preload = function (cb) {
-    'use strict';
+  preload: function(cb) {
     ImageLoaded(this.element, function(err, alreadyLoaded) {
-        cb(err, alreadyLoaded);
+      cb(err, alreadyLoaded);
     });
+  },
 };
 
-module.exports = Image;
+module.exports = function(src) {
+  var image = Object.create(QueryLoaderImage);
+
+  image.src = src;
+  image.element = null;
+
+  if (typeof src !== 'undefined') {
+    image.create();
+  }
+
+  return image;
+};

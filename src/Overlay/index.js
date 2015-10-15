@@ -1,106 +1,103 @@
-var LoadingBar = require('./LoadingBar.js');
-var Percentage = require('./Percentage.js');
+'use strict';
+var LoadingBar = require('./LoadingBar');
+var Percentage = require('./Percentage');
 
-function Overlay(parentElement) {
-    'use strict';
-    this.parentElement = parentElement;
-    this.idName = "qLoverlay";
-    this.percentageId = "qlPercentage";
-    this.className = "queryloader__overlay";
-    this.element = null;
-    this.loadingBar = null;
-    this.percentage = null;
-    this.barColor = "#ff0000";
-    this.backgroundColor = "#000";
-    this.barHeight = 1;
-    this.fadeOutTime = 300;
-    this.showPercentage = false;
-}
-
-Overlay.prototype.init = function () {
-    "use strict";
+var Overlay = {
+  init: function() {
     this.create();
 
-    this.loadingBar = new LoadingBar();
+    this.loadingBar = LoadingBar();
     this.loadingBar.barHeight = this.barHeight;
     this.loadingBar.barColor = this.barColor;
     this.loadingBar.create();
     this.element.appendChild(this.loadingBar.element);
 
     if (this.showPercentage) {
-        this.percentage = new Percentage();
-        this.percentage.barColor = this.barColor;
-        this.percentage.idName = this.percentageId;
-        this.percentage.create();
-        this.element.appendChild(this.percentage.element);
+      this.percentage = Percentage();
+      this.percentage.barColor = this.barColor;
+      this.percentage.idName = this.percentageId;
+      this.percentage.create();
+      this.element.appendChild(this.percentage.element);
     }
 
     this.parentElement.appendChild(this.element);
-};
+  },
 
-Overlay.prototype.create = function () {
-    'use strict';
-    this.element = (document.querySelector("#" + this.idName) || document.createElement("div"));
-    this.element.setAttribute("class", this.className);
-    this.element.setAttribute("id", this.idName);
+  create: function() {
+    this.element = (document.querySelector('#' + this.idName) || document.createElement('div'));
+    this.element.setAttribute('class', this.className);
+    this.element.setAttribute('id', this.idName);
     this.applyStyling();
-};
+  },
 
-Overlay.prototype.applyStyling = function () {
-    'use strict';
+  applyStyling: function() {
     //determine postion of overlay and set parent position
     this.element.style.position = this.calculatePosition();
-    this.element.style.width = "100%";
-    this.element.style.height = "100%";
+    this.element.style.width = '100%';
+    this.element.style.height = '100%';
     this.element.style.backgroundColor = this.backgroundColor;
-    this.element.style.backgroundPosition = "fixed";
+    this.element.style.backgroundPosition = 'fixed';
     this.element.style.zIndex = 666999; //very HIGH
-    this.element.style.top = "0";
-    this.element.style.left = "0";
+    this.element.style.top = '0';
+    this.element.style.left = '0';
 
-    this.element.style.WebkitTransition = "opacity " + this.fadeOutTime + "ms";
-    this.element.style.MozTransition = "opacity " + this.fadeOutTime + "ms";
-    this.element.style.OTransition = "opacity " + this.fadeOutTime + "ms";
-    this.element.style.MsTransition = "opacity " + this.fadeOutTime + "ms";
-    this.element.style.Transition = "opacity " + this.fadeOutTime + "ms";
-};
+    this.element.style.WebkitTransition = 'opacity ' + this.fadeOutTime + 'ms';
+    this.element.style.MozTransition = 'opacity ' + this.fadeOutTime + 'ms';
+    this.element.style.OTransition = 'opacity ' + this.fadeOutTime + 'ms';
+    this.element.style.MsTransition = 'opacity ' + this.fadeOutTime + 'ms';
+    this.element.style.Transition = 'opacity ' + this.fadeOutTime + 'ms';
+  },
 
-Overlay.prototype.calculatePosition = function () {
-    'use strict';
-    var overlayPosition = "absolute";
+  calculatePosition: function() {
+    var overlayPosition = 'absolute';
 
-    if (this.parentElement.tagName.toLowerCase() === "body") {
-        overlayPosition = "fixed";
+    if (this.parentElement.tagName.toLowerCase() === 'body') {
+      overlayPosition = 'fixed';
     } else {
-        if (this.parentElement.style.position !== "fixed" || this.parentElement.style.position !== "absolute" ) {
-            this.parentElement.style.position = "relative";
-        }
+      if (this.parentElement.style.position !== 'fixed' || this.parentElement.style.position !== 'absolute') {
+        this.parentElement.style.position = 'relative';
+      }
     }
 
     return overlayPosition;
-};
+  },
 
-Overlay.prototype.updateProgress = function (percentage, time) {
-    "use strict";
+  updateProgress: function(percentage, time) {
     if (this.loadingBar !== null) {
-        this.loadingBar.updateProgress(percentage, time);
+      this.loadingBar.updateProgress(percentage, time);
     }
 
     if (this.percentage !== null) {
-        this.percentage.updateProgress(percentage, time);
+      this.percentage.updateProgress(percentage, time);
     }
-};
+  },
 
-Overlay.prototype.remove = function () {
-    "use strict";
+  remove: function() {
     if (this.canRemove(this.element)) {
       this.element.parentNode.removeChild(this.element);
     }
+  },
+
+  canRemove: function(element) {
+    return (element.parentNode && typeof element.parentNode.removeChild !== 'undefined');
+  },
 };
 
-Overlay.prototype.canRemove = function(element) {
-  "use strict";
-  return (element.parentNode && typeof element.parentNode.removeChild !== 'undefined');
-};
+module.exports = function(parentElement) {
+  var overlay = Object.create(Overlay);
 
-module.exports = Overlay;
+  overlay.parentElement = parentElement;
+  overlay.idName = 'qLoverlay';
+  overlay.percentageId = 'qlPercentage';
+  overlay.className = 'queryloader__overlay';
+  overlay.element = null;
+  overlay.loadingBar = null;
+  overlay.percentage = null;
+  overlay.barColor = '#ff0000';
+  overlay.backgroundColor = '#000';
+  overlay.barHeight = 1;
+  overlay.fadeOutTime = 300;
+  overlay.showPercentage = false;
+
+  return overlay;
+};
