@@ -8,7 +8,7 @@ if (window.jQuery || window.Zepto) {
     'use strict';
     $.fn.queryLoader2 = function(options){
       return this.each(function() {
-        (new QueryLoader2(this, options));
+        (QueryLoader2(this, options));
       });
     };
   })(window.jQuery || window.Zepto);
