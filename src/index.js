@@ -6,7 +6,7 @@ var TempOverlay = require('./QueryLoader/TempOverlay');
 if (window.jQuery || window.Zepto) {
   (function($) {
     'use strict';
-    $.fn.queryLoader2 = function(options){
+    $.fn.queryLoader2 = function(options) {
       return this.each(function() {
         (QueryLoader2(this, options));
       });
