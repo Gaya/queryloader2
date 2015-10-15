@@ -1,10 +1,10 @@
 'use strict';
-var ImagePreloader = require('./../ImagePreloader/index');
-var Overlay = require('./../Overlay/index');
+var ImagePreloader = require('./../ImagePreloader');
+var Overlay = require('./../Overlay');
 
 var QueryLoader = {
-  init: function() {
-    this.options = this.extend(this.defaultOptions, this.options);
+  init: function(options, defaultOptions) {
+    this.options = this.extend(defaultOptions, options);
 
     if (typeof this.element !== 'undefined') {
       this.createOverlay();
@@ -60,7 +60,9 @@ var QueryLoader = {
     this.preloader = ImagePreloader(this);
     this.preloader.deepSearch = this.options.deepSearch;
 
-    window.setTimeout(function() { this.preloader.findAndPreload(this.element); }.bind(this), 100);
+    window.setTimeout(function() {
+      this.preloader.findAndPreload(this.element);
+    }.bind(this), 100);
   },
 
   updateProgress: function(done, total) {
@@ -97,34 +99,31 @@ module.exports = function(element, options) {
   var queryLoader = Object.create(QueryLoader);
 
   queryLoader.element = element;
-  queryLoader.options = options;
+  queryLoader.options = {};
   queryLoader.done = false;
   queryLoader.maxTimeout = null;
-
-  var voidFunc = function() {};
-
-  //The default options
-  queryLoader.defaultOptions = {
-    onComplete: voidFunc,
-    onProgress: voidFunc,
-    backgroundColor: '#000',
-    barColor: '#fff',
-    overlayId: 'qLoverlay',
-    percentageId: 'qLpercentage',
-    barHeight: 1,
-    percentage: false,
-    deepSearch: true,
-    minimumTime: 300,
-    maxTime: 10000,
-    fadeOutTime: 1000,
-  };
 
   //children
   queryLoader.overlay = null;
   queryLoader.preloader = null;
 
   if (element !== null) {
-    queryLoader.init();
+    var voidFunc = function() {};
+
+    queryLoader.init(options, {
+      onComplete: voidFunc,
+      onProgress: voidFunc,
+      backgroundColor: '#000',
+      barColor: '#fff',
+      overlayId: 'qLoverlay',
+      percentageId: 'qLpercentage',
+      barHeight: 1,
+      percentage: false,
+      deepSearch: true,
+      minimumTime: 300,
+      maxTime: 10000,
+      fadeOutTime: 1000,
+    });
   }
 
   return queryLoader;
