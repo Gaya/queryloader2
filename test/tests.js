@@ -229,7 +229,7 @@ describe('QueryLoader', function() {
       var qlNew = new QueryLoader();
       var qlFactory = QueryLoader();
 
-      assert.equal(qlNew, qlFactory);
+      assert.equal(JSON.stringify(qlNew), JSON.stringify(qlFactory));
     });
   });
 
