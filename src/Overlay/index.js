@@ -1,8 +1,8 @@
+'use strict';
 var LoadingBar = require('./LoadingBar');
 var Percentage = require('./Percentage');
 
 function Overlay(parentElement) {
-    'use strict';
     this.parentElement = parentElement;
     this.idName = "qLoverlay";
     this.percentageId = "qlPercentage";
@@ -103,4 +103,6 @@ Overlay.prototype.canRemove = function(element) {
   return (element.parentNode && typeof element.parentNode.removeChild !== 'undefined');
 };
 
-module.exports = Overlay;
+module.exports = function(parentElement) {
+
+};
