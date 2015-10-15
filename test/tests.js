@@ -239,7 +239,7 @@ describe('QueryLoader', function() {
     it('should create an overlay when called', function() {
       ql.createOverlay();
 
-      assert.equal(ql.overlay instanceof Overlay, true);
+      assert.notEqual(ql.overlay, null);
     });
   });
 
@@ -249,7 +249,7 @@ describe('QueryLoader', function() {
     it('should create the preloader', function() {
       ql.createPreloader();
 
-      assert.equal(ql.preloader instanceof ImagePreloader, true);
+      assert.notEqual(ql.preloader, null);
     });
   });
 
