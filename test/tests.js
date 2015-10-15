@@ -142,7 +142,7 @@ describe('Overlay', function() {
   var fakeBody = document.createElement('body');
 
   describe('#create()', function() {
-    var o = new Overlay(fakeBody);
+    var o = Overlay(fakeBody);
     o.create();
 
     it('should create an element for itself', function() {
@@ -155,7 +155,7 @@ describe('Overlay', function() {
   });
 
   describe('#calculatePosition()', function() {
-    var o = new Overlay();
+    var o = Overlay();
 
     it('should give the correct needed position of the overlay', function() {
       o.parentElement = fakeBody;
@@ -177,7 +177,7 @@ describe('Overlay', function() {
   });
 
   describe('#updateProgess()', function() {
-    var o = new Overlay();
+    var o = Overlay();
     o.parentElement = fakeBody;
     o.create();
 
