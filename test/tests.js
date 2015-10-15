@@ -1,12 +1,12 @@
 var assert = require('assert');
 
 var PercentageParser = require('../src/Overlay/PercentageParser');
-var LoadingBar = require('../src/Overlay/LoadingBar.js');
-var Percentage = require('../src/Overlay/Percentage.js');
-var Overlay = require('../src/Overlay/');
-var Image = require('../src/ImagePreloader/Image.js');
-var QueryLoader = require('../src/QueryLoader/');
-var ImagePreloader = require('../src/ImagePreloader/');
+var LoadingBar = require('../src/Overlay/LoadingBar');
+var Percentage = require('../src/Overlay/Percentage');
+var Overlay = require('../src/Overlay');
+var Image = require('../src/ImagePreloader/Image');
+var QueryLoader = require('../src/QueryLoader');
+var ImagePreloader = require('../src/ImagePreloader');
 
 describe('PercentageParser', function() {
   it('should round given percentages below zero to zero', function() {
