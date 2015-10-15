@@ -90,11 +90,11 @@ var QueryLoader = {
     this.overlay.remove();
 
     this.options.onComplete();
-  }
+  },
 };
 
 module.exports = function(element, options) {
-  var queryLoader = Object.create(QueryLoader2);
+  var queryLoader = Object.create(QueryLoader);
 
   queryLoader.element = element;
   queryLoader.options = options;
