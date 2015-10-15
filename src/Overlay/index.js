@@ -1,5 +1,5 @@
-var LoadingBar = require('./LoadingBar.js');
-var Percentage = require('./Percentage.js');
+var LoadingBar = require('./LoadingBar');
+var Percentage = require('./Percentage');
 
 function Overlay(parentElement) {
     'use strict';
