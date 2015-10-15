@@ -202,13 +202,13 @@ describe('Overlay', function() {
 describe('Image', function() {
   describe('#constructor()', function() {
     it('should create an image object with given src', function() {
-      var exampleImage = new Image('some/src');
+      var exampleImage = Image('some/src');
 
       assert.equal('some/src', exampleImage.src);
     });
 
     it('should create a dom object with given src', function() {
-      var exampleImage = new Image('some/src');
+      var exampleImage = Image('some/src');
 
       assert.notEqual(-1, exampleImage.element.src.indexOf('some/src'));
     });
@@ -216,7 +216,7 @@ describe('Image', function() {
 
   describe('#preload()', function() {
     it('should callback when an image is loaded', function(done) {
-      var exampleImage = new Image('images/1.jpg');
+      var exampleImage = Image('images/1.jpg');
 
       exampleImage.preload(done);
     });
