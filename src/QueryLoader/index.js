@@ -48,7 +48,7 @@ var QueryLoader = {
   },
 
   removeTempOverlay: function() {
-    window.setTimeout(function () {
+    window.setTimeout(function() {
       var tempOverlay = document.getElementById('qLtempOverlay');
       if (tempOverlay && tempOverlay.parentNode) {
         tempOverlay.parentNode.removeChild(tempOverlay);
@@ -56,30 +56,11 @@ var QueryLoader = {
     }, 0);
   },
 
-  createTempOverlay: function () {
-    var timeout = window.setInterval(function() {
-      if (typeof document.getElementsByTagName('body')[0] !== 'undefined') {
-        var tempOverlay = document.createElement('div');
-        tempOverlay.style.position = 'fixed';
-        tempOverlay.style.width = '100%';
-        tempOverlay.style.height = '100%';
-        tempOverlay.style.zIndex = '9999';
-        tempOverlay.style.backgroundColor = '#000';
-        tempOverlay.style.left = '0';
-        tempOverlay.style.top = '0';
-        tempOverlay.setAttribute('id', 'qLtempOverlay');
-        document.getElementsByTagName('body')[0].appendChild(tempOverlay);
-
-        window.clearInterval(timeout);
-      }
-    }, 1);
-  },
-
   createPreloader: function() {
     this.preloader = ImagePreloader(this);
     this.preloader.deepSearch = this.options.deepSearch;
 
-    window.setTimeout(function () { this.preloader.findAndPreload(this.element); }.bind(this), 100);
+    window.setTimeout(function() { this.preloader.findAndPreload(this.element); }.bind(this), 100);
   },
 
   updateProgress: function(done, total) {
@@ -96,7 +77,7 @@ var QueryLoader = {
     }
   },
 
-  doneLoading: function () {
+  doneLoading: function() {
     window.clearTimeout(this.maxTimeout);
     this.done = true;
 
@@ -105,7 +86,7 @@ var QueryLoader = {
     window.setTimeout(this.destroy.bind(this), this.options.fadeOutTime);
   },
 
-  destroy: function () {
+  destroy: function() {
     this.overlay.remove();
 
     this.options.onComplete();
