@@ -1,11 +1,36 @@
 var assert = require('assert');
 
+var PercentageParser = require('../src/Overlay/PercentageParser');
 var LoadingBar = require('../src/Overlay/LoadingBar.js');
 var Percentage = require('../src/Overlay/Percentage.js');
 var Overlay = require('../src/Overlay/');
 var Image = require('../src/ImagePreloader/Image.js');
 var QueryLoader = require('../src/QueryLoader/');
 var ImagePreloader = require('../src/ImagePreloader/');
+
+describe('PercentageParser', function() {
+  it('should round given percentages below zero to zero', function() {
+    assert.equal(PercentageParser(-100), 0);
+    assert.equal(PercentageParser(-10), 0);
+    assert.equal(PercentageParser(-1), 0);
+    assert.equal(PercentageParser(0), 0);
+  });
+
+  it('should round given percentages above 100 to 100', function() {
+    assert.equal(PercentageParser(1000), 100);
+    assert.equal(PercentageParser(100), 100);
+    assert.equal(PercentageParser(101), 100);
+  });
+
+  it('should round decimals to round numbers', function() {
+    assert.equal(PercentageParser(1.5), 1);
+    assert.equal(PercentageParser(1.6), 1);
+    assert.equal(PercentageParser(2.1), 2);
+    assert.equal(PercentageParser(2), 2);
+    assert.equal(PercentageParser('2'), 2);
+    assert.equal(PercentageParser('2.2'), 2);
+  });
+});
 
 describe('LoadingBar', function() {
   describe('#create()', function() {
