@@ -59,23 +59,18 @@ describe('LoadingBar', function() {
       assert.equal('0%', lb.element.style.width);
 
       lb.updateProgress(10, 0);
-
       assert.equal('10%', lb.element.style.width);
 
       lb.updateProgress(50, 0);
-
       assert.equal('50%', lb.element.style.width);
 
       lb.updateProgress(100, 0);
-
       assert.equal('100%', lb.element.style.width);
 
       lb.updateProgress(-20, 0);
-
       assert.equal('0%', lb.element.style.width);
 
       lb.updateProgress(420, 0);
-
       assert.equal('100%', lb.element.style.width);
     });
 
@@ -84,11 +79,9 @@ describe('LoadingBar', function() {
       lb.create();
 
       lb.updateProgress(10.6, 0);
-
       assert.equal('10%', lb.element.style.width);
 
       lb.updateProgress(50.456, 0);
-
       assert.equal('50%', lb.element.style.width);
     });
   });
@@ -120,33 +113,26 @@ describe('Percentage', function() {
       assert.equal('0%', p.element.innerHTML);
 
       p.updateProgress(10, 0);
-
       assert.equal('10%', p.element.innerHTML);
 
       p.updateProgress(50, 0);
-
       assert.equal('50%', p.element.innerHTML);
 
       p.updateProgress(100, 0);
-
       assert.equal('100%', p.element.innerHTML);
 
       p.updateProgress(-20, 0);
-
       assert.equal('0%', p.element.innerHTML);
 
       p.updateProgress(420, 0);
-
       assert.equal('100%', p.element.innerHTML);
     });
 
     it('should not break on floats', function() {
       p.updateProgress(10.6, 0);
-
       assert.equal('10%', p.element.innerHTML);
 
       p.updateProgress(50.456, 0);
-
       assert.equal('50%', p.element.innerHTML);
     });
   });
