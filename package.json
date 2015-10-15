@@ -12,6 +12,7 @@
     "gulp-rename": "^1.2.2",
     "gulp-uglify": "^1.4.2",
     "gulp-watch": "^4.3.5",
+    "jscs": "^2.3.1",
     "mocha": "^2.3.3",
     "mocha-phantomjs": "^4.0.1",
     "vinyl-source-stream": "^1.1.0"
