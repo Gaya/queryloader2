@@ -4,7 +4,7 @@
   "homepage": "http://gaya.ninja",
   "description": "QueryLoader2 serves the main purpose of preloading the images on your website by showing an overlay and a loading bar. It automatically fetches all your images and background images and preloads them before showing the webpage.",
   "dependencies": {
-    "browser-sync": "^1.3.0",
+    "browser-sync": "^2.9.11",
     "browserify": "^4.2.3",
     "gulp": "^3.8.6",
     "gulp-header": "^1.0.5",
