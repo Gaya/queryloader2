@@ -1,5 +1,5 @@
 'use strict';
-var Image = require('./Image.js');
+var QueryLoaderImage = require('./Image.js');
 
 var ImagePreloader = {
   getImageSrcs: function(element) {
@@ -29,7 +29,7 @@ var ImagePreloader = {
     this.sources = this.getImageSrcs(element);
 
     for (var i = 0; i < this.sources.length; i++) {
-      var image = new Image(this.sources[i]);
+      var image = QueryLoaderImage(this.sources[i]);
       image.preload(this.imageLoaded.bind(this));
       this.images.push(image);
     }

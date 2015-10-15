@@ -1,7 +1,7 @@
 'use strict';
 var ImageLoaded = require('./ImageLoaded.js');
 
-var Image = {
+var QueryLoaderImage = {
   create: function() {
     this.element = document.createElement('img');
     this.element.setAttribute('src', this.src);
@@ -15,7 +15,7 @@ var Image = {
 };
 
 module.exports = function(src) {
-  var image = Object.create(Image);
+  var image = Object.create(QueryLoaderImage);
 
   image.src = src;
   image.element = null;
