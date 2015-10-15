@@ -25,7 +25,7 @@ if (!Function.prototype.bind) {
   };
 }
 
-if (typeof Object.create != 'function') {
+if (typeof Object.create !== 'function') {
   // Production steps of ECMA-262, Edition 5, 15.2.3.5
   // Reference: http://es5.github.io/#x15.2.3.5
   Object.create = (function() {
@@ -37,7 +37,7 @@ if (typeof Object.create != 'function') {
 
     return function(O) {
       // 1. If Type(O) is not Object or Null throw a TypeError exception.
-      if (typeof O != 'object') {
+      if (typeof O !== 'object') {
         throw TypeError('Object prototype may only be an Object or null');
       }
 
