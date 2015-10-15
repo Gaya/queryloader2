@@ -234,7 +234,7 @@ describe('QueryLoader', function() {
   });
 
   describe('#createOverlay()', function() {
-    var ql = new QueryLoader();
+    var ql = QueryLoader();
 
     it('should create an overlay when called', function() {
       ql.createOverlay();
@@ -244,7 +244,7 @@ describe('QueryLoader', function() {
   });
 
   describe('#createPreloader()', function() {
-    var ql = new QueryLoader();
+    var ql = QueryLoader();
 
     it('should create the preloader', function() {
       ql.createPreloader();
@@ -255,7 +255,7 @@ describe('QueryLoader', function() {
 
   describe('#extend()', function() {
     it('should merge two objects', function() {
-      var ql = new QueryLoader();
+      var ql = QueryLoader();
 
       var destination = {
         some: 'thing',
@@ -278,7 +278,7 @@ describe('QueryLoader', function() {
 
   describe('#updateProgress()', function() {
     var called = false;
-    var ql = new QueryLoader(document.createElement('div'), {
+    var ql = QueryLoader(document.createElement('div'), {
       onProgress: function(amount) {
         called = true;
       },
@@ -295,7 +295,7 @@ describe('QueryLoader', function() {
 describe('ImagePreloader', function() {
   'use strict';
   describe('#getImageSrcs()', function() {
-    var ip = new ImagePreloader();
+    var ip = ImagePreloader();
 
     var fakeImagesContainer = document.createElement('div');
 
@@ -331,7 +331,7 @@ describe('ImagePreloader', function() {
   });
 
   describe('#hasGradient()', function() {
-    var ip = new ImagePreloader();
+    var ip = ImagePreloader();
 
     it('should check if given url has a gradient', function() {
       assert.equal(false, ip.hasGradient('hasnogradienthere.png'));
@@ -341,7 +341,7 @@ describe('ImagePreloader', function() {
   });
 
   describe('#stripUrl()', function() {
-    var ip = new ImagePreloader();
+    var ip = ImagePreloader();
 
     it('should strip the url() part from given src', function() {
       assert.equal(-1, ip.stripUrl('url(this/path/file.png)').indexOf('url'));
@@ -350,7 +350,7 @@ describe('ImagePreloader', function() {
   });
 
   describe('#validUrl()', function() {
-    var ip = new ImagePreloader();
+    var ip = ImagePreloader();
 
     it('should check if given url is valid', function() {
       assert.equal(false, ip.validUrl(''));
@@ -360,7 +360,7 @@ describe('ImagePreloader', function() {
   });
 
   describe('#urlIsNew()', function() {
-    var ip = new ImagePreloader();
+    var ip = ImagePreloader();
     ip.sources = ['test.png', 'something.png', 'image.jpg'];
 
     it('should check if given url is new in this.images', function() {
