@@ -33,7 +33,7 @@ var QueryLoader = {
   },
 
   createOverlay: function() {
-    this.overlay = new Overlay(this.element);
+    this.overlay = Overlay(this.element);
     this.overlay.idName = this.options.overlayId;
     this.overlay.percentageId = this.options.percentageId;
     this.overlay.backgroundColor = this.options.backgroundColor;
