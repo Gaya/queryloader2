@@ -1,6 +1,6 @@
 QueryLoader2
 ==============
-QueryLoader2 is a better version of the old script posted in 2009. It serves the main purpose of preloading the images on your website by showing an overlay and a loading bar. It automatically fetches all your images and background images and preloads them before showing the webpage.
+QueryLoader2 serves the main purpose of pre-loading the images on your website by showing an overlay and a loading bar. It automatically fetches all your images and background images and pre-loads them before showing the web page.
 
 [![Code Climate](https://codeclimate.com/github/Gaya/QueryLoader2/badges/gpa.svg)](https://codeclimate.com/github/Gaya/QueryLoader2)
 [![Build Status](https://travis-ci.org/Gaya/queryloader2.svg?branch=master)](https://travis-ci.org/Gaya/queryloader2)
@@ -9,7 +9,7 @@ Compatibility
 -------------
 QueryLoader currently works in IE version 9+, Chrome, Safari and Firefox.
 
-**No dependencies**, so **no** jQuery / Zepto / MooTools needed.
+**No dependencies**, so **no** jQuery / Zepto / MooTools required.
 
 Read the full post here: [http://blog.gaya.ninja/articles/queryloader2-preload-your-images-with-ease/](http://blog.gaya.ninja/articles/queryloader2-preload-your-images-with-ease/)
 
@@ -25,7 +25,7 @@ Create a QueryLoader2 object like this for example:
 
 	<script type="text/javascript">
         window.addEventListener('DOMContentLoaded', function() {
-            new QueryLoader2(document.querySelector("body"), {
+            QueryLoader2(document.querySelector("body"), {
                 barColor: "#efefef",
                 backgroundColor: "#111",
                 percentage: true,
@@ -46,14 +46,14 @@ Use it in a node / browserify project:
 
 	var QueryLoader2 = require("queryloader2");
 
-	var loader = new QueryLoader2(document.querySelector("body"), {
-        barColor: "#efefef",
-        backgroundColor: "#111",
-        percentage: true,
-        barHeight: 1,
-        minimumTime: 200,
-        fadeOutTime: 1000
-    });
+	var loader = QueryLoader2(document.querySelector("body"), {
+    barColor: "#efefef",
+    backgroundColor: "#111",
+    percentage: true,
+    barHeight: 1,
+    minimumTime: 200,
+    fadeOutTime: 1000
+  });
 
 jQuery usage
 ------------
