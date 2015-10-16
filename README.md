@@ -45,15 +45,15 @@ First install QueryLoader as a dependency in your project:
 Use it in a node / browserify project:
 
 	var QueryLoader2 = require("queryloader2");
-
+	
 	var loader = QueryLoader2(document.querySelector("body"), {
-    barColor: "#efefef",
-    backgroundColor: "#111",
-    percentage: true,
-    barHeight: 1,
-    minimumTime: 200,
-    fadeOutTime: 1000
-  });
+		barColor: "#efefef",
+		backgroundColor: "#111",
+		percentage: true,
+		barHeight: 1,
+		minimumTime: 200,
+		fadeOutTime: 1000
+	});
 
 jQuery usage
 ------------
