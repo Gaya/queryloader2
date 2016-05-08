@@ -18,6 +18,12 @@ var ImagePreloader = {
       }
     }
 
+    // if there's no img or bg-img, use a 1px transparent data uri as a fallback,
+    // otherwise the user will be blocked for 10s
+    if(!this.sources.length) {
+      this.sources.push('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7');
+    }
+
     return this.sources;
   },
 
