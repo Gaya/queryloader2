@@ -91,7 +91,7 @@ var ImagePreloader = {
       type = 'background';
     } else if (typeof element.getAttribute('src') !== 'undefined' && element.nodeName.toLowerCase() === 'img') {
       //if is img and has src
-      url = element.getAttribute('src');
+      url = element.getAttribute('src') || '';
     }
 
     return {
