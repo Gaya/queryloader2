@@ -89,9 +89,9 @@ var ImagePreloader = {
       //if object has background image
       url = (style.backgroundImage || element.style.backgroundImage);
       type = 'background';
-    } else if (typeof element.getAttribute('src') !== 'undefined' && element.nodeName.toLowerCase() === 'img') {
+    } else if (element.nodeName.toLowerCase() === 'img') {
       //if is img and has src
-      url = element.getAttribute('src') || '';
+      url = element.src;
     }
 
     return {
