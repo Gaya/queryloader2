@@ -109,6 +109,7 @@ var ImagePreloader = {
     url = url.replace(/url\(/g, '');
     url = url.replace(/\'\)/g, '');
     url = url.replace(/\)/g, '');
+    url = url.replace(/"/g, '');
 
     return url;
   },
