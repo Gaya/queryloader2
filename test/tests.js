@@ -319,6 +319,9 @@ describe('ImagePreloader', function() {
     img5.style.background = 'url(fakeimg5.png)';
     fakeImagesContainer.appendChild(img5);
 
+    var img6 = document.createElement('img');
+    fakeImagesContainer.appendChild(img6);
+
     it('should get all images within the given element', function() {
       var images = ip.getImageSrcs(fakeImagesContainer);
 
