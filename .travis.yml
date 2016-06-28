@@ -3,6 +3,5 @@ node_js:
   - "node"
   - "0.12"
   - "0.11"
-  - "iojs"
 notifications:
   email: false
