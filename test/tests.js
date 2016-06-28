@@ -347,6 +347,11 @@ describe('ImagePreloader', function() {
       assert.equal(-1, ip.stripUrl('url(this/path/file.png)').indexOf('url'));
       assert.equal(-1, ip.stripUrl('file.png').indexOf('url'));
     });
+
+    it('should strip quotes from the URL', function() {
+      assert.equal('this/path/file.png', ip.stripUrl('url("this/path/file.png")'));
+      assert.equal('this/path/file.png', ip.stripUrl('url(\'this/path/file.png\')'));
+    });
   });
 
   describe('#validUrl()', function() {
