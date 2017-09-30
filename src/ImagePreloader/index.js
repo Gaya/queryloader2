@@ -82,12 +82,15 @@ var ImagePreloader = {
     var url = '';
     var type = 'normal';
     var style = element.currentStyle || window.getComputedStyle(element, null);
+    var blacklisted = ['', 'none', 'initial', 'inherit'];
 
-    if ((typeof style.backgroundImage !== 'undefined' && style.backgroundImage !== '' && style.backgroundImage !== 'none')
-      || (typeof element.style.backgroundImage !== 'undefined' && element.style.backgroundImage !== '' && element.style.backgroundImage !== 'none')
-    ) {
-      //if object has background image
-      url = (style.backgroundImage || element.style.backgroundImage);
+    if (typeof style.backgroundImage !== 'undefined' && blacklisted.indexOf(style.backgroundImage) === -1) {
+      //if object has background image (computed style)
+      url = style.backgroundImage;
+      type = 'background';
+    } else if (typeof element.style.backgroundImage !== 'undefined' && blacklisted.indexOf(element.style.backgroundImage) === -1) {
+      //if object has background image (inline style)
+      url = element.style.backgroundImage;
       type = 'background';
     } else if (element.nodeName.toLowerCase() === 'img') {
       //if is img and has src
